@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <link rel="stylesheet" href="book.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="navbar">
+            <div class="left">
+                <ul>
+                    <li><a href="/home">
+                            <i class="fas fa-home"></i></a></li>
+                    <li><a href="#">
+                            <i class="fas fa-envelope"></i></a></li>
+                    <li><a href="#">
+                            <i class="fas fa-bell"></i></a></li>
+                </ul>
+            </div>
+            <div class="right">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="user">User</span><img src="https://i.imgur.com/kDLvuKf.png" alt="Admin"
+                                width="40"><i class="fas fa-angle-down"></i>
+                        </a>
+
+                        <div class="dropdown">
+                            <ul>
+                                <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+                                <li><a href="#"><i class="fas fa-sliders-h"></i> Settings</a></li>
+                                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Signout</a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="jobs">
+        <h3 class="event-title">BOOKS </h3><br>
+
+        <table width="100%">
+            <div class="table-responsive">
+
+
+                <tbody>
+
+                    <th>
+                        <div>
+                            Book category
+                        </div>
+                    </th>
+
+                    <th>
+                        <div>
+                            Title
+                        </div>
+                    </th>
+
+                    <th>
+                        <div>
+                            Author Name
+                        </div>
+                    </th>
+
+                    <th>
+                        <div>
+                            Descriptions
+                        </div>
+                    </th>
+
+                    <th>
+                        <div>
+                            ISBN CODE
+                        </div>
+                    </th>
+
+                    <th>
+                        <div>
+                            Publications
+                        </div>
+                    </th>
+
+                    <tr>
+                        <td>
+                            <div>
+                            
+                                <%= book.bookcategory %>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div>
+                                <%= book.title %>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div>
+                                <%= book.authorname %>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div>
+                                <%= book.descriptions %>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div>
+                                <%= book._id %>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div>
+                                <%= book.publications %>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </div>
+
+        </table>
+
+
+
+        <script src="../public/jquery.js"></script>
+        <script>
+            document.querySelector(".right ul li").addEventListener("click", function () {
+                this.classList.toggle("active");
+            });
+        </script>
+</body>
+
+</html>

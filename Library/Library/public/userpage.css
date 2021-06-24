@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+    background-color: #aa8f8f1f;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+section table {
+    padding: 15px;
+}
+
+.wrapper {
+    position: relative;
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    padding: 20px;
+
+}
+
+.wrapper .navbar {
+    width: 420px;
+    background: rgba(182, 161, 161, 0.342);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 25px;
+    border-radius: 5px;
+    width: 98%;
+}
+
+.wrapper .navbar ul li a {
+    color: #644def;
+}
+
+.wrapper .navbar .left ul,
+.wrapper .navbar .right ul li a {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.wrapper .navbar .left ul li,
+.wrapper .navbar .right img {
+    margin: 0 10px;
+}
+
+.wrapper .navbar .right a {
+    text-align: right;
+}
+
+/* .wrapper .navbar .right a span {
+    font-size: 10px;
+} */
+
+.wrapper .navbar .right ul li {
+    position: relative;
+}
+
+.wrapper .navbar .right ul li .dropdown {
+    position: absolute;
+    top: 65px;
+    right: 0;
+    background: #fff;
+    padding: 10px 25px;
+    border-radius: 5px;
+    display: none;
+}
+
+.wrapper .navbar .right ul li .dropdown .fas {
+    margin-right: 10px;
+
+}
+
+.wrapper .navbar .right ul li .dropdown:before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid;
+    border-color: transparent transparent #fff transparent;
+}
+
+.wrapper .navbar .right ul li.active .dropdown {
+    display: block;
+}
+
+.user {
+    font-size: 20px;
+    font-weight: 900;
+    font-style: bold;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding-left: 40px;
+    margin-top: 50%;
+    width: 30%;
+    height: 50%;
+    box-sizing: border-box;
+    position: relative;
+    /* display: inline-block; */
+
+}
+
+td,
+tr,
+th {
+    border: 1px solid black;
+    padding: 25px;
+    /* border-width: 10px; */
+    /* border-collapse: collapse; */
+}
+
+.heading {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    color: #111;
+    padding: 20px;
+
+}
+
+.form {
+    border: 1px solid white;
+    padding: 30px;
+    width: 60%;
+    height: 80%;
+    margin: 50px;
+    box-sizing: border-box;
+}
+
+.form-label {
+    padding: 10px;
+    width: 50%;
+    height: 40%;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+
+}
+
+.form-control {
+    width: 100%;
+    height: 45%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    border: none;
+    background-color: rgba(192, 192, 192, 0.315);
+    font-size: 20px;
+    font-style: bold;
+}
+
+.submit {
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: green;
+}
+
+.view {
+    margin-left: 5%;
+    font-size: 20px;
+    font-style: Bold;
+    text-decoration: none;
+    padding: 10px;
+}
+
+
+
+#form-main {
+    width: 50%;
+    float: left;
+    padding-top: 0px;
+}
+
+#form-div {
+    background-color: rgba(72, 72, 72, 0.4);
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-top: 25px;
+    padding-bottom: 50px;
+    width: 450px;
+    float: right;
+    left: 50%;
+    position: relative;
+    margin-top: 30px;
+    margin-left: -260px;
+    border-radius: 7px;
+
+}
+
+.montform .feedback-input {
+    color: #3c3c3c;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    border-radius: 0;
+    line-height: 22px;
+    background-color: #fbfbfb;
+    padding: 13px 13px 13px 54px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 3px solid rgba(0, 0, 0, 0);
+}
+
+/*Inputs styles*/
+.montform .feedback-input:focus {
+    background: #fff;
+    border: 3px solid #3498db;
+    color: #3498db;
+    outline: none;
+    padding: 13px 13px 13px 54px;
+}
+
+
+/* Icons ---------------------------------- */
+.montform #name {
+    background-image: url(https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-address-book.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+.montform #name:focus {
+    background-image: url(https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-address-book.svg);
+    background-size: 30px 30px;
+    background-position: 8px 5px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+.montform #email {
+    background-image: url(https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-mail.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+.montform #email:focus {
+    background-image: url(https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-mail.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+.montform #comment {
+    background-image: url(https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-pencil.svg);
+    background-size: 30px 30px;
+    background-position: 11px 8px;
+    background-repeat: no-repeat;
+}
+
+.montform textarea {
+    width: 100%;
+    height: 150px;
+    line-height: 150%;
+    resize: vertical;
+}
+
+.montform input:hover,
+.montform textarea:hover,
+.montform input:focus,
+.montform textarea:focus {
+    background-color: #e6e6e6;
+}
+
+.button-blue {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    float: left;
+    width: 100%;
+    border: #fbfbfb solid 4px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    font-size: 24px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    transition: all 0.3s;
+    margin-top: -4px;
+    font-weight: 700;
+}
+
+.button-blue:hover {
+    background-color: rgba(0, 0, 0, 0);
+    color: #0493bd;
+}
+
+.montform .submit:hover {
+    color: #3498db;
+}
+
+.ease {
+    width: 0px;
+    height: 74px;
+    background-color: #fbfbfb;
+    transition: .3s ease;
+}
+
+.submit:hover .ease {
+    width: 100%;
+    background-color: white;
+}
+
+/*Styles for small screens*/
+
+@media only screen and (max-width: 580px) {
+    #form-div {
+        left: 3%;
+        margin-right: 3%;
+        width: 88%;
+        margin-left: 0;
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+}

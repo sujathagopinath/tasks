@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+        integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+        crossorigin="anonymous"></script>
+    <!--link rel="shortcut icon" type="image/x-icon" href="fp.png"-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="form sign-in-form">
+                <div class="wrapper">
+                    <form action="/signin" method="POST" class="loginpage row g-3 needs-validation" novalidate>
+                        <h1>Sign In</h1>
+                        <p>use your email and password to sign in</p>
+
+                        <input type="email" class="form-control" id="validationCustom01" placeholder="Emailid"
+                            name="Emailid" required>
+
+                        <input type="password" class="form-control" id="validationCustom02" placeholder="password"
+                            name="password" required>
+
+                        <div>
+                            <button class="btn" type="submit" >Submit form</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- SIGN UP -->
+
+            <div class="form sign-up-form active">
+                <div class="wrapper">
+                    <form action="/signup" method="POST" id="form" name ="vform" onsubmit="return validate()">
+                        <h1>Sign up</h1>
+                        <p>Provide all the correct info to create an account</p>  
+
+                        <input type="text" class="textinput" id="validationCustom03" placeholder="Username"
+                            name="Username">
+                        <!--span id="nameerror" class="valerror"></span-->
+                            
+
+                        <input type="email" class="textinput" id="validationCustom04" placeholder="Email-Id"
+                            name="Emailid">
+                            <!--span id="nameerror" class="valerror"></span-->
+                            
+
+                        <input type="password" class="textinput" id="validationCustom05" placeholder="Password"
+                            name="Password"/>
+
+                        <input type="password" class="textinput" id="validationCustom06"placeholder="Confirm Password" name="ConfirmPassword"/>
+                            <span id="passworderror" class="valerror"></span><br><br>
+
+                        <div>
+                            <button class="btn" type="submit" >Submit form</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-left">
+                        <h1>Create Account</h1>
+                        <p>or</p>
+                        <button id="signInButton">Log In</button>
+                    </div>
+
+                    <div class="overlay-right">
+                        <h1>Log In</h1>
+                        <p>or</p>
+                        <button id="signUpButton">Create Account</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="signup.js"></script>
+    <script src="../jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script>
+</body>
+<script>
+    var Username = document.forms["vform"]["Username"];
+    var Emailid = document.forms["vform"]["Emailid"];
+    var Password = document.forms["vform"]["Password"];
+    var ConfirmPassword = document.forms["vform"]["ConfirmPassword"];
+
+var nameerror= document.getElementById("nameerror");
+var emailerror = document.getElementById("emailerror");
+var passworderror = document.getElementById("passworderror");
+
+    Username.addEventListener("blur",nameverify,true);
+    Emailid.addEventListener("blur",emailverify,true);
+    Password.addEventListener("blur",passwordverify,true);
+
+    function validate(){
+    if(Username.value==""){
+        Username.style.border="1px solid red";
+        // nameerror.textContent ="username is required";
+        Username.focus();
+        return false;
+    }
+
+    if(Emailid.value==""){
+        Emailid.style.border="1px solid red";
+        // Emailid.textContent ="username is required";
+        Emailid.focus();
+        return false;
+    }
+
+    if(Password.value==""){
+        Password.style.border="1px solid red";
+        // Password.textContent ="username is required";
+        Password.focus();
+        return false;
+    }
+
+
+    if(Password.value!=ConfirmPassword.value){
+        Password.style.border = "1px solid red";
+        ConfirmPassword.style.border="1px solid red";
+        passworderror.innerHTML="Recheck the Password";
+        return false;
+    }
+}
+function nameverify(){
+    if(Username.value!=""){
+        Username.style.border="1px solid #5E6E66";
+        return true;
+    }
+}
+    
+function emailverify(){
+    if(Emailid.value!=""){
+        Emailid.style.border="1px solid #5E6E66";
+        return true;
+    }
+}
+
+function passverify(){
+    if(Password.value!=""){
+        Password.style.border="1px solid #5E6E66";
+        return true;
+    }
+}
+
+
+    
+</script>
+<script src="signup.js"></script>
+
+</html>

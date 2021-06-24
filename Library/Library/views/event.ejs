@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="event.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+  <h2 class="heading">Upcoming Events</h2>
+
+  <div id="calendar"></div>
+
+  <div id='formDiv'>
+    <fieldset style='padding:0 20px 20px 20px'>
+      <legend>
+        <h2> Add An Event </h2>
+      </legend>
+      <form name='myForm' action="/event" method="POST" onsubmit="myFunc()">
+        <table>
+          <tr>
+            <td>Name:</td>
+            <td><input type="text" name="eventName" id="eventName" required></td>
+          </tr>
+          <tr>
+            <td>Type:</td>
+            <td style="display: flex;">
+              <select class="selectMenu" id="eventType" name="eventType" onchange="displayCol()" required>
+                <option value="">Select One</option>
+                <option value="Event">Event</option>
+                <option value="Leisure">Leisure</option>
+                <option value="Family Time">Family Time</option>
+              </select>
+              <div id="eventColor"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>Date:</td>
+            <td><input type="date" name="eventDate" id="eventDate" required></td>
+          </tr>
+          <tr>
+            <td><input type="submit" id="addEventBTN" value="Add Event"></td>
+            <td><button id="closeBTN" onclick="closeForm()" form="noForm">Close Window</button></td>
+          </tr>
+        </table>
+      </form>
+    </fieldset>
+  </div>
+</body>
+<script src="event.js"></script>
+
+</html>

@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+    background: url('https://images.unsplash.com/photo-1575330739287-90c6a473f9a9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHBsYWluJTIwYmFja2dyb3VuZHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.wrapper {
+    position: relative;
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
+    padding: 20px;
+
+}
+
+.wrapper .navbar {
+    width: 420px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 25px;
+    border-radius: 5px;
+    width: 98%;
+}
+
+.wrapper .navbar ul li a {
+    color: #644def;
+}
+
+.wrapper .navbar .left ul,
+.wrapper .navbar .right ul li a {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.wrapper .navbar .left ul li,
+.wrapper .navbar .right img {
+    margin: 0 10px;
+}
+
+.wrapper .navbar .right a {
+    text-align: right;
+}
+
+/* .wrapper .navbar .right a span {
+    font-size: 10px;
+} */
+
+.wrapper .navbar .right ul li {
+    position: relative;
+}
+
+.wrapper .navbar .right ul li .dropdown {
+    position: absolute;
+    top: 65px;
+    right: 0;
+    background: #fff;
+    padding: 10px 25px;
+    border-radius: 5px;
+    display: none;
+}
+
+.wrapper .navbar .right ul li .dropdown .fas {
+    margin-right: 10px;
+}
+
+.wrapper .navbar .right ul li .dropdown:before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 10px solid;
+    border-color: transparent transparent #fff transparent;
+}
+
+.wrapper .navbar .right ul li.active .dropdown {
+    display: block;
+}
+
+.user {
+    font-size: 20px;
+    font-weight: 900;
+    font-style: bold;
+}
+
+.event-title {
+    text-align: center;
+    font-size: 25px;
+}
