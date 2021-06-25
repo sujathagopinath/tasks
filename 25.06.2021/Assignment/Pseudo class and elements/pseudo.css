@@ -1,0 +1,17 @@
+p::first-line {
+  color: rgb(255, 0, 0);
+}
+p span{
+    color: rgb(163, 0, 204);
+    text-transform: uppercase;
+}
+
+p a:hover{
+    color: red;
+}
+p a:link{
+    color: rgb(58, 58, 255);
+}
+p a:active{
+    color: darkgreen;
+}
