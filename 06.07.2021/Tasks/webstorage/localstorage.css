@@ -1,0 +1,12 @@
+.box{
+    padding: 10em 29em;
+}
+.form{
+    padding: 3em;
+    border-radius: 0.3em;
+    border: 1px solid lightblue;
+}
+
+p{
+    font-size: 1.4em;
+}
