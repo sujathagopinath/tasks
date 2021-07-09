@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM, { render } from 'react-dom';
-
+import Toggle from './toggle'
+import Getstateprops from './derived'
 class EmployeeInfo extends React.Component {
     constructor(props) {
         super(props);
@@ -225,6 +226,7 @@ ReactDOM.render(<Handling />, document.getElementById('handler'));
 
 //usestate in hooks
 
+
 function Counter() {
     const state = useState(123);
     console.log(state);
@@ -267,6 +269,208 @@ const Adddelete = () => {
 ReactDOM.render(<Adddelete />, document.getElementById('button'));
 
 
+
+
+//Lifecycle
+
+//mounting , updating , Unmounting
+
+
+class LifeCycle extends React.Component {
+    constructor() {
+        super()
+        console.log("this is a inital state");
+        this.state = {
+            show: true
+
+        }
+    }
+    componentDidMount() {
+        console.log("componentdidmount:", "after updation");
+    }
+    // Show = () => {
+    //     this.setState = {
+    //         show: !this.state.show
+    //     }
+    // }
+
+
+    render() {
+        console.log("render:", "This render method after updation")
+        return <div>
+            <h1>Life Cycle</h1>
+            {
+                this.state.show ? <Toggle /> : null
+            }
+
+            <button onClick={() => { this.setState({ show: !this.state.show }) }}> new update</button>
+            {/* <button onClick={this.Show}>Hello</button> */}
+        </div>
+    }
+}
+
+ReactDOM.render(<LifeCycle />, document.getElementById('toggle'));
+
+//component willmount and didmount
+
+class Mount extends React.Component {
+    constructor() {
+        super();
+        console.log("Intializing");
+        this.state = {
+            data: false
+        }
+
+    }
+    componentDidMount() {
+        console.log("Updation:", "component did mount")
+        this.setState({
+            data: true
+        })
+    }
+    render() {
+        console.log("render:", "render method");
+        return <div>
+            <h1>Component will unMount </h1>
+
+
+        </div>
+    }
+}
+
+//Will unmount
+
+class Unmount extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            show1: false
+        }
+    }
+    render() {
+        return (<div>
+            <h1>Component will Unmount</h1>
+            {
+                this.state.show1 ? <Child /> : null
+            }
+            <button onClick={() => { this.setState({ show1: !this.state.show1 }) }}>Unmount</button>
+        </div>)
+    }
+}
+
+
+class Child extends React.Component {
+    componentWillUnmount() {
+        console.log("Unmount:", "The component is hidden");
+    }
+
+    render() {
+        return (
+            <div>
+                <h2>Child component</h2>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(< Unmount />, document.getElementById('unmount'));
+
+//update state
+
+class Update extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            counter1: 0
+        }
+    }
+    componentDidUpdate(pp, ps, ss) {        //pp=> previous props => used in parent and child, ps=> previous state ss=> snapshot
+        console.warn("DidUpdate:", "method is updated", ps)
+        // if (ps.counter1 == this.state.counter1) {
+        if (ps.counter1 < 3) {
+            console.log("match")
+        }
+        else {
+            console.log("Did not match")
+        }
+    }
+    render() {
+        return (<div>
+            <h1>Component update  state method</h1>
+            <button onClick={() => { this.setState({ counter1: this.state.counter1 + 1 }) }}>Update Counter{this.state.counter1}</button>
+        </div >
+        )
+
+    }
+}
+ReactDOM.render(<Update />, document.getElementById('update'))
+
+//previous state component
+
+class Newupdate extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            counter2: 0
+        }
+    }
+
+    render() {
+        return (<div>
+            <h1>Component update props method</h1>
+            <Childs newdata={this.state.counter2} />
+            <button onClick={() => { this.setState({ counter2: this.state.counter2 + 1 }) }}>Update Counters{this.state.counter2}</button>
+        </div >
+        )
+
+    }
+}
+
+class Childs extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            counter2: 0
+        }
+    }
+    componentDidUpdate(pP, pS, sS) {
+        console.log("Method is called previous props:", pP, this.props.newdata);
+    }
+
+
+    render() {
+        return (<div>
+            <h1>New child {this.props.newdata}</h1>
+
+        </div >
+        )
+
+    }
+}
+
+ReactDOM.render(<Newupdate />, document.getElementById('updates'))
+
+//getDerivedstatefromprops
+
+class Derivedstate extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            inc: 0
+        }
+    }
+    render() {
+        return (<div>
+            <h1>Get Dervied state from Props {this.state.inc}</h1>
+            <Getstateprops inc={this.state.inc} />
+            <button onClick={() => { this.setState({ inc: this.state.inc + 1 }) }}>Make ++</button>
+
+
+        </div >)
+    }
+}
+
+ReactDOM.render(<Derivedstate />, document.getElementById('derivedstate'))
 
 
 
