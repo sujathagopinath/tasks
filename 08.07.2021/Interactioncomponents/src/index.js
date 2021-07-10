@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM, { render } from 'react-dom';
 import Toggle from './toggle'
 import Getstateprops from './derived'
+import Childcomponent from './child';
+import Usergreet from './user';
+import Guestgreet from './guest';
 class EmployeeInfo extends React.Component {
     constructor(props) {
         super(props);
@@ -473,4 +476,54 @@ class Derivedstate extends React.Component {
 ReactDOM.render(<Derivedstate />, document.getElementById('derivedstate'))
 
 
+// lifecycle of hooks useEffect
+
+function Hooks() {
+    const [count1, setCount1] = useState(0)
+    useEffect(() => {
+        console.log(count1);
+        document.title = "count is " + count1;
+    }, [count1 >= 3])
+    return (
+        <div>
+            <h1>Use Lifecycle of Hooks in Functions</h1>
+
+            <button onClick={() => { setCount1(count1 + 1) }}>Click</button>
+        </div>
+    )
+}
+
+ReactDOM.render(<Hooks />, document.getElementById('hooks'))
+
+
+function Hooked() {
+    const [counts, setCounts] = useState(0)
+    // useEffect(() => {
+    //     console.log(counts);
+    //     document.title = "count is " + counts;
+    // }, [counts >= 2])
+    return (
+        <div>
+            <h1>Use Lifecycle of Hooks in Functions</h1>
+            <Childcomponent counts={counts} />
+            <button onClick={() => { setCounts(counts + 1) }}>Click++</button>
+        </div>
+    )
+}
+
+ReactDOM.render(<Hooked />, document.getElementById('effect'))
+
+
+// Conditional rendering
+
+function Greet(props) {
+    const Isloogedin = props.Isloogedin;
+    if (Isloogedin) {
+        return (
+            <Usergreet />
+        )
+    }
+    return (<Guestgreet />)
+}
+ReactDOM.render(<Greet Isloogedin={true} />, document.getElementById("greet"))
 

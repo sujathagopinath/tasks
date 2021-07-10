@@ -25,3 +25,6 @@ class Getstateprops extends React.Component {
 }
 
 export default Getstateprops;
+
+//use Hooks lifecycle
+
