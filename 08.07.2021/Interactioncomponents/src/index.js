@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef, useRef } from 'react';
 import ReactDOM, { render } from 'react-dom';
 import Toggle from './toggle'
 import Getstateprops from './derived'
 import Childcomponent from './child';
 import Usergreet from './user';
 import Guestgreet from './guest';
+import Newuser from './newforward';
 class EmployeeInfo extends React.Component {
     constructor(props) {
         super(props);
@@ -51,7 +52,7 @@ class Salary extends React.Component {
 
     }
     updatedsalary = () => {
-        let salary = parseInt(this.inputrefs.basic.value) + parseInt(this.inputrefs.hra.value) + parseInt(this.inputrefs.SpecialAllowances.value);
+        let salary = parseInt(this.ref.basic.value) + parseInt(this.ref.hra.value) + parseInt(this.ref.SpecialAllowances.value);
         this.props.onSalarychange(salary);
 
 
@@ -182,6 +183,52 @@ const employers = [
 const element2 = <DisplayEmployee employeeList={employers}></DisplayEmployee>
 
 ReactDOM.render(element2, document.getElementById('root'));
+
+//Handle array with lists
+
+function Fruits() {
+    const data = ["Apple", "mango", "orange"]
+    data.map((fruit) => {
+        console.log("the Fruits are: ", fruit)
+    })
+    // for (i = 0; i < data.length; i++) {
+    //     console.log("new fruits are: ", data[i])
+    // }
+    const Details = [
+        { name: 'tiger', email: 'abc@gm.com', contact: '111' },
+        { name: 'Lion', email: 'abc@gm.com', contact: '111' },
+        { name: 'cheetah', email: 'abc@gm.com', contact: '111' },
+    ]
+    return (
+        <div style={{ border: '1px solid black' }}>
+            <h1>Handle Array with lists</h1>
+            {/* {
+                data.map((data) => {
+                    <h1>{data}</h1>
+
+                })
+
+            } */}
+            <table>
+                <tr>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>contact</td>
+                </tr>
+                {
+                    Details.map((item) => {
+                        <tr>
+                            <td>{item.name}</td>
+                            <td>{item.email}</td>
+                            <td>{item.contact}</td>
+                        </tr>
+                    })
+                }
+            </table>
+        </div>
+    )
+}
+ReactDOM.render(<Fruits />, document.getElementById('newlist'))
 
 //handling events
 
@@ -526,4 +573,353 @@ function Greet(props) {
     return (<Guestgreet />)
 }
 ReactDOM.render(<Greet Isloogedin={true} />, document.getElementById("greet"))
+
+/****************************************************************************** */
+// Lifting state up
+
+class Order extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            quantity: '',
+            address: ''
+        }
+    }
+    orderInfo = val => {
+        this.setState({ quantity: val })
+    }
+    addressChange = val => {
+        this.setState({ address: val })
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Product Order!</h1>
+                <Product quantity={this.state.quantity} OnquantityChange={this.orderInfo} />
+                <Address address={this.state.address} OnAddressChange={this.addressChange} />
+
+                <Summary quantity={this.state.quantity} address={this.state.address} OnquantityChange={this.orderInfo} OnAddressChange={this.addressChange} />
+            </div>
+        )
+
+    }
+}
+
+class Product extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    handleChange = (e) => {
+        this.props.OnquantityChange(e.target.value);
+    }
+
+    render() {
+        return (
+            <div style={{ border: '1px solid red' }}>
+                <h2>Product Information</h2>
+                <p>
+                    <label>Product Name:
+                        <select>
+                            <option value="pro1">New product</option>
+                            <option value="pro2">New products</option>
+                            <option value="pro3">New product1</option>
+                        </select>
+                    </label>
+                </p>
+                <p>
+                    <label>Enter the Quantity:
+                        <input type="text" value={this.props.quantity} onChange={this.handleChange}></input>
+                    </label>
+                </p>
+            </div>
+        )
+
+    }
+}
+
+
+
+class Address extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    handleChange = (e) => {
+        this.props.OnAddressChange(e.target.value);
+
+    }
+    render() {
+        return (
+            <div style={{ border: '1px solid red' }}>
+                <h2>Address Information</h2>
+                <p>
+                    <label> Address Information
+                        <textarea value={this.props.address} onChange={this.handleChange}></textarea>
+
+                    </label>
+                </p>
+                <Errorboundary>
+                    <Existing> </Existing>
+                </Errorboundary>
+            </div>
+        )
+
+    }
+}
+
+class Existing extends React.Component {
+    constructor(props) {
+        super();
+    }
+    render() {
+        // return (
+        //     <div style={{ border: '1px solid red' }}>
+        //         <h2>Existing Address</h2>
+        //         {/* <p>
+        //             ABC street,<br></br>
+        //             Chennai,
+        //         </p> */}
+        //     </div>
+        // )
+        throw new Error("Not able the load address list");
+    }
+}
+
+class Summary extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    handleChange = (e) => {
+        this.props.OnquantityChange(e.target.value);
+    }
+    Placeorder = () => {
+        // alert(this.setState.orderInfo.quantity.val)
+        alert("Your Order is placed")
+
+    }
+
+    render() {
+        return (
+            <div style={{ border: '1px solid red' }}>
+                <h2>Summary Information</h2>
+                <p>
+                    <label>Product Name: <b>product1</b></label>
+
+                </p>
+                <p>
+                    <label>Enter the Quantity:
+                        <input type="text" value={this.props.quantity} onChange={this.handleChange}></input>
+                    </label>
+                </p>
+                <p>
+                    <label>Address: <b>{this.props.address}</b>
+
+                    </label>
+                </p>
+                <button onClick={this.Placeorder}>Place Order</button>
+            </div>
+        )
+
+    }
+}
+
+// Error Boundary
+
+class Errorboundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hasError: null
+        }
+    }
+    static getDerivedStateFromError(error) {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.log(error);
+        console.log(errorInfo);
+    }
+    render() {
+        if (this.state.hasError) {
+            return (
+                <div>
+                    <h2>Problem to load the existing address</h2>
+                </div>
+            )
+        }
+        else {
+            return this.props.children;
+        }
+
+    }
+
+}
+
+ReactDOM.render(<Order />, document.getElementById('order'))
+
+//Refs
+
+class Reference extends React.Component {
+    constructor() {
+        super();
+        this.inputRef = createRef();
+    }
+    // componentDidMount() {
+    //     console.log(this.inputRef.current.value = "101")
+    // }
+    getval = () => {
+        console.log(this.inputRef.current.value);
+
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Refs in React</h1>
+                <input type="text" ref={this.inputRef} />
+                <button onClick={this.getval}>check ref</button>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<Reference />, document.getElementById('refs'))
+
+function Use() {
+    let outputRef = useRef(null);
+    function controlInput() {
+        outputRef.current.value = 'abc';
+        outputRef.current.style.color = "red";
+        // outputRef.current.style.display = "none";
+        outputRef.current.focus();
+
+    }
+    return (
+        <div style={{ border: '1px solid green' }}>
+            <h1>Use ref in react</h1>
+            <input type="text" ref={outputRef}></input>
+            <button onClick={controlInput}>Handle Input</button>
+        </div>
+    )
+}
+
+ReactDOM.render(<Use />, document.getElementById('refer'))
+
+function Forward() {
+    let newref = useRef(null);
+    function forwards() {
+        newref.current.value = "1000"
+    }
+    return (
+        <div>
+            <h1>Forward ref in React</h1>
+            <Newuser ref={newref} />
+            <button onClick={forwards}>Update Ref</button>
+        </div>
+    )
+}
+
+ReactDOM.render(<Forward />, document.getElementById('for'))
+
+//uncontrolled components
+
+function Newform() {
+    let nameRef = useRef(null)
+    let passRef = useRef(null)
+    function formSubmit(e) {
+        e.preventDefault()
+        console.log("Name:", nameRef.current.value);
+        console.log("Password: ", passRef.current.value);
+        let email = document.getElementById("email").value
+        console.log("Email: ", email);
+    }
+    return (
+        <div>
+            <h1>Uncotrolled components</h1>
+            <form onSubmit={formSubmit}>
+                <p>
+                    <input type="text" ref={nameRef} />
+                </p>
+
+                <p>
+                    <input type="text" ref={passRef} />
+                </p>
+
+                <p>
+                    <input type="text" id="email" />
+                </p>
+
+                <p>
+                    <button>Submit</button>
+                </p>
+
+            </form>
+        </div>
+    )
+}
+ReactDOM.render(<Newform />, document.getElementById('uncontrol'))
+
+//Higher order function
+
+function Apps() {
+    return (
+        <div>
+            <h1>Higher Order Component</h1>
+            <HOC cmp={Counting} />
+        </div>
+    )
+
+}
+
+function HOC(props) {
+    return (
+        <div>
+            <h1 style={{ backgroundColor: 'red', width: 100 }}>Click!!<props.cmp /></h1>
+
+        </div>
+    )
+}
+
+function Counting() {
+    const [count2, setCount2] = useState(0)
+    return (
+        <div>
+
+            <h3>{count2}</h3>
+
+            <button onClick={() => { setCount2(count2 + 1) }}>counter</button>
+        </div>
+    )
+}
+ReactDOM.render(<Apps />, document.getElementById('counting'))
+
+//portals
+
+class Homeapp extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <div>
+                <h1>Portals</h1>
+                <p>This is simple tag</p>
+                <Portalapp />
+            </div>
+
+        )
+    }
+}
+
+function Portalapp() {
+    return ReactDOM.createPortal(
+        <div>
+            <p>this is create portal</p>
+        </div>,
+        document.getElementById('portal-root')
+    )
+}
+
+ReactDOM.render(<Homeapp />, document.getElementById('portal-root'))
 

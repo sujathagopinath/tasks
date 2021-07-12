@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const validateEmp = empdata => {
     const errors = {};
@@ -21,7 +22,7 @@ const validateEmp = empdata => {
     if (!empdata.Email) {
         errors.Email = "Email is required"
     }
-    else if (/^[A-Z a-z 0-9]+@[A-Z a-z 0-9]+\.[A-Z a-z]{2,4}$/i.test(empdata.Email)) {
+    else if (!/^[A-Z a-z 0-9]+@[A-Z a-z 0-9]+\.[A-Z a-z]{2,4}$/i.test(empdata.Email)) {
         errors.Email = "Invalid email address"
     }
     return errors;
@@ -37,9 +38,21 @@ const User = () => {
         },
         validate: validateEmp,
         onSubmit: values => {
-            // alert(JSON.stringify(values))
-            console.log("Employee details", values)
+            alert(JSON.stringify(values))
+            //     console.log("Employee details", values)
         }
+
+        // validationSchema: Yup.object({
+        //     Id: Yup.string().required("Id is required"),
+        //     Name: Yup.string().max(5, "Name should not more than 5 characters").required("Name is required"),
+        //     Location: Yup.string().required("Location is required"),
+        //     Email: Yup.string().email("Invalid Email Id").required("Email is required"),
+
+
+        // })
+        // onSubmit: values => {
+        //     alert(JSON.stringify(values))
+        // }
     })
     return (
         <div className="box">
@@ -47,6 +60,7 @@ const User = () => {
             <form onSubmit={formik.handleSubmit} className="form">
                 <p>
                     <label> Employee Id:
+                        {/* <input name="Id" {...formik.getFieldProps("Id")}></input> */}
                         <input type="text" name="Id" value={formik.values.Id}
                             onChange={formik.handleChange}></input>
                         {formik.touched.Id && formik.errors.Id ? <span>{formik.errors.Id}</span> : null}
@@ -80,7 +94,7 @@ const User = () => {
                 <button type="submit">Create</button>
 
             </form>
-        </div>
+        </div >
     )
 }
 ReactDOM.render(<User />, document.getElementById('app'))
