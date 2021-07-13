@@ -809,7 +809,7 @@ ReactDOM.render(<Use />, document.getElementById('refer'))
 function Forward() {
     let newref = useRef(null);
     function forwards() {
-        newref.current.value = "1000"
+        console.log(newref.current.value);
     }
     return (
         <div>
