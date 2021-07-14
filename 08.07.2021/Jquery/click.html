@@ -45,6 +45,9 @@
         </ul>
         <img src="th.jpg" title="flowers">
     </div>
+    <div>
+        <input type="text" id="textbox">
+    </div>
     <button type="button" id="button1">Click me</button>
 
     <script>
@@ -66,8 +69,8 @@
                 , showButtonPanel: true, closeText: "close Calendar"
             })
             $("#pickdate").datepicker({ maxDate: new Date(2025, 11, 24) })
-            $("img").tooltip({ show: { effect: "fadeIn", duration: 8000 } },
-                { hide: { effect: "fadeOut", duration: 8000 } });
+            // $("img").tooltip({ show: { effect: "fadeIn", duration: 8000 } },
+            // { hide: { effect: "fadeOut", duration: 8000 } });
 
             // $("#right").accordion();
             $("#right").accordion({ event: "mouseover" });
@@ -77,6 +80,9 @@
                     activeHeader: "ui-icon-minus"
                 }
             })
+            $("img").resizable();
+            $("#textbox").autocomplete({ source: ["monday", "tuesday"] })
+
 
             // })
         })

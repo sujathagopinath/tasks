@@ -6,6 +6,9 @@ import Childcomponent from './child';
 import Usergreet from './user';
 import Guestgreet from './guest';
 import Newuser from './newforward';
+import Newstrict from './newstrict';
+import PropTypes from 'prop-types';
+import reactToWebComponent from "react-to-webcomponent";
 class EmployeeInfo extends React.Component {
     constructor(props) {
         super(props);
@@ -922,4 +925,94 @@ function Portalapp() {
 }
 
 ReactDOM.render(<Homeapp />, document.getElementById('portal-root'))
+
+class Indexs extends React.Component {
+    componentWillMount() {
+        console.log("user component will mount");
+     }
+    render() {
+        return (
+            <div>
+                <h1>---Strict Mode---</h1>
+                {/* <Newstrict/> */}
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(<Indexs />, document.getElementById('usagestrict'))
+
+//React proptypes typechecking
+const person = {
+    name: 'Bob',
+    age:15
+}
+class Parentcomponent extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>TypeChecking with prop types</h1>
+                <h3><Personcomponent  age={ 18}/></h3>
+                {/* <h3><Personcomponent person= {person}/></h3> */}
+            </div>
+        )
+    }
+}
+
+
+const Personcomponent = (props) => {
+    return (
+        <div>
+            {/* <p>{props.person.name} - {props.person.age}</p> */}
+             <p>{props.name} - {props.age}</p>
+        </div>
+    )
+}
+
+Personcomponent.propTypes = {
+    name: PropTypes.string.isRequired,
+    age:PropTypes.number
+}
+Personcomponent.defaultProps = {
+    name:"undefined"
+}
+ReactDOM.render(<Parentcomponent />, document.getElementById('type'))
+
+//Webcomponents
+class Webs extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            count : 0
+        }
+    }
+    inc() {
+        this.setState(prev => ({
+            count: prev.count + 1
+        }))
+    }
+
+    dec() {
+        this.setState(prev => ({
+            count: prev.count - 1
+        }))
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Web component</h1>
+                <button onClick={()=>this.inc()}>up</button>
+                <button onClick={() => this.dec()}>Down</button>
+                <span>{this.state.count}</span>
+            </div>
+        )
+    }
+}
+customElements.define("my-counter",reactToWebComponent(Webs,React,ReactDOM))
+// ReactDOM.render(<Webs/>,document.getElementById('web'))
+
+
+
+
 
