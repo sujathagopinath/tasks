@@ -1,37 +1,27 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom'
 
+//Unit testing
 
-class Testing extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>Testing</h1>
-                <Button />
-                <input type="text" />
-
-            </div>
-        )
-    }
-}
-export const multiply = (num1, num2) => {
-    return num1 * num2;
-}
-export const makelower = (val) => {
-    return val.toLowerCase();
+export const add = (num1, num2) => {
+    return num1 + num2;
 }
 
-ReactDOM.render(<Testing />, document.getElementById('app'))
-
-function Button() {
-    const [value, setValue] = useState("Click me")
-
-    const changeText = () => {
-        setValue("You clicked");
-    }
-    return (
-        <button onClick={changeText} title="dummybutton">{value}</button>
-    )
+export const total = (subTotal, Total) => {
+    return '$' + add(subTotal, Total);
 }
 
-export default Button;
+
+
+// function Button() {
+//     const [value, setValue] = useState("Click me")
+
+//     const changeText = () => {
+//         setValue("You clicked");
+//     }
+//     return (
+//         <button onClick={changeText} title="dummybutton">{value}</button>
+//     )
+// }
+
+// export default Button;

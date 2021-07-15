@@ -9,7 +9,7 @@ module.exports = {
     },
     mode: 'development',
     devServer: {
-        port: 2020,
+        port: 2000,
     },
     module: {
         rules: [
