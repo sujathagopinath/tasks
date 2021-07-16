@@ -19,20 +19,22 @@ class Tbl extends React.Component {
                 { title: "Start date" },
                 { title: "Salary" },
                 { title: "Action" }
+
             ]
         }
-        )
 
+        )
     }
+
+
     componentWillUnmount() {
 
     }
     render() {
         return (
             <div>
-                <table className="display" width="100%" ref={el => this.el = el}>
-
-                </table>
+                <table className="display" width="100%" ref={el => this.el = el}></table>
+                {/* <button id="addrow">Add</button> */}
 
             </div>
         )

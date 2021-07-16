@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef, useRef } from 'react';
+import React, { useEffect, useState, createRef, useRef, Fragment } from 'react';
 import ReactDOM, { render } from 'react-dom';
 import Toggle from './toggle'
 import Getstateprops from './derived'
@@ -9,6 +9,7 @@ import Newuser from './newforward';
 import Newstrict from './newstrict';
 import PropTypes from 'prop-types';
 import reactToWebComponent from "react-to-webcomponent";
+import Uselocalstorage from './localstorage';
 class EmployeeInfo extends React.Component {
     constructor(props) {
         super(props);
@@ -929,7 +930,7 @@ ReactDOM.render(<Homeapp />, document.getElementById('portal-root'))
 class Indexs extends React.Component {
     componentWillMount() {
         console.log("user component will mount");
-     }
+    }
     render() {
         return (
             <div>
@@ -945,14 +946,14 @@ ReactDOM.render(<Indexs />, document.getElementById('usagestrict'))
 //React proptypes typechecking
 const person = {
     name: 'Bob',
-    age:15
+    age: 15
 }
 class Parentcomponent extends React.Component {
     render() {
         return (
             <div>
                 <h1>TypeChecking with prop types</h1>
-                <h3><Personcomponent  age={ 18}/></h3>
+                <h3><Personcomponent age={18} /></h3>
                 {/* <h3><Personcomponent person= {person}/></h3> */}
             </div>
         )
@@ -964,17 +965,17 @@ const Personcomponent = (props) => {
     return (
         <div>
             {/* <p>{props.person.name} - {props.person.age}</p> */}
-             <p>{props.name} - {props.age}</p>
+            <p>{props.name} - {props.age}</p>
         </div>
     )
 }
 
 Personcomponent.propTypes = {
     name: PropTypes.string.isRequired,
-    age:PropTypes.number
+    age: PropTypes.number
 }
 Personcomponent.defaultProps = {
-    name:"undefined"
+    name: "undefined"
 }
 ReactDOM.render(<Parentcomponent />, document.getElementById('type'))
 
@@ -983,7 +984,7 @@ class Webs extends React.Component {
     constructor() {
         super();
         this.state = {
-            count : 0
+            count: 0
         }
     }
     inc() {
@@ -1002,17 +1003,98 @@ class Webs extends React.Component {
         return (
             <div>
                 <h1>Web component</h1>
-                <button onClick={()=>this.inc()}>up</button>
+                <button onClick={() => this.inc()}>up</button>
                 <button onClick={() => this.dec()}>Down</button>
                 <span>{this.state.count}</span>
             </div>
         )
     }
 }
-customElements.define("my-counter",reactToWebComponent(Webs,React,ReactDOM))
+customElements.define("my-counter", reactToWebComponent(Webs, React, ReactDOM))
 // ReactDOM.render(<Webs/>,document.getElementById('web'))
 
+// Rules of Hooks
+
+function Insideloop() {
+    //Inside loop
+    for (let i = 0; i < 10; i++) {
+        let [count3, setCount3] = React.useState("null");
+    }
 
 
+    //Inside Conditions
+    if (true) {
+        let [count3, setCount3] = React.useState("null");
+    }
+
+    // Nested loops
+    const Handler = () => () => {
+        const [count3, setCount3] = React.useState("null");
+
+    }
+    return <h2>Do not call React hook inside the Conditional and loops</h2>
+
+}
+
+export default Insideloop;
+
+//Only call hooks from React functions
+
+//Regular function will not contain any JSX elements
+
+function regularFunc() {
+    const [count] = useCustomHook();
+}
+
+//React function return JSX 
+
+function useCustomHook() {
+    const [countss, setCountss] = useState(0);
+
+    useEffect(() => {
+        setInterval(() => {
+            setCountss((state) => state + 1);
+        }, 1000);
+    }, []);
+    return countss;
+}
+
+const CustomFunction = () => {
+    const countss = useCustomHook();
+
+    return (
+        <h1>Good Try: {countss}</h1>
+    )
+}
+// export default CustomFunction;
+
+// Custom Hooks
+
+function Newelement() {
+    // const [text, setText] = useState(window.localStorage.getItem('text'))
+    const [text, setText] = Uselocalstorage('text', '')
+    const [times, setTimes] = Uselocalstorage('times', 0)
 
 
+    // const setLocalStorage = value => {
+    //     try {
+    //         setText(value)
+    //         window.localStorage.setItem("text", value)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+    // const setLocalStorage = Uselocalstorage('text', 'setText')
+    return (
+
+        <>
+            <h2>Custom Hooks</h2>
+            <textarea value={text} placeholder="Enter the text" onChange={e => setText(e.target.value)}>
+
+            </textarea>
+            <button onClick={() => setTimes(times + 1)}>Post</button>
+            <span>{times}</span>
+        </>
+    )
+}
+ReactDOM.render(<Newelement />, document.getElementById('hook'))
