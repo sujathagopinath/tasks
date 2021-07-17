@@ -2,18 +2,35 @@ import React from 'react';
 import ReactDOM from 'react';
 import rowData from './appData'
 
-class Context extends React.Component {
+const EmployeeContext = React.createContext(); //context
+
+class EmployeeProvider extends React.Component {  //provider
     state = {
-        Alldata: rowData
+        Alldata: rowData,
+        id: '',
+        Name: '',
+        Position: '',
+        Office: '',
+        Age: '',
+        Startdate: '',
+        Salary: '',
+        updateEdit: []
+    }
+    getdata = (id) => {
+        const employee
+    }
+    onEdit = (id) => {
+        const tempemp = this.state.Alldata;
+        const index = tempemp.indexOf(this.getdata(id));
     }
     render() {
-        console.log(this.state.Alldata);
+        // console.log(this.state.Alldata);
         return (
             <div>
-                <Employee value={{ ...this.state }}>
+                <EmployeeContext.Provider value={{ ...this.state }}>
                     {this.props.children}
 
-                </Employee>
+                </EmployeeContext.Provider>
 
             </div>
         )
@@ -21,5 +38,6 @@ class Context extends React.Component {
 }
 
 // ReactDOM.render(<Context />, document.getElementById('context'));
+const EmployeeConsumer = EmployeeContext.Consumer
 
-export default Context
+export { EmployeeProvider, EmployeeConsumer }

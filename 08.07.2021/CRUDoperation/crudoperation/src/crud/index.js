@@ -29,6 +29,7 @@ const Crud = () => {
             setName("");
             toast.success(`"${res.data.name}" is created`);
             loadNames();
+            console.log(name);
         })
             .catch((err) => {
                 setLoading(false);
