@@ -1,0 +1,21 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "createserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1",
+    "node-modules": "^1.0.1",
+    "process": "^0.11.10",
+    "yargs": "^17.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^9.0.2"
+  }
+}
