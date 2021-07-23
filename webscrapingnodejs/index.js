@@ -26,7 +26,7 @@ app.get('/scrape', (req, res) => {
         // })
         console.log("Company Name: ", companyNameText);
         console.log("JobTitle: ", JobTitleText);
-        console.log("Summary: ", SummaryText);
+        console.log("Summary: e", SummaryText);
 
 
     })
@@ -37,6 +37,6 @@ app.get('/scrape', (req, res) => {
 
 
 
-app.listen(3000, () => {
-    console.log("Server is running at 3000")
+app.listen(3005, () => {
+    console.log("Server is running at 3005")
 })
