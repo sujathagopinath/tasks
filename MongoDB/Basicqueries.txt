@@ -1,0 +1,86 @@
+show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> use admin
+switched to db admin
+> show collections
+system.version
+> use company
+switched to db company
+> db
+company
+> company.info
+uncaught exception: ReferenceError: company is not defined :
+@(shell):1:1
+> db.info
+company.info
+> db.info.count()
+0
+> db.info.insert({name:"Apple",Product:"iphone5"});
+WriteResult({ "nInserted" : 1 })
+> db.info.find()
+{ "_id" : ObjectId("60fbdb01c2f108323553739d"), "name" : "Apple", "Product" : "iphone5" }
+> db.info.find().forEach(printjson)
+{
+        "_id" : ObjectId("60fbdb01c2f108323553739d"),
+        "name" : "Apple",
+        "Product" : "iphone5"
+}
+
+var data = {}
+> data.name = "Riya"
+Riya
+> data.empcode = "1023"
+1023
+> data.location = "Chennai"
+Chennai
+> data.qualification=["B.E","M.B.A"]
+[ "B.E", "M.B.A" ]
+> data.hobbies ={}
+{ }
+> data.hobbies.sports = "Hockey"
+Hockey
+> db.info.save(data)
+WriteResult({ "nInserted" : 1 })
+
+ db.info.find()
+{ "_id" : ObjectId("60fbdb01c2f108323553739d"), "name" : "Apple", "Product" : "iphone5" }
+{ "_id" : ObjectId("60fbdd74c2f108323553739e"), "name" : "Riya", "empcode" : "1023", "location" : "Chennai", "qualification" : [ "B.E", "M.B.A" ], "hobbies" : { "sports" : "Hockey" } }
+> db.info.find().forEach(printjson)
+{
+        "_id" : ObjectId("60fbdb01c2f108323553739d"),
+        "name" : "Apple",
+        "Product" : "iphone5"
+}
+{
+        "_id" : ObjectId("60fbdd74c2f108323553739e"),
+        "name" : "Riya",
+        "empcode" : "1023",
+        "location" : "Chennai",
+        "qualification" : [
+                "B.E",
+                "M.B.A"
+        ],
+        "hobbies" : {
+                "sports" : "Hockey"
+        }
+}
+
+ db.stats()
+{
+        "db" : "company",
+        "collections" : 1,
+        "views" : 0,
+        "objects" : 2,
+        "avgObjSize" : 106.5,
+        "dataSize" : 213,
+        "storageSize" : 36864,
+        "indexes" : 1,
+        "indexSize" : 36864,
+        "totalSize" : 73728,
+        "scaleFactor" : 1,
+        "fsUsedSize" : 53052567552,
+        "fsTotalSize" : 108675506176,
+        "ok" : 1
+}
