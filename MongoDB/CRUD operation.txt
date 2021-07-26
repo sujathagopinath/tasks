@@ -1,0 +1,155 @@
+CRUD OPERATION
+
+//InsertOne
+Syntax: db.new.insertOne({}) 
+const doc ={
+
+    title:"New information",
+    postId:NumberInt(2345),
+    comments:0,
+    Shared:false,
+    tags:[],
+    author:{
+        name:"Watson",
+        nickname:"emily23"
+        }
+    };
+db.new.insertOne(doc);
+
+//Insert Many
+
+Syntax: db.new.insertMany([])
+
+db.new.insertMany([
+ {
+     title:"New information",
+    postId:NumberInt(2345),
+    comments:0,
+    Shared:false,
+    tags:[],
+    author:{
+        name:"Watson",
+        nickname:"emily23"
+        }
+    },
+    { 
+     title:"New informative",
+    postId:NumberInt(23456),
+    comments:1,
+    Shared:true,
+    tags:[],
+    author:{
+        name:"Watson emily",
+        nickname:"emily234"
+        }
+    }]);
+
+//Using variable :
+
+const newdoc =
+ [{
+     title:"New information",
+    postId:NumberInt(2345),
+    comments:0,
+    Shared:false,
+    tags:[],
+    author:{
+        name:"Watson",
+        nickname:"emily23"
+        }
+    },
+    { 
+     title:"New informative",
+    postId:NumberInt(23456),
+    comments:1,
+    Shared:true,
+    tags:[],
+    author:{
+        name:"Watson emily",
+        nickname:"emily234"
+        }
+    }];
+    db.new.insertMany(newdoc);
+
+Query Methods
+
+find and findOne
+db.getCollection('new').findOne({title:"New information"})
+db.getCollection('new').find({title:"New information"})
+db.getCollection('new').find({"author.name":"Watson"}) //to find the value inside an array`
+
+query Operators
+
+db.getCollection('new').find({comments:{$gt:5}})
+db.getCollection('new').find({
+$and:[
+{comments:{$lt:5}},
+{comments:{$gt:0}}
+]
+})
+
+db.getCollection('new').find({
+$or:[
+{shared:true}
+]})
+
+
+db.getCollection('new').find({
+tags:{$in:[
+"programming",
+"coding"
+]}
+})
+
+Helper methods 
+
+db.getCollection('new').find({}).sort({comments:1})
+db.getCollection('new').find({}).skip(2)
+db.getCollection('new').find({}).limit(3)
+db.getCollection('new').find({}).skip(2).sort({Shared:1})
+
+Update methods //in parathensis we can pass => query, update, options query =>in query specifies which doc needs to be updated
+Update one and Update Many                                            update => What we need to update
+update operators $set $unset $inc $rename $currentdate $addToSet
+
+db.getCollection('new').updateOne(
+{postId:2345},{$inc:{comments:1}})
+
+db.getCollection('new').updateMany({
+    postId:2345},{$unset:{tags:1}})
+
+db.getCollection('new').updateOne({
+    postId:2345},{$set:{Shared:true}})
+
+//Parent references
+
+db.categories.insertMany([{_id:"Mongo",parent:"database"},{_id:"data",parent:"programming"}])
+{ "acknowledged" : true, "insertedIds" : [ "Mongo", "data" ] }
+db.getCollection('categories').findOne({_id:"data"}).parent
+
+db.getCollection('categories').createIndex({parent:1}) //Immeditate child passed
+
+//Child references
+db.getCollection('categories').insertMany([
+{_id:"Mongodb",children:[]},
+{_id:"languages",children:["database","lang"]}
+
+    ])
+
+db.getCollection('categories').findOne({_id:"languages"}).children
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
