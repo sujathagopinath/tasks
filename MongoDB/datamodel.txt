@@ -1,0 +1,68 @@
+Data Models
+
+one to one relation
+
+step1:
+
+db.getCollection('persons').insertOne({
+    name:"suja",
+    isVerified:true,
+    earning:1500
+    })
+
+o/p :/* 1 */
+{
+    "acknowledged" : true,
+    "insertedId" : ObjectId("60feff3855f64c226a908938")
+}
+
+--------------------------------------------------------------
+
+step2: 
+
+db.getCollection('videos').insertOne({
+    topic:"fun topic",
+    length:4,
+    creator:ObjectId("60feff3855f64c226a908938")
+
+})
+
+0/p: /* 1 */
+{
+    "acknowledged" : true,
+    "insertedId" : ObjectId("60ff005455f64c226a908939")
+}
+-------------------------------------------------------------
+db.getCollection('videos').findOne({}).creator
+
+var videouid = db.videos.findOne().creator
+db.persons.findOne({_id:videouid})
+
+/* 1 */
+{
+    "_id" : ObjectId("60feff3855f64c226a908938"),
+    "name" : "suja",
+    "isVerified" : true,
+    "earning" : 1500.0
+}
+------------------------------------------------------------------
+One to Many
+
+db.getCollection('comment').insertOne({
+    videoname:"react js",
+    comment:"How to isntall react",
+    replies:["rep112","rep123"]
+    })
+
+db.getCollection('replies').insertMany([
+{_id:"rep112",text:"you can choose node"},
+{_id:"rep123",text:"you can choose react"}
+    ])
+
+----------------------------------------------------------------------
+db.getCollection('comment').insertOne({videoname:"react js",
+    comment:"how to isntall",
+    replies:[{_id:"rep112",text:"stuff1"},
+    {_id:"rep123",text:"stuff2"}
+    ]})
+

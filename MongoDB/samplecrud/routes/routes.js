@@ -26,6 +26,7 @@ router.post("/add", multersigleUpload.single('image'), (req, res) => {
         phone: req.body.phone,
         image: req.file.filename,
     });
+    // user.save();
     user.save((err) => {
         if (err) {
             res.json({ message: err.message, type: 'danger' })
