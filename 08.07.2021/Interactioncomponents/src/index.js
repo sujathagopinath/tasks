@@ -927,6 +927,8 @@ function Portalapp() {
 
 ReactDOM.render(<Homeapp />, document.getElementById('portal-root'))
 
+//Strict mode
+
 class Indexs extends React.Component {
     componentWillMount() {
         console.log("user component will mount");
@@ -953,8 +955,8 @@ class Parentcomponent extends React.Component {
         return (
             <div>
                 <h1>TypeChecking with prop types</h1>
-                <h3><Personcomponent age={18} /></h3>
-                {/* <h3><Personcomponent person= {person}/></h3> */}
+                {/* <h3><Personcomponent age={18} /></h3> */}
+                <h3><Personcomponent person={person} /></h3>
             </div>
         )
     }
@@ -964,8 +966,8 @@ class Parentcomponent extends React.Component {
 const Personcomponent = (props) => {
     return (
         <div>
-            {/* <p>{props.person.name} - {props.person.age}</p> */}
-            <p>{props.name} - {props.age}</p>
+            <p>{props.person.name} - {props.person.age}</p>
+            {/* <p>{props.name} - {props.age}</p> */}
         </div>
     )
 }
