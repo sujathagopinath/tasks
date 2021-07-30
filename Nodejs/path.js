@@ -1,8 +1,8 @@
 const path = require('path');
 
 file = path.basename('test.txt');
-file = path.dirname('document/test.txt');
-file = path.isAbsolute('D:\sujatha\Training\tasks\Nodejs');
+// file = path.dirname('document/test.txt');
+// file = path.isAbsolute('D:\sujatha\Training\tasks\Nodejs');
 
 let dir = 'test'
 newfile = path.join('C:', 'Users\sujatha.gopinath\Desktop', dir, 'test.css');

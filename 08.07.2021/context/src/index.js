@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ComponentC from './ComponentC';
+import ComponentA from './ComponentA';
 import { Userprovider } from './userContext';
 
 
@@ -9,7 +9,7 @@ class Index extends React.Component {
         return (
             <div>
                 <Userprovider value="sujatha">
-                    <ComponentC />
+                    <ComponentA />
 
                 </Userprovider>
             </div>

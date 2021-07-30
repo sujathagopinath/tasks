@@ -22,7 +22,9 @@ app.listen(8080, (req, res) => {
     console.log("serving the CRUD @ PORT 8080");
 })
 
+// const EventEmitter = require('events');
+// const data = new EventEmitter()
+// data.emit("test")
 
-
-
+// data.on 
 

@@ -178,7 +178,9 @@ function DisplayEmployee(props) {
 }
 
 const employers = [
-    { Id: 101, Name: "AAA", Location: "Bangalore", Salary: 12345 },
+    {
+        Id: 101, Name: "AAA", Location: "Bangalore", Salary: 12345
+    },
     { Id: 102, Name: "BBB", Location: "Chennai", Salary: 1234 },
     { Id: 103, Name: "CCC", Location: "Hyderabad", Salary: 123 }
 
@@ -307,8 +309,6 @@ const Adddelete = () => {
         setButton("Delete");
         console.log({ button });
     }
-
-
 
     return (
         <div>
@@ -1100,3 +1100,4 @@ function Newelement() {
     )
 }
 ReactDOM.render(<Newelement />, document.getElementById('hook'))
+

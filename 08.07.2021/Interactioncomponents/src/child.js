@@ -7,7 +7,7 @@ export default function Childcomponent(props) {
         document.title = props.counts
 
 
-    }, [props.counts >= 3])
+    }, [props.counts > 3])
     return (
         <div>
             <h1>New child Functions</h1>
