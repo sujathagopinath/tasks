@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors())
 
 const users = [
     { "email": "abc@123.com", "id": 1234, "password": "asdf" },
