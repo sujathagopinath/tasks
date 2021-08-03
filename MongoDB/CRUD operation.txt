@@ -139,9 +139,17 @@ db.getCollection('categories').insertMany([
 db.getCollection('categories').findOne({_id:"languages"}).children
 
 
+//text
+
+db.getCollection('map').insert({
+    post_text:"New text", tags:["mongodb","java"]},
+    {post_text:"New text1",tags:["mongodb","python"]})
+
+db.getCollection('map').createIndex({post_text:"text"})
 
 
 
+db.getCollection('map').find({$text:{$search:"New text"}})
 
 
 

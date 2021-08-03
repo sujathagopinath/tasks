@@ -7,7 +7,10 @@ step1:
 db.getCollection('persons').insertOne({
     name:"suja",
     isVerified:true,
-    earning:1500
+    earning:1500,
+address:{
+
+}
     })
 
 o/p :/* 1 */
@@ -15,7 +18,26 @@ o/p :/* 1 */
     "acknowledged" : true,
     "insertedId" : ObjectId("60feff3855f64c226a908938")
 }
-
+{
+book:"names",
+bookcode:1234,
+}
+{
+author:"names",
+bookpublished:"",
+creator:objectId('')
+}
+//two different methods to define one to one and when to use each method there are some scensarios...
+//different methods one to many and when to use and each scenaa nd how access
+//list down all the queries for one to one, many,many to many book and author to filter out the data.
+//how to represent many to many relationship
+//embedded document
+//different to access to users
+//prototypes
+//modules
+//default parameter
+//indexing in mongodb
+//list of users, filter method
 --------------------------------------------------------------
 
 step2: 
