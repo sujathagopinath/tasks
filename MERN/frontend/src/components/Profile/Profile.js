@@ -24,7 +24,7 @@ const Profile = ({ history }) => {
     dispatch(fetchBooks());
   }, [dispatch]);
   const bookslist = useSelector(state => state.booksList);
-  // const { books, loading } = bookslist;
+  // const { books } = bookslist;
 
   const handlerDeleteBook = id => {
     dispatch(deleteBook(id));

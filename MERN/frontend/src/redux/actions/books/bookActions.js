@@ -40,7 +40,7 @@ export const createBook = bookData => {
     } catch (error) {
       dispatch({
         type: CREATE_BOOK_FAIL,
-        error: error.response && error.response.data.message,
+        payload: error.response && error.response.data.message,
       });
     }
   };

@@ -45,7 +45,7 @@ const Header = () => {
 
               <button
                 type='button'
-                className='btn btn-danger'
+                className='btn'
                 data-toggle='modal'
                 data-target='#about'>
                 About
@@ -76,53 +76,69 @@ const Header = () => {
                         <li className='list-group-item active'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}></i>
-                          Register User
+                            style={{ fontSize: '1.5rem' }}>
+                            <Link className='nav-link' to='/register'>
+                              Register User
+                            </Link>
+                          </i>
+
                           <hr />
                         </li>
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}></i>
-                          Update Profile
+                            style={{ fontSize: '1.5rem' }}>
+                            <Link className='nav-link' to='/'>
+                              Update Profile
+                            </Link>
+                          </i>
+
                           <hr />
                         </li>
 
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}></i>
-                          Login
+                            style={{ fontSize: '1.5rem' }}>
+                            <Link className='nav-link' to='/login'>
+                              Login
+                            </Link>
+                          </i>
+
                           <hr />
                         </li>
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}></i>
-                          User Dashboard
+                            style={{ fontSize: '1.5rem' }}>
+                            <Link className='nav-link' to='/'>
+                              User Dashboard
+                            </Link>
+                          </i>
+
                           <hr />
                         </li>
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}></i>
-                          List of Users
+                            style={{ fontSize: '1.5rem' }}>
+                            <Link className='nav-link' to='/'>
+                              List of Users
+                            </Link></i>
                           <hr />
                         </li>
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}></i>
-                          List of Books
+                            style={{ fontSize: '1.5rem' }}>
+                            <Link className='nav-link' to='/'>
+                              List of Books
+                            </Link>
+                          </i>
+
                           <hr />
                         </li>
-                        <li className='list-group-item'>
-                          <i
-                            className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}></i>
-                          Many more
-                          <hr />
-                        </li>
+
                       </ul>
                     </div>
                     <div className='modal-footer'>
