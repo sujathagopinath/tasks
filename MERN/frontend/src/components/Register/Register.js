@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Register.css';
 import { registerUser } from '../../redux/actions/users/userActions';
@@ -20,7 +20,9 @@ const Register = ({ history }) => {
     e.preventDefault();
     dispatch(registerUser(name, email, password));
     console.log(userInfo, loading, error);
-    if (userInfo !== null && error === undefined) history.push('/');
+    if (userInfo !== null && error === undefined)
+      //   // if (userInfo)
+      history.push('/login');
   };
 
   return (

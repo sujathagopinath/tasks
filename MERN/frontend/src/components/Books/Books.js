@@ -16,10 +16,14 @@ const Books = ({ history }) => {
   const { books, loading } = bookslist;
   // End of fetch books
 
-  // const userLogin = useSelector(state => state.userLogin);
+  //Redirect
 
-  // const { userInfo, email, name } = userLogin;
-  // console.log(userInfo._id, email, name);
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  useEffect(() => {
+    if (userInfo === null) history.push('/login');
+  }, [userInfo, history]);
+
 
   //Delete book handler
   const handlerDeleteBook = id => {
@@ -40,7 +44,7 @@ const Books = ({ history }) => {
                   <th scope='col'>Author</th>
                   <th scope='col'>Book Name</th>
                   <th scope='col'>Category</th>
-                  <th scope='col'>User Id</th>
+
                   <th scope='col'>User Name</th>
                   {/* <th scope='col'>Action</th>
                   <th scope='col'>Action</th> */}
@@ -54,25 +58,7 @@ const Books = ({ history }) => {
                         <td>{book.author}</td>
                         <td>{book.title}</td>
                         <td>{book.category}</td>
-                        <td>{book._id}</td>
                         <td>{book.createdby}</td>
-
-                        {/* <td>
-                          <i
-                            onClick={() => handlerDeleteBook(book._id)}
-                            className='fas fa-trash '
-                            style={{ color: 'red', cursor: 'progress' }}></i>
-                        </td>
-                        <td>
-                          <Link to={`/book/${book && book._id}`}>
-                            <i
-                              className='far fa-edit'
-                              style={{
-                                color: 'yellow',
-                                cursor: 'progress',
-                              }}></i>
-                          </Link>
-                        </td> */}
                       </tr>
                     );
                   })}

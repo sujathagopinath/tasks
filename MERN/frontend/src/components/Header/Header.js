@@ -104,10 +104,10 @@ const Header = () => {
                               Login
                             </Link>
                           </i>
-
                           <hr />
                         </li>
-                        <li className='list-group-item'>
+
+                        {/* <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
                             style={{ fontSize: '1.5rem' }}>
@@ -115,9 +115,9 @@ const Header = () => {
                               User Dashboard
                             </Link>
                           </i>
-
                           <hr />
-                        </li>
+                        </li> */}
+
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
@@ -177,8 +177,8 @@ const Header = () => {
                   <Link
                     className='nav-link'
                     to='/login'
-                    onClick={() => dispatch(logoutUser())}>
-                    Logout
+                    onClick={() => dispatch(loginUser())}>
+                    Login
                   </Link>
                 </li> */}
               </>

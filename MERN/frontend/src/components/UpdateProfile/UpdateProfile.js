@@ -6,7 +6,7 @@ import { updateUser } from '../../redux/actions/users/userActions';
 import SuccessMessage from '../DisplayMessage/SuccessMessage';
 
 const UpdateProfile = ({ history }) => {
-  //Get the user from localstorage and pass to the initial states
+  //Get the user from Sessionstorage and pass to the initial states
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
   console.log(userInfo);

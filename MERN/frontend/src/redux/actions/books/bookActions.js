@@ -49,7 +49,8 @@ export const createBook = bookData => {
 //Fetch all books
 
 export const fetchBooks = () => {
-  return async dispatch => {
+  return async (dispatch) => {
+    // const { userInfo } = getstate().userLogin;
     try {
       dispatch({
         type: FETCH_BOOK_REQUEST,
@@ -58,6 +59,7 @@ export const fetchBooks = () => {
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          // authorization: `Bearer ${userInfo.token}`
         },
       };
       const { data } = await axios.get('/api/books', config);
@@ -140,16 +142,19 @@ export const fetchBook = (id, bookData) => {
 //UPDATE BOOK
 
 export const updateBook = (id, bookData) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch({
         type: BOOK_UPDATE_REQUEST,
         loading: true,
       });
+      // const { userInfo } = getstate().userLogin;
+      // console.log(userInfo.token);
 
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          // authorization: `Bearer ${userInfo.token}`
         },
       };
       const { data } = await axios.put(`/api/books/${id}`, bookData, config);

@@ -1,12 +1,9 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
-// const authMiddlware = require('../middlewares/authMiddleware');
-// const jwt = require('jsonwebtoken');
 const Book = require('../models/Book');
-// const User = require('../models/User');
-// const authTokenGenerator = require('../utils/authTokenGenerator');
+const authTokenGenerator = require('../utils/authTokenGenerator');
 const bookRouter = express.Router();
-
+const authMiddlware = require('../middlewares/authMiddleware');
 //Create Book
 bookRouter.post(
   '/',
@@ -17,6 +14,11 @@ bookRouter.post(
     if (book) {
       res.status(200);
       res.json(book);
+      // res.json({
+      //   _id: book._id,
+      //   name: book.name,
+      //   token: authTokenGenerator(book._id),
+      // });
     }
     // res.status(200);
     // res.json(book);
@@ -75,6 +77,11 @@ bookRouter.put(
       });
       res.status(200);
       res.json(updatedBook)
+      // res.json({
+      //   id: updatedBook._id,
+      //   name: updatedBook.name,
+      //   token: authTokenGenerator(updatedBook._id),
+      // })
     }
     else {
       res.status(500)
@@ -86,6 +93,7 @@ bookRouter.put(
 //find a book
 bookRouter.get(
   '/:id',
+  // authMiddlware,
   asyncHandler(async (req, res) => {
     try {
       const book = await Book.findById(req.params.id);

@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
@@ -42,11 +41,11 @@ export const registerUser = (name, email, password) => {
       console.log(name, email, password);
       dispatch({
         type: USER_REGISTER_SUCCESS,
-        payload: data,
+        // payload: data,
       });
 
-      //Save the user into localstorage
-      localStorage.setItem('userAuthData', JSON.stringify(data));
+      //Save the user into Sessionstorage
+      sessionStorage.setItem('userAuthData', JSON.stringify(data));
     } catch (error) {
       console.log('mongdb error', error);
       dispatch({
@@ -83,7 +82,7 @@ export const loginUser = (email, password) => {
         payload: data,
       });
 
-      localStorage.setItem('userAuthData', JSON.stringify(data));
+      sessionStorage.setItem('userAuthData', JSON.stringify(data));
     } catch (error) {
       // Every error has a response.data where we can grab the error and display to the user
       dispatch({
@@ -96,12 +95,12 @@ export const loginUser = (email, password) => {
 
 export const logoutUser = () => {
   return async dispatch => {
-    localStorage.removeItem('userAuthData');
+    sessionStorage.removeItem('userAuthData');
     try {
       dispatch({
         type: USER_LOGOUT,
       });
-    } catch (error) {}
+    } catch (error) { }
   };
 };
 
@@ -173,15 +172,19 @@ export const updateUser = (name, email, password) => {
 };
 
 export const fetchUsers = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       dispatch({
         type: FETCH_USERS_REQUEST,
         loading: true,
       });
+      const { userInfo } = getState().userLogin;
+      console.log(userInfo.token);
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`,
+
         },
       };
       const { data } = await axios.get('/api/users', config);
@@ -193,6 +196,7 @@ export const fetchUsers = () => {
       dispatch({
         type: FETCH_USERS_FAIL,
         error: error.response && error.response.data.message,
+        // error: action.payload
       });
     }
   };

@@ -3,19 +3,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers } from '../../redux/actions/users/userActions';
 import Loading from '../Loading/Loading';
 
-const Users = () => {
+const Users = ({ history }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers());
-  }, [dispatch]);
+  }, [dispatch, history]);
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  useEffect(() => {
+    if (userInfo === null) history.push('/login');
+  }, [userInfo, history]);
+
+
   const usersList = useSelector(state => state.usersList);
   const { loading, users, error } = usersList;
-
   console.log(users, loading, error);
+
+
   return (
     <div className='container-fluid'>
       <h1 className='text-center m-5'>List of users {users && users.length}</h1>
-      <hr className='text-white' />
+      < hr className='text-white' />
       <div className='row text-center justify-content-center'>
         {loading ? (
           <Loading />
@@ -36,6 +45,7 @@ const Users = () => {
           </>
         )}
       </div>
+
     </div>
   );
 };

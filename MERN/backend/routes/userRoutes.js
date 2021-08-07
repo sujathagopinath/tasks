@@ -107,13 +107,16 @@ userRouter.put(
 
 userRouter.get(
   '/',
-  // authMiddlware,
+  authMiddlware,
   asyncHandler(async (req, res) => {
     try {
       const users = await User.find().populate('books');
       res.status(200);
       res.json(users);
-    } catch (error) { }
+    } catch (error) {
+      res.status(404);
+      throw new Error('Relogin the Page');
+    }
   })
 );
 

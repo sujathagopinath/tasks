@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createBook } from '../../redux/actions/books/bookActions';
 import { useDispatch, useSelector } from 'react-redux';
 import book from './Books';
@@ -12,15 +12,6 @@ const Login = () => {
   );
 };
 
-// const Books = ({ history }) => {
-//   //Fetch books
-//   const dispatch = useDispatch();
-//   useEffect(() => {
-//     dispatch(fetchBooks());
-//   }, [dispatch]);
-
-
-
 const AddBook = ({ history }) => {
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
@@ -30,9 +21,13 @@ const AddBook = ({ history }) => {
   //Get the user id from store
 
   const userLogin = useSelector(state => state.userLogin);
-
   const { userInfo, email } = userLogin;
-  console.log(userInfo._id, userInfo, email);
+  // console.log(userInfo._id, userInfo, email);
+
+  useEffect(() => {
+    if (userInfo === null) history.push('/login');
+  }, [userInfo, history]);
+
   //dispatch action
   const dispatch = useDispatch();
 
@@ -124,7 +119,7 @@ const AddBook = ({ history }) => {
                         />
                       </div>
 
-                      <div className='form-group'>
+                      {/* <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>UserId</label>
                         <input
                           value={userInfo._id}
@@ -133,7 +128,7 @@ const AddBook = ({ history }) => {
                           id='exampleInputPassword1'
                           placeholder='User id' disabled
                         />
-                      </div>
+                      </div> */}
 
                       <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>User Name</label>
