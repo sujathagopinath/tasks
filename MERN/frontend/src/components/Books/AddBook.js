@@ -16,6 +16,7 @@ const AddBook = ({ history }) => {
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+  const [image, setImage] = useState('');
   const [createdby, setCreatedby] = useState('');
 
   //Get the user id from store
@@ -36,6 +37,7 @@ const AddBook = ({ history }) => {
       category,
       title,
       author,
+      image,
       createdby,
       createdBy: userInfo && userInfo._id,
     };
@@ -119,6 +121,14 @@ const AddBook = ({ history }) => {
                         />
                       </div>
 
+                      <div className='form-group mb-3'>
+                        <label htmlFor='image'>Select an Image</label>
+                        <input value={image} type='file'
+                          onChange={e => setImage(e.target.value)}
+                          className='form-control'
+                          id='image' placeholder='Choose an image' />
+                      </div>
+
                       {/* <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>UserId</label>
                         <input
@@ -129,6 +139,9 @@ const AddBook = ({ history }) => {
                           placeholder='User id' disabled
                         />
                       </div> */}
+
+
+
 
                       <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>User Name</label>
