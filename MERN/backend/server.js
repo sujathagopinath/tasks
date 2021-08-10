@@ -5,6 +5,7 @@ const routes = require('./routes/userRoutes');
 const error = require('./middlewares/errorMiddleware');
 const bookRouter = require('./routes/bookRoutes');
 const dbConnect = require('./config/dbConnect');
+const fileUpload = require('express-fileupload')
 
 const app = express();
 dbConnect();
@@ -12,6 +13,7 @@ dotenv.config();
 //Routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
 app.use(express.static('myuploads'));
 
 app.use('/api/users', routes.userRouter);

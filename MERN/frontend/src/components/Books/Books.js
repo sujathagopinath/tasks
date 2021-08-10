@@ -2,6 +2,20 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBooks, deleteBook } from '../../redux/actions/books/bookActions';
 import Loading from '../Loading/Loading';
+// import App from './Pagination'
+
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery/dist/jquery.min.js';
+//Datatable Modules
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+import $ from 'jquery'
+
+$(function () {
+  $('.table').DataTable({
+    order: [0, 'desc']
+  });
+});
 
 const Books = ({ history }) => {
   //Fetch books
@@ -41,7 +55,6 @@ const Books = ({ history }) => {
                   <th scope='col'>Author</th>
                   <th scope='col'>Book Name</th>
                   <th scope='col'>Category</th>
-                  <th scope='col'>Image</th>
                   <th scope='col'>User Name</th>
                 </tr>
               </thead>
@@ -54,18 +67,20 @@ const Books = ({ history }) => {
                         <td>{book.author}</td>
                         <td>{book.title}</td>
                         <td>{book.category}</td>
-                        <td> <img src={book.image} width="50"
-                          alt="image" /></td>
                         <td>{book.createdby}</td>
                       </tr>
                     );
                   })}
+
               </tbody>
             </table>
+
           </div>
         </div>
-      )}
-    </div>
+      )
+      }
+      {/* <App></App> */}
+    </div >
   );
 };
 

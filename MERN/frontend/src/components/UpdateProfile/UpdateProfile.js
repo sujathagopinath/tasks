@@ -9,12 +9,12 @@ const UpdateProfile = ({ history }) => {
   //Get the user from Sessionstorage and pass to the initial states
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
-  console.log(userInfo);
+  // console.log(userInfo);
   const [name, setname] = useState(userInfo ? userInfo.name : '');
   const [email, setemail] = useState(userInfo ? userInfo.email : '');
   const [password, setpassword] = useState('');
 
-  console.log(userLogin);
+  // console.log(userLogin);
   //Get the updated user details from store and display message
   const updatedUser = useSelector(state => state.updatedUser);
   const { user, loading, success } = updatedUser;

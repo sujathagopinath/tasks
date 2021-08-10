@@ -80,7 +80,7 @@ const AddBook = ({ history }) => {
                 </div>
                 <div className='modal-body'>
                   <h1 className='text-center'>Add Book</h1>
-                  <form onSubmit={formSubmitHandler}>
+                  <form onSubmit={formSubmitHandler} encType='multipart/form-data'>
                     <fieldset>
                       <div className='form-group'>
                         <select
@@ -121,13 +121,7 @@ const AddBook = ({ history }) => {
                         />
                       </div>
 
-                      <div className='form-group mb-3'>
-                        <label htmlFor='image'>Select an Image</label>
-                        <input value={image} type='file'
-                          onChange={e => setImage(e.target.value)}
-                          className='form-control'
-                          id='image' placeholder='Choose an image' />
-                      </div>
+
 
                       {/* <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>UserId</label>
