@@ -16,7 +16,6 @@ const AddBook = ({ history }) => {
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
-  const [image, setImage] = useState('');
   const [createdby, setCreatedby] = useState('');
 
   //Get the user id from store
@@ -37,7 +36,6 @@ const AddBook = ({ history }) => {
       category,
       title,
       author,
-      image,
       createdby,
       createdBy: userInfo && userInfo._id,
     };
@@ -78,9 +76,10 @@ const AddBook = ({ history }) => {
                     <span aria-hidden='true'>&times;</span>
                   </button>
                 </div>
+
                 <div className='modal-body'>
                   <h1 className='text-center'>Add Book</h1>
-                  <form onSubmit={formSubmitHandler} encType='multipart/form-data'>
+                  <form onSubmit={formSubmitHandler}>
                     <fieldset>
                       <div className='form-group'>
                         <select
@@ -97,6 +96,7 @@ const AddBook = ({ history }) => {
                           <option value='programming'>Programming</option>
                         </select>
                       </div>
+
                       <div className='form-group'>
                         <label htmlFor='exampleInputEmail1'>Author </label>
                         <input
@@ -108,6 +108,7 @@ const AddBook = ({ history }) => {
                           aria-describedby='emailHelp'
                           placeholder='Author name'
                         />
+
                       </div>
                       <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>title</label>
@@ -120,22 +121,6 @@ const AddBook = ({ history }) => {
                           placeholder='Book title'
                         />
                       </div>
-
-
-
-                      {/* <div className='form-group'>
-                        <label htmlFor='exampleInputPassword1'>UserId</label>
-                        <input
-                          value={userInfo._id}
-                          type='text'
-                          className='form-control'
-                          id='exampleInputPassword1'
-                          placeholder='User id' disabled
-                        />
-                      </div> */}
-
-
-
 
                       <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>User Name</label>

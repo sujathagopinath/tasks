@@ -41,7 +41,6 @@ export const registerUser = (name, email, password) => {
       console.log(name, email, password);
       dispatch({
         type: USER_REGISTER_SUCCESS,
-        // payload: data,
       });
 
       //Save the user into Sessionstorage
@@ -196,7 +195,6 @@ export const fetchUsers = () => {
       dispatch({
         type: FETCH_USERS_FAIL,
         error: error.response && error.response.data.message,
-        // error: action.payload
       });
     }
   };

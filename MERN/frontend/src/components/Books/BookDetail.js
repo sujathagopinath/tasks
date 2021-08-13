@@ -14,6 +14,7 @@ const BookDetail = ({ history }) => {
   const [category, setCategory] = useState(book && !loading && book.category);
   const [title, setTitle] = useState(book && !loading && book.title);
   const [author, setAuthor] = useState(book && book.author);
+  const [createdby, setCreatedby] = useState(book && book.createdby);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -27,6 +28,7 @@ const BookDetail = ({ history }) => {
       category,
       title,
       author,
+      createdby,
     };
     e.preventDefault();
     dispatch(updateBook(id, data));
@@ -53,6 +55,7 @@ const BookDetail = ({ history }) => {
                       <option Value='journal'>Journal</option>
                     </select>
                   </div>
+
                   <div className='form-group'>
                     <label htmlFor='exampleInputEmail1'>Author </label>
                     <input
@@ -65,6 +68,7 @@ const BookDetail = ({ history }) => {
                       placeholder='Author name'
                     />
                   </div>
+
                   <div className='form-group'>
                     <label htmlFor='exampleInputPassword1'>title</label>
                     <input
@@ -76,6 +80,19 @@ const BookDetail = ({ history }) => {
                       placeholder='Book title'
                     />
                   </div>
+
+                  <div className='form-group'>
+                    <label htmlFor='exampleInputPassword1'>UserName</label>
+                    <input
+                      value={createdby}
+                      onChange={e => setCreatedby(e.target.value)}
+                      type='text'
+                      className='form-control'
+                      id='exampleInputPassword1'
+                      placeholder='User Name'
+                    />
+                  </div>
+
                   <button type='submit' className='btn btn-dark m-auto'>
                     Update Book
                   </button>

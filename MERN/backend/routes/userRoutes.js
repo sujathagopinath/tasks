@@ -11,7 +11,6 @@ userRouter.post(
   asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
     const userExist = await User.findOne({ email: email });
-    // console.log(userExist)
 
     if (userExist) {
       throw new Error('User Exist');

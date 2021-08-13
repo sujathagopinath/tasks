@@ -107,17 +107,6 @@ const Header = () => {
                           <hr />
                         </li>
 
-                        {/* <li className='list-group-item'>
-                          <i
-                            className='fas fa-clipboard-list text-white mr-3'
-                            style={{ fontSize: '1.5rem' }}>
-                            <Link className='nav-link' to='/'>
-                              User Dashboard
-                            </Link>
-                          </i>
-                          <hr />
-                        </li> */}
-
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
@@ -164,7 +153,7 @@ const Header = () => {
                 </li>
                 <li className='nav-item'>
                   <Link className='nav-link' to='/addbook'>
-                    Add book
+                    Add Book
                   </Link>
                 </li>
 
@@ -173,14 +162,7 @@ const Header = () => {
                     Users
                   </Link>
                 </li>
-                {/* <li className='nav-item'>
-                  <Link
-                    className='nav-link'
-                    to='/login'
-                    onClick={() => dispatch(loginUser())}>
-                    Login
-                  </Link>
-                </li> */}
+
               </>
             ) : (
               <>
@@ -213,12 +195,6 @@ const Header = () => {
                   <Link className='dropdown-item' to='/profile'>
                     Profile
                   </Link>
-                  <Link className='dropdown-item' to='/addbook'>
-                    Add book
-                  </Link>
-                  <Link className='dropdown-item' to='/books'>
-                    Books
-                  </Link>
 
                   <div className='dropdown-divider'></div>
                   <button onClick={logoutHandler} className='dropdown-item'>
@@ -230,16 +206,7 @@ const Header = () => {
               ''
             )}
           </ul>
-          <form className='form-inline my-2 my-lg-0'>
-            <input
-              className='form-control mr-sm-2'
-              type='text'
-              placeholder='Search'
-            />
-            <button className='btn btn-secondary my-2 my-sm-0' type='submit'>
-              Search
-            </button>
-          </form>
+
         </div>
       </nav>
     </header>

@@ -21,7 +21,6 @@ const Register = ({ history }) => {
     dispatch(registerUser(name, email, password));
     console.log(userInfo, loading, error);
     if (userInfo !== null && error === undefined)
-      //   // if (userInfo)
       history.push('/login');
   };
 

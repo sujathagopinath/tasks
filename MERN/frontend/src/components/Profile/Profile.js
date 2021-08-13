@@ -12,6 +12,7 @@ const Profile = ({ history }) => {
   useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch, history]);
+
   //Check if user is login otherwise redirect
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
@@ -19,12 +20,10 @@ const Profile = ({ history }) => {
     if (userInfo === null) history.push('/login');
   }, [userInfo, history]);
 
-  // const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBooks());
   }, [dispatch]);
   const bookslist = useSelector(state => state.booksList);
-  // const { books } = bookslist;
 
   const handlerDeleteBook = id => {
     dispatch(deleteBook(id));
@@ -45,6 +44,7 @@ const Profile = ({ history }) => {
               <th scope='col'>Author</th>
               <th scope='col'>Book Name</th>
               <th scope='col'>Category</th>
+              <th scope='col'>User Name</th>
               <th scope='col'>Delete</th>
               <th scope='col'>Update</th>
             </tr>
@@ -56,6 +56,7 @@ const Profile = ({ history }) => {
                   <th scope='row'>{book.author}</th>
                   <td>{book.title}</td>
                   <td>{book.category}</td>
+                  <td>{book.createdby}</td>
                   <td> <i
                     onClick={() => handlerDeleteBook(book._id)}
                     className='fas fa-trash '

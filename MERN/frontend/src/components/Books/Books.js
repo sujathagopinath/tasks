@@ -1,21 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBooks, deleteBook } from '../../redux/actions/books/bookActions';
+import { fetchBooks } from '../../redux/actions/books/bookActions';
 import Loading from '../Loading/Loading';
-// import App from './Pagination'
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-import 'jquery/dist/jquery.min.js';
-//Datatable Modules
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'
 
-$(function () {
-  $('.table').DataTable({
-    order: [0, 'desc']
-  });
-});
 
 const Books = ({ history }) => {
   //Fetch books
@@ -36,11 +24,7 @@ const Books = ({ history }) => {
   }, [userInfo, history]);
 
 
-  //Delete book handler
-  const handlerDeleteBook = id => {
-    dispatch(deleteBook(id));
-    history.push('/books');
-  };
+
   return (
     <div>
       {loading && <Loading />}
@@ -71,16 +55,13 @@ const Books = ({ history }) => {
                       </tr>
                     );
                   })}
-
               </tbody>
-            </table>
 
+            </table>
           </div>
         </div>
-      )
-      }
-      {/* <App></App> */}
-    </div >
+      )}
+    </div>
   );
 };
 
