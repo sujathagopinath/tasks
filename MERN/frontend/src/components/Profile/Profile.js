@@ -23,7 +23,6 @@ const Profile = ({ history }) => {
   useEffect(() => {
     dispatch(fetchBooks());
   }, [dispatch]);
-  const bookslist = useSelector(state => state.booksList);
 
   const handlerDeleteBook = id => {
     dispatch(deleteBook(id));
@@ -32,6 +31,8 @@ const Profile = ({ history }) => {
   //Get user Profile
   const userProfile = useSelector(state => state.userProfile);
   const { loading, user } = userProfile;
+
+  console.log("user:", user);
 
   const books = userProfile.user && userProfile.user.books;
 

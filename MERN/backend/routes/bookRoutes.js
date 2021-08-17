@@ -1,21 +1,17 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const Book = require('../models/Book');
-const authTokenGenerator = require('../utils/authTokenGenerator');
 const bookRouter = express.Router();
-const authMiddlware = require('../middlewares/authMiddleware');
+
 //Create Book
 bookRouter.post(
   '/',
-
   asyncHandler(async (req, res) => {
-    // try {
     const book = await Book.create(req.body);
     if (book) {
       res.status(200);
       res.json(book);
     }
-
     else {
       res.status(500);
       throw new Error("Book Creating Failed");
@@ -42,7 +38,6 @@ bookRouter.get(
 
 bookRouter.delete(
   '/:id',
-
   asyncHandler(async (req, res) => {
     try {
       const book = await Book.findByIdAndDelete(req.params.id);
@@ -59,9 +54,7 @@ bookRouter.delete(
 
 bookRouter.put(
   '/:id',
-  // authMiddlware,
   asyncHandler(async (req, res) => {
-
     const book = await Book.findById(req.params.id);
     if (book) {
       const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
@@ -71,7 +64,6 @@ bookRouter.put(
       res.status(200);
       res.json(updatedBook)
     }
-
     else {
       res.status(500)
       throw new Error('Update Failed');

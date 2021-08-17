@@ -27,7 +27,7 @@ const reducer = combineReducers({
 //This is the initial state for all the reducers. NOTE the keys of the reducers above must be the same as the one you will pass as initialstate
 //The key must be the same and secondly look at the way the structure of the data in the store
 
-//Get the user in local storage
+//Get the user in Session storage
 
 const userAuthFromStorage = sessionStorage.getItem('userAuthData')
   ? JSON.parse(sessionStorage.getItem('userAuthData'))

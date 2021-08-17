@@ -5,9 +5,9 @@ const dbConnect = async () => {
     mongoose.connect(
       "mongodb://localhost:27017/LibraryManagementDB",
       {
-        useFindAndModify: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
+        useFindAndModify: false,    //true by default
+        useUnifiedTopology: true,   //false by default
+        useCreateIndex: true,       //false by default
         useNewUrlParser: true,
       },
       () => {

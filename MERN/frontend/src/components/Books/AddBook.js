@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createBook } from '../../redux/actions/books/bookActions';
 import { useDispatch, useSelector } from 'react-redux';
-import book from './Books';
-
-
-const Login = () => {
-  return (
-    <div>
-      <h1>Login</h1>
-    </div>
-  );
-};
 
 const AddBook = ({ history }) => {
   const [category, setCategory] = useState('');
@@ -21,8 +11,7 @@ const AddBook = ({ history }) => {
   //Get the user id from store
 
   const userLogin = useSelector(state => state.userLogin);
-  const { userInfo, email } = userLogin;
-  // console.log(userInfo._id, userInfo, email);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
     if (userInfo === null) history.push('/login');

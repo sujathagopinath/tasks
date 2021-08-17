@@ -1,21 +1,20 @@
 import React from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/actions/users/userActions';
 
 const Header = () => {
   const dispatch = useDispatch();
-
   const history = useHistory();
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
   //logout handler
-
   const logoutHandler = () => {
     dispatch(logoutUser());
     history.push('/');
   };
+
   return (
     <header>
       <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
@@ -32,7 +31,6 @@ const Header = () => {
           aria-label='Toggle navigation'>
           <span className='navbar-toggler-icon'></span>
         </button>
-
         <div className='collapse navbar-collapse' id='navbarColor01'>
           <ul className='navbar-nav m-auto'>
             <li className='nav-item active'>
@@ -42,7 +40,6 @@ const Header = () => {
             </li>
             <li className='nav-item'>
               {/* Modal  */}
-
               <button
                 type='button'
                 className='btn'
@@ -50,7 +47,6 @@ const Header = () => {
                 data-target='#about'>
                 About
               </button>
-
               <div
                 className='modal fade'
                 id='about'
@@ -81,7 +77,6 @@ const Header = () => {
                               Register User
                             </Link>
                           </i>
-
                           <hr />
                         </li>
                         <li className='list-group-item'>
@@ -92,10 +87,8 @@ const Header = () => {
                               Update Profile
                             </Link>
                           </i>
-
                           <hr />
                         </li>
-
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
@@ -106,7 +99,6 @@ const Header = () => {
                           </i>
                           <hr />
                         </li>
-
                         <li className='list-group-item'>
                           <i
                             className='fas fa-clipboard-list text-white mr-3'
@@ -124,14 +116,11 @@ const Header = () => {
                               List of Books
                             </Link>
                           </i>
-
                           <hr />
                         </li>
-
                       </ul>
                     </div>
                     <div className='modal-footer'>
-
                       <button
                         type='button'
                         className='btn btn-danger'
@@ -156,13 +145,11 @@ const Header = () => {
                     Add Book
                   </Link>
                 </li>
-
                 <li className='nav-item'>
                   <Link className='nav-link' to='/users'>
                     Users
                   </Link>
                 </li>
-
               </>
             ) : (
               <>
@@ -195,7 +182,6 @@ const Header = () => {
                   <Link className='dropdown-item' to='/profile'>
                     Profile
                   </Link>
-
                   <div className='dropdown-divider'></div>
                   <button onClick={logoutHandler} className='dropdown-item'>
                     Logout
@@ -206,7 +192,6 @@ const Header = () => {
               ''
             )}
           </ul>
-
         </div>
       </nav>
     </header>

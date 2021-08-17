@@ -24,7 +24,6 @@ UserSchema.virtual('books', {
   localField: '_id',
 });
 UserSchema.set('toJSON', { virtuals: true });
-//=== END=======
 
 //hashpassword
 UserSchema.pre('save', async function (next) { //pre before saving the user
