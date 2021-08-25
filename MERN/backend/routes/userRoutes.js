@@ -4,33 +4,32 @@ const authMiddlware = require('../middlewares/authMiddleware');
 const User = require('../models/User');
 const authTokenGenerator = require('../utils/authTokenGenerator');
 const userRouter = express.Router();
+const bcrypt = require('bcryptjs');
 
 //Create user
 userRouter.post(
   '/',
   asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
-    const userExist = await User.findOne({ email: email });
-
+    const userExist = await User.findOne({ email: email })
     if (userExist) {
+      res.status(400);
       throw new Error('User Exist');
     }
     const userCreated = await User.create({ name, email, password });
-    res.send(userCreated);
+    // res.send(userCreated);
     if (userCreated) {
       res.status(200);
       res.json({
         _id: userCreated._id,
         name: userCreated.name,
         email: userCreated.email,
-        password: userCreated.password,
         token: authTokenGenerator(userCreated._id),
       });
     }
-    res.status(500);
-    throw new Error('Server Error');
   })
 );
+//Login
 
 userRouter.post(
   '/login',
@@ -39,16 +38,15 @@ userRouter.post(
     const user = await User.findOne({ email: email });
     //Compare password
     if (user && (await user.isPasswordMatch(password))) {
-      res.status(201);
       res.status(200);
       res.json({
         _id: user._id,
         name: user.name,
-        password: user.password,
         email: user.email,
         token: authTokenGenerator(user._id),
       });
-    } else {
+    }
+    else {
       res.status(401);
       throw new Error('Invalid login credentials');
     }
@@ -62,17 +60,29 @@ userRouter.get(
   authMiddlware,
   asyncHandler(async (req, res) => {
     try {
-      const user = await User.findById(req.user.id).populate('books');
-      res.status(404);
-      if (!user) throw new Error(`You don't have any profile yet`);
-      res.status(201);
-      res.send(user);
+      // console.log('query', req.query);
+      await User.findOne({ _id: req.query.id }).populate('books')
+        .then(user => {
+          if (user) {
+            console.log('user', user);
+            res.status(200);
+            res.send(user);
+          }
+          else {
+            res.status(404);
+            res.send('You dont have profile yet');
+          }
+        })
+        .catch((error) => {
+          res.status(500);
+          res.send('something went wrong');
+        })
     } catch (error) {
-      res.status(500);
-      throw new Error('Server error');
+      res.status(500).send("something went wrong");
     }
   })
 );
+
 
 //UPDATE PROFILE
 
@@ -80,28 +90,42 @@ userRouter.put(
   '/profile/update',
   authMiddlware,
   asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user.id);
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-      //This will encrypt automatically in our model
-      if (req.body.password) {
-        user.password = req.body.password || user.password;
-      }
-      const updateUser = await user.save();
-      res.json({
-        _id: updateUser._id,
-        name: updateUser.name,
-        password: updateUser.password,
-        email: updateUser.email,
-        token: authTokenGenerator(updateUser._id),
-      });
-    } else {
-      res.status(401);
-      throw new Error('User Not found');
+    try {
+      const salt = await bcrypt.genSalt(10);
+      // console.log(this.password)
+      const password = await bcrypt.hash(req.body.password, salt);
+      console.log(password);
+
+      await User.findByIdAndUpdate(req.body.id,
+        {
+          name: req.body.name,
+          email: req.body.email,
+          password: password,
+        },
+        (error, data) => {
+          if (error) {
+            res.status(500);
+            res.send("Server Error");
+            console.log('error', error)
+          }
+          else {
+            console.log("data", data)
+            if (data == null) {
+              res.status(400);
+              res.send('User profile not found');
+            }
+            else {
+              res.status(200);
+              res.send('User profile updated successfully');
+            }
+          }
+        })
+    } catch (error) {
+      res.status(500).send("Something went wrong")
     }
   })
 );
+
 
 //Fetch all Users
 
@@ -110,12 +134,21 @@ userRouter.get(
   authMiddlware,
   asyncHandler(async (req, res) => {
     try {
-      const users = await User.find().populate('books');
-      res.status(200);
-      res.json(users);
+      const users = await User.find().populate('books')
+        .then(user => {
+          if (user) {
+            res.status(200);
+            res.json(user);
+          }
+          else {
+            res.status(404);
+            res.send("No user found");
+          }
+        }).catch((error) => {
+          res.status(500).send('Something went wrong')
+        })
     } catch (error) {
-      res.status(404);
-      throw new Error('Relogin the Page');
+      res.status(500).send('Something went wrong')
     }
   })
 );

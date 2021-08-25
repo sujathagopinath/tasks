@@ -12,6 +12,7 @@ const UpdateProfile = ({ history }) => {
   const [name, setname] = useState(userInfo ? userInfo.name : '');
   const [email, setemail] = useState(userInfo ? userInfo.email : '');
   const [password, setpassword] = useState('');
+  const [id] = useState(JSON.parse(sessionStorage.getItem('userAuthData'))._id)
   console.log(userLogin);
 
   //Get the updated user details from store and display message
@@ -24,7 +25,7 @@ const UpdateProfile = ({ history }) => {
   //submit
   const formSubmitHandler = e => {
     e.preventDefault();
-    dispatch(updateUser(name, email, password));
+    dispatch(updateUser(name, email, password, id));
   };
 
   return (

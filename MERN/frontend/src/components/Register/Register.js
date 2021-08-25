@@ -15,11 +15,12 @@ const Register = ({ history }) => {
 
   //dispatch
   const dispatch = useDispatch();
+
   //submit
   const formSubmitHandler = e => {
     e.preventDefault();
     dispatch(registerUser(name, email, password));
-    console.log(userInfo, loading, error);
+    console.log(userInfo, loading);
     if (userInfo !== null && error === undefined)
       history.push('/login');
   };
@@ -31,7 +32,6 @@ const Register = ({ history }) => {
           {loading && <Loading />}
           {error && <ErrorMessage error={error} />}
           <h1 className='text-center'>Register</h1>
-
           <form onSubmit={formSubmitHandler}>
             <fieldset>
               <div className='form-group'>

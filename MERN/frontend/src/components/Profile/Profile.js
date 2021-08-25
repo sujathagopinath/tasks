@@ -81,8 +81,7 @@ const Profile = ({ history }) => {
     } else {
       return (
         <>
-          <h1>You don't have any book created.</h1>
-          <Link>Start Creating</Link>
+          <h1>You don't have any profile yet</h1>
         </>
       );
     }
@@ -100,7 +99,7 @@ const Profile = ({ history }) => {
               <div className='card-body'>
                 <h5 className='card-title'>{user && user.email}</h5>
                 <p className='card-text'>{user && user.name}</p>
-                <Link to='/user-update' className='btn btn-primary'>
+                <Link to='/update' className='btn btn-primary'>
                   Update your profile
                 </Link>
               </div>

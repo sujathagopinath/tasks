@@ -22,7 +22,7 @@ const App = () => {
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/books' component={Books} />
         <Route exact path='/addbook' component={AddBook} />
-        <Route exact path='/user-update' component={UpdateProfile} />
+        <Route exact path='/update' component={UpdateProfile} />
         <Route exact path='/book/:id' component={BookDetail} />
         <Route exact path='/users' component={Users} />
       </BrowserRouter>

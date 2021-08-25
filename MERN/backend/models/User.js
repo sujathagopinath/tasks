@@ -32,15 +32,16 @@ UserSchema.pre('save', async function (next) { //pre before saving the user
     next();
   }
   const salt = await bcrypt.genSalt(10);
-  console.log(this.password)
+  // console.log(this.password)
   this.password = await bcrypt.hash(this.password, salt);
+  // console.log(salt);
   next();
 });
 
 //Verify password for login
 //Methods: Apply to an instance of this model
 UserSchema.methods.isPasswordMatch = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  return await bcrypt.compare(enteredPassword, this.password); //returns promise async function
 };
 
 const User = mongoose.model('User', UserSchema);

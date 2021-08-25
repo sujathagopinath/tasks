@@ -117,7 +117,12 @@ export const getUserProfile = () => {
         headers: {
           authorization: `Bearer ${userInfo.token}`,
         },
+        params: {
+          id: JSON.parse(sessionStorage.getItem('userAuthData'))._id
+        }
       };
+      // console.log(JSON.parse(sessionStorage.getItem('userAuthData')).email);
+
       const { data } = await axios.get('/api/users/profile', config);
       dispatch({
         type: USER_PROFILE_SUCCESS,
@@ -149,9 +154,11 @@ export const updateUser = (name, email, password) => {
           authorization: `Bearer ${userInfo.token}`,
         },
       };
+      const id = JSON.parse(sessionStorage.getItem('userAuthData'))._id
+      console.log(id)
       const { data } = await axios.put(
         '/api/users/profile/update',
-        { name, email, password },
+        { name, email, password, id },
         config
       );
       dispatch({

@@ -1,0 +1,54 @@
+HTTP Headers Status Code 
+
+1xx -> Information
+2xx -> Success Message
+3xx -> Redirection
+4xx -> client error
+5xx -> Server error
+
+101 -> continue => Part of request has been received but not been rejected it has to be continued by the client
+102 -> Switching protocols => Server switches the protocol
+
+200 -> Ok => success Ok
+201 -> Created => requested completed new resource created
+202 -> Accepted => reqested for process is accepted but the process is not completed
+203 -> Non Authorative information => Info from entity header is received from local or third party not from original server
+204 -> No content => no entity body to reply status and header is given in response
+205 -> Reset content => Browser should clear form is used for additional input
+206 -> Partial content => server is returning the partial of the size requested
+
+300 -> Multiple choices => user can select the list and go to the location
+301 -> Moved permanently => moved to new url requested
+302 -> Found => requested page moved to the new url temporarily
+303 -> see other => the requested page can be found in different url
+304 -> Not modified => there is no changes in data or the route not modified since from date specified
+305 -> Use proxy => requested url can be accessed through the proxy in location header
+306 -> Unused => code which is used in previous version has no longer used but its reserved
+307 -> Temporary redirect => requested page moved to the new url temporarily
+
+400 -> Bad request => server did not understand the request
+401 -> unauthorized => requested user needs a username and password
+402 -> paymemt required  => u can't use this page yet
+403 -> Forbidden => Access forbidden to the requested page 
+404 -> Not found => Server can find the requested page
+405 -> Method not allowed => Method specified in the request is not allowed
+406 -> Not acceptable => server can generate a response but not accepted by a client
+407 -> Proxy authentication required => Authenticate with proxy before the requested is served
+408 -> request timeout => server took longer before the server prepared to wait
+409 -> conflict => Request could not complete before the conflict
+410 -> Gone => No longer available
+411 -> length required => content length is required
+412 -> Precondition failed => pre condition of requested evaluated to false
+413 -> request entity too large =>  server will not accept the request, because the request entity is too large.
+414 -> Request-url Too Long => server will not accept the request, because the url is too long.Occurs when you convert a "post" request to a "get" request with a long query information
+415 -> Unsupported Media Type => mediatype not supported
+416 -> Requested range not satisfied => byte range is not availabe its out of bound
+417 -> Expectation failed => expect request header failed
+
+500 -> Internal server error => request was not completed met an unexpectation error
+501 -> Not implemented => server did met the functionality required
+502 -> Bad gateway => error received an invalid response
+503 -> service unavailable => server is temporarily overloading or down
+504 -> Gateway timeout => Gateway timeout 
+505 -> Http version not supported => server does not supported the http version protocol
+ 

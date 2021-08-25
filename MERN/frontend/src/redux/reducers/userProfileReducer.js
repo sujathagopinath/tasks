@@ -20,6 +20,7 @@ const userProfileReducer = (state = {}, action) => {
       return {
         loading: false,
         payload: action.payload,
+
       };
     default:
       return state;
