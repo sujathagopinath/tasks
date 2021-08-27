@@ -31,7 +31,7 @@ export const createBook = bookData => {
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.post('/api/books', bookData, config);
+      const { data } = await axios.post('/api/books', bookData, config);   //category title author createdby
 
       dispatch({
         type: CREATE_BOOK_SUCCESS,

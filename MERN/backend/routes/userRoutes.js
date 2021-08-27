@@ -13,7 +13,7 @@ userRouter.post(
     const { name, email, password } = req.body;
     const userExist = await User.findOne({ email: email })
     if (userExist) {
-      res.status(400);
+      res.status(400)
       throw new Error('User Exist');
     }
     const userCreated = await User.create({ name, email, password });
@@ -29,13 +29,13 @@ userRouter.post(
     }
   })
 );
-//Login
 
 userRouter.post(
   '/login',
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
+
     //Compare password
     if (user && (await user.isPasswordMatch(password))) {
       res.status(200);
@@ -103,21 +103,14 @@ userRouter.put(
           password: password,
         },
         (error, data) => {
-          if (error) {
-            res.status(500);
-            res.send("Server Error");
-            console.log('error', error)
+          console.log("data", data)
+          if (data == null) {
+            res.status(404);
+            res.send('User profile not found');
           }
           else {
-            console.log("data", data)
-            if (data == null) {
-              res.status(400);
-              res.send('User profile not found');
-            }
-            else {
-              res.status(200);
-              res.send('User profile updated successfully');
-            }
+            res.status(200);
+            res.send('User profile updated successfully');
           }
         })
     } catch (error) {

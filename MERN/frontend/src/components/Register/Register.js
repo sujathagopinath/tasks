@@ -20,7 +20,7 @@ const Register = ({ history }) => {
   const formSubmitHandler = e => {
     e.preventDefault();
     dispatch(registerUser(name, email, password));
-    console.log(userInfo, loading);
+    console.log(userInfo);
     if (userInfo !== null && error === undefined)
       history.push('/login');
   };

@@ -15,8 +15,6 @@ bookRouter.post(
             res.status(200);
             res.json({ book });
           }
-        }).catch((error) => {
-          res.status(403).send('Book creation Failed');
         })
     } catch (error) {
       res.status(500).send('Server Error');
@@ -24,21 +22,17 @@ bookRouter.post(
   })
 )
 
-
-
 bookRouter.get(
   '/',
   asyncHandler(async (req, res) => {
     try {
-      const books = await Book.find().populate('createdBy').sort('createdAt');
-      if (books) {
-        res.status(200);
-        res.json(books);
-      }
-      else {
-        res.status(404);
-        res.send('No Books is found');
-      }
+      await Book.find({}).populate('createdBy').sort('createdAt')
+        .then(books => {
+          if (books) {
+            res.status(200);
+            res.send(books);
+          }
+        })
     }
     catch (error) {
       res.status(500);
@@ -55,13 +49,16 @@ bookRouter.delete(
     try {
       const book = await Book.findByIdAndDelete(req.params.id)
         .then(book => {
-          res.status(200);
-          res.json(book);
-        }).catch((error) => {
-          res.status(404)
-          res.send('No Book is found in that ID')
+          if (book) {
+            res.status(200);
+            res.json({ book });
+            console.log(book);
+          }
+          else {
+            res.status(404)
+            res.send('No Book is found in that ID')
+          }
         })
-
     } catch (error) {
       res.status(500);
       res.send("Server Error")
@@ -83,20 +80,14 @@ bookRouter.put(
           createdby: req.body.createdby,
         },
         (error, data) => {
-          if (error) {
-            res.status(500);
-            res.send('Updation failed')
+          console.log(data);
+          if (data == null) {
+            res.status(400);
+            res.send('Book has not updated');
           }
           else {
-            console.log(data);
-            if (data == null) {
-              res.status(400);
-              res.send('Not updated');
-            }
-            else {
-              res.status(200);
-              res.send('success');
-            }
+            res.status(200);
+            res.send('success');
           }
         })
     }
@@ -112,14 +103,18 @@ bookRouter.get(
   '/:id',
   asyncHandler(async (req, res) => {
     try {
-      const book = await Book.findById(req.params.id)
+      await Book.findById(req.params.id)
         .then(book => {
-          res.status(200);
-          res.send(book);
-        }).catch((error) => {
-          res.status(404);
-          res.send('No book found')
+          if (book) {
+            res.status(200);
+            res.send(book);
+          }
+          else {
+            res.status(404);
+            res.send('No book found')
+          }
         })
+
     } catch (error) {
       res.status(500);
       res.send('Server Error')

@@ -44,6 +44,7 @@ HTTP Headers Status Code
 415 -> Unsupported Media Type => mediatype not supported
 416 -> Requested range not satisfied => byte range is not availabe its out of bound
 417 -> Expectation failed => expect request header failed
+422 -> unprocess entry
 
 500 -> Internal server error => request was not completed met an unexpectation error
 501 -> Not implemented => server did met the functionality required
@@ -51,4 +52,53 @@ HTTP Headers Status Code
 503 -> service unavailable => server is temporarily overloading or down
 504 -> Gateway timeout => Gateway timeout 
 505 -> Http version not supported => server does not supported the http version protocol
+
+
+
+
+
+
+
+
+
+User route updation
+(error, data) => {
+          if (error) {
+            res.status(424);
+            res.send('Updation failed');
+            console.log(error)
+          }
+          else {
+            console.log(data);
+            if (data == null) {
+              res.status(400);
+              res.send('Book has not updated');
+            }
+            else {
+              res.status(200);
+              res.send('success');
+            }
+          }
+        }
+
+Book route
+
+(error, data) => {
+          if (error) {
+            res.status(424);
+            res.send('Updation failed');
+            console.log(error)
+          }
+          else {
+            console.log(data);
+            if (data == null) {
+              res.status(400);
+              res.send('Book has not updated');
+            }
+            else {
+              res.status(200);
+              res.send('success');
+            }
+          }
+        }
  

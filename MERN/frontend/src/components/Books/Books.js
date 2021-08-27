@@ -13,6 +13,7 @@ const Books = ({ history }) => {
   }, [dispatch]);
   const bookslist = useSelector(state => state.booksList);
   const { books, loading } = bookslist;
+  console.log(bookslist);
   // End of fetch books
 
   //Redirect

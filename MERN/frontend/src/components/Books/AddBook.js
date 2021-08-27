@@ -9,7 +9,6 @@ const AddBook = ({ history }) => {
   const [createdby, setCreatedby] = useState('');
 
   //Get the user id from store
-
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -19,7 +18,6 @@ const AddBook = ({ history }) => {
 
   //dispatch action
   const dispatch = useDispatch();
-
   const formSubmitHandler = e => {
     const data = {
       category,
@@ -85,7 +83,6 @@ const AddBook = ({ history }) => {
                           <option value='programming'>Programming</option>
                         </select>
                       </div>
-
                       <div className='form-group'>
                         <label htmlFor='exampleInputEmail1'>Author </label>
                         <input
@@ -97,7 +94,6 @@ const AddBook = ({ history }) => {
                           aria-describedby='emailHelp'
                           placeholder='Author name'
                         />
-
                       </div>
                       <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>title</label>
@@ -110,7 +106,6 @@ const AddBook = ({ history }) => {
                           placeholder='Book title'
                         />
                       </div>
-
                       <div className='form-group'>
                         <label htmlFor='exampleInputPassword1'>User Name</label>
                         <input
