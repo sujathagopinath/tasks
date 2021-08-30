@@ -10,22 +10,27 @@ const bcrypt = require('bcryptjs');
 userRouter.post(
   '/',
   asyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
-    const userExist = await User.findOne({ email: email })
-    if (userExist) {
-      res.status(400)
-      throw new Error('User Exist');
-    }
-    const userCreated = await User.create({ name, email, password });
-    // res.send(userCreated);
-    if (userCreated) {
-      res.status(200);
-      res.json({
-        _id: userCreated._id,
-        name: userCreated.name,
-        email: userCreated.email,
-        token: authTokenGenerator(userCreated._id),
-      });
+    try {
+      const { name, email, password } = req.body;
+      const userExist = await User.findOne({ email: email })
+      if (userExist) {
+        res.status(400)
+        throw new Error('User Exist');
+      }
+      const userCreated = await User.create({ name, email, password });
+      // res.send(userCreated);
+      if (userCreated) {
+        res.status(200);
+        res.json({
+          _id: userCreated._id,
+          name: userCreated.name,
+          email: userCreated.email,
+          token: authTokenGenerator(userCreated._id),
+        });
+      }
+    } catch (error) {
+      res.status(500);
+      res.send("Something went wrong")
     }
   })
 );
@@ -33,22 +38,28 @@ userRouter.post(
 userRouter.post(
   '/login',
   asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
-
-    //Compare password
-    if (user && (await user.isPasswordMatch(password))) {
-      res.status(200);
-      res.json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        token: authTokenGenerator(user._id),
-      });
-    }
-    else {
-      res.status(401);
-      throw new Error('Invalid login credentials');
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ email: email });
+      //Compare password
+      if (user && (await user.isPasswordMatch(password))) {
+        req.session.user = user;
+        console.log("req.sessionid", req.session.id)
+        res.status(200);
+        res.json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          token: authTokenGenerator(user._id),
+        });
+      }
+      else {
+        res.status(401);
+        throw new Error('Invalid login credentials');
+      }
+    } catch (error) {
+      res.status(500);
+      res.send("Something went wrong")
     }
   })
 );
@@ -73,10 +84,6 @@ userRouter.get(
             res.send('You dont have profile yet');
           }
         })
-        .catch((error) => {
-          res.status(500);
-          res.send('something went wrong');
-        })
     } catch (error) {
       res.status(500).send("something went wrong");
     }
@@ -92,10 +99,8 @@ userRouter.put(
   asyncHandler(async (req, res) => {
     try {
       const salt = await bcrypt.genSalt(10);
-      // console.log(this.password)
       const password = await bcrypt.hash(req.body.password, salt);
-      console.log(password);
-
+      // console.log(password);
       await User.findByIdAndUpdate(req.body.id,
         {
           name: req.body.name,
@@ -127,7 +132,7 @@ userRouter.get(
   authMiddlware,
   asyncHandler(async (req, res) => {
     try {
-      const users = await User.find().populate('books')
+      await User.find().populate('books')
         .then(user => {
           if (user) {
             res.status(200);
@@ -137,8 +142,6 @@ userRouter.get(
             res.status(404);
             res.send("No user found");
           }
-        }).catch((error) => {
-          res.status(500).send('Something went wrong')
         })
     } catch (error) {
       res.status(500).send('Something went wrong')

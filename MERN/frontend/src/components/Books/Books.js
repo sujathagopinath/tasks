@@ -14,6 +14,7 @@ const Books = ({ history }) => {
   const bookslist = useSelector(state => state.booksList);
   const { books, loading } = bookslist;
   console.log(bookslist);
+  console.log("Books", (books));
   // End of fetch books
 
   //Redirect
@@ -25,12 +26,11 @@ const Books = ({ history }) => {
   }, [userInfo, history]);
 
 
-
   return (
     <div>
       {loading && <Loading />}
       {books !== undefined && books.length === 0 ? (
-        'No'
+        'No Book has been added yet'
       ) : (
         <div className='row'>
           <div className='col'>

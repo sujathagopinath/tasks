@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStateSyncMiddleware, initStateWithPrevTab } from 'redux-state-sync';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer from '../reducers/userAuthReducer';
@@ -9,7 +10,13 @@ import booksListReducer from '../reducers/books/booksListReducer';
 import bookDetailReducer from '../reducers/books/bookDetailsReducer';
 import usersListReducer from '../reducers/usersListReducer';
 
-const middleware = [thunk];
+const config = {
+  channel: 'my_broadcast_channel',
+  // broadcastChannelOption: { type: 'localstorage' },
+  // default: "redux_state_sync",
+};
+
+const middleware = [thunk, createStateSyncMiddleware(config)];
 
 const reducer = combineReducers({
   userLogin: userReducer,
@@ -37,5 +44,7 @@ const store = createStore(
   initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
+
+initStateWithPrevTab(store)
 
 export default store;

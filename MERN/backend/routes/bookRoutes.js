@@ -12,7 +12,7 @@ bookRouter.post(
         .then(book => {
           // console.log(book)
           if (book) {
-            res.status(200);
+            res.status(201);
             res.json({ book });
           }
         })
@@ -47,7 +47,7 @@ bookRouter.delete(
   '/:id',
   asyncHandler(async (req, res) => {
     try {
-      const book = await Book.findByIdAndDelete(req.params.id)
+      await Book.findByIdAndDelete(req.params.id)
         .then(book => {
           if (book) {
             res.status(200);
@@ -87,7 +87,7 @@ bookRouter.put(
           }
           else {
             res.status(200);
-            res.send('success');
+            res.send('Book has updated successfully');
           }
         })
     }

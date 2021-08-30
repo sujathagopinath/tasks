@@ -3,6 +3,8 @@ const express = require('express');
 const routes = require('./routes/userRoutes');
 const error = require('./middlewares/errorMiddleware');
 const bookRouter = require('./routes/bookRoutes');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 const dbConnect = require('./config/dbConnect');
 const app = express();
 dbConnect();
@@ -10,6 +12,28 @@ dotenv.config();
 //Routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+var store = new MongoDBStore({
+  uri: "mongodb://localhost:27017/LibraryManagementDB",
+  collection: 'datas'
+});
+
+app.use(session({
+  secret: "some key",
+  saveUninitialized: true,
+  resave: false,
+  store: store,
+  cookie: {
+    httpOnly: false,
+    maxAge: 1000 * 60 * 60,
+  },
+})
+);
+
+app.use((req, res, next) => {
+  console.log("session", req.session);
+  next();
+})
 
 app.use('/api/users', routes.userRouter);
 app.use('/api/books', bookRouter.bookRouter);

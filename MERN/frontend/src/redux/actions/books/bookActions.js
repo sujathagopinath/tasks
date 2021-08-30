@@ -124,6 +124,7 @@ export const fetchBook = (id, bookData) => {
       };
       const { data } = await axios.get(`/api/books/${id}`, bookData, config);
 
+
       dispatch({
         type: BOOK_DETAIL_SUCCESS,
         payload: data,

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/actions/users/userActions';
+import ErrorMessage from '../DisplayMessage/ErrorMessage';
 import SuccessMessage from '../DisplayMessage/SuccessMessage';
 
 const UpdateProfile = ({ history }) => {
@@ -9,15 +10,19 @@ const UpdateProfile = ({ history }) => {
   const { userInfo } = userLogin;
   console.log(userInfo);
 
+  useEffect(() => {
+    if (userInfo === null) history.push('/login');
+  }, [userInfo, history]);
+
   const [name, setname] = useState(userInfo ? userInfo.name : '');
   const [email, setemail] = useState(userInfo ? userInfo.email : '');
   const [password, setpassword] = useState('');
-  const [id] = useState(JSON.parse(sessionStorage.getItem('userAuthData'))._id)
+  // const [id] = useState(JSON.parse(sessionStorage.getItem('userAuthData'))._id)
   console.log(userLogin);
 
   //Get the updated user details from store and display message
   const updatedUser = useSelector(state => state.updatedUser);
-  const { user, loading, success } = updatedUser;
+  const { user, loading, success, error } = updatedUser;
 
   //dispatch
   const dispatch = useDispatch();
@@ -25,7 +30,7 @@ const UpdateProfile = ({ history }) => {
   //submit
   const formSubmitHandler = e => {
     e.preventDefault();
-    dispatch(updateUser(name, email, password, id));
+    dispatch(updateUser(name, email, password));
   };
 
   return (
@@ -35,6 +40,7 @@ const UpdateProfile = ({ history }) => {
           {user && !loading && success && (
             <SuccessMessage msg='Updated successfully. Logout and login with your new credentials' />
           )}
+          {!user && !loading && error && (<ErrorMessage error="Invalid user Id" />)}
           <h1 className='text-center'>Update</h1>
 
           <form onSubmit={formSubmitHandler}>
