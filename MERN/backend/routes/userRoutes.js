@@ -10,27 +10,22 @@ const bcrypt = require('bcryptjs');
 userRouter.post(
   '/',
   asyncHandler(async (req, res) => {
-    try {
-      const { name, email, password } = req.body;
-      const userExist = await User.findOne({ email: email })
-      if (userExist) {
-        res.status(400)
-        throw new Error('User Exist');
-      }
-      const userCreated = await User.create({ name, email, password });
-      // res.send(userCreated);
-      if (userCreated) {
-        res.status(200);
-        res.json({
-          _id: userCreated._id,
-          name: userCreated.name,
-          email: userCreated.email,
-          token: authTokenGenerator(userCreated._id),
-        });
-      }
-    } catch (error) {
-      res.status(500);
-      res.send("Something went wrong")
+    const { name, email, password } = req.body;
+    const userExist = await User.findOne({ email: email })
+    if (userExist) {
+      res.status(400)
+      throw new Error('User Exist');
+    }
+    const userCreated = await User.create({ name, email, password });
+    // res.send(userCreated);
+    if (userCreated) {
+      res.status(200);
+      res.json({
+        _id: userCreated._id,
+        name: userCreated.name,
+        email: userCreated.email,
+        token: authTokenGenerator(userCreated._id),
+      });
     }
   })
 );
@@ -38,28 +33,23 @@ userRouter.post(
 userRouter.post(
   '/login',
   asyncHandler(async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email: email });
-      //Compare password
-      if (user && (await user.isPasswordMatch(password))) {
-        req.session.user = user;
-        console.log("req.sessionid", req.session.id)
-        res.status(200);
-        res.json({
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          token: authTokenGenerator(user._id),
-        });
-      }
-      else {
-        res.status(401);
-        throw new Error('Invalid login credentials');
-      }
-    } catch (error) {
-      res.status(500);
-      res.send("Something went wrong")
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    //Compare password
+    if (user && (await user.isPasswordMatch(password))) {
+      req.session.user = user;
+      console.log("req.sessionid", req.session.id)
+      res.status(200);
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: authTokenGenerator(user._id),
+      });
+    }
+    else {
+      res.status(401);
+      throw new Error('Invalid login credentials');
     }
   })
 );
