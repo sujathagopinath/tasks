@@ -17,11 +17,11 @@
               <%= user.email %>
             </a></td>
           <td>
-            <form action="/admin/update-role" method="post" class="manage-user-form">
+            <form action="/admin/update" method="post" class="manage-user-form">
               <input type="hidden" name="id" value="<%= user.id %>" />
               <select name="role" id="role">
                 <option value="ADMIN" <%=user.role==='ADMIN' ? 'selected' : '' %> >Admin</option>
-                <option value="MODERATOR" <%=user.role==='INTERMEDITATE' ? 'selected' : '' %>>Intermeditate</option>
+                <option value="INTERMEDITATE" <%=user.role==='INTERMEDITATE' ? 'selected' : '' %>>Intermeditate</option>
                 <option value="CLIENT" <%=user.role==='CLIENT' ? 'selected' : '' %>>Client</option>
               </select>
               <input type="submit" value="update">

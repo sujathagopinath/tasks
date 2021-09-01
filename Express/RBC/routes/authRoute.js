@@ -36,7 +36,7 @@ router.post('/register', UserNotAuthenticated,
             const userExist = await User.findOne({ email: email })
             if (userExist) {
                 res.status(400);
-                res.send('UserExist')
+                res.send("UserExist")
             }
             const user = new User(req.body)
             await user.save();
