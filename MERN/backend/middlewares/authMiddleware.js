@@ -15,24 +15,30 @@ const authMiddlware = asynchHandler(async (req, res, next) => {
       //Grab only the token
       // console.log(req.headers.authorization.split(' ')[1]);
       token = req.headers.authorization.split(' ')[1];
+      console.log("token", token)
+      if (!token) {
+        res.status(401)
+        return res.send('Not authorised, no token')
+      }
       //Decode the user
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decoded.id);
-      //Find the user in DB
-      const user = await User.findById(decoded.id);
-      //add the user to the request object as req.user
-      req.user = user;
-      next();
+      jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+        if (error) {
+          res.status(401)
+          return res.send("Not authorised, invalid token")
+        }
+        // console.log("newtoken", token)
+        req.decoded = decoded.id
+        console.log("decoded", decoded.id);
+        next();
+      });
     } catch (error) {
-      res.status(401);
-      throw new Error('Not authorised, token is fake');
+      // console.log("error", error)
+      res.status(500)
+      res.send("server error")
     }
   }
 
-  if (!token) {
-    res.status(401);
-    throw new Error('Not authorised, no token');
-  }
+
 });
 
 module.exports = authMiddlware;

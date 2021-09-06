@@ -9,12 +9,6 @@ const Users = ({ history }) => {
     dispatch(fetchUsers());
   }, [dispatch, history]);
 
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
-  useEffect(() => {
-    if (userInfo === null) history.push('/login');
-  }, [userInfo, history]);
-
 
   const usersList = useSelector(state => state.usersList);
   const { loading, users, error } = usersList;

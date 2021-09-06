@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createBook } from '../../redux/actions/books/bookActions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const AddBook = ({ history }) => {
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [createdby, setCreatedby] = useState('');
-
-  //Get the user id from store
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
-
-  useEffect(() => {
-    if (userInfo === null) history.push('/login');
-  }, [userInfo, history]);
 
   //dispatch action
   const dispatch = useDispatch();
@@ -24,13 +16,11 @@ const AddBook = ({ history }) => {
       title,
       author,
       createdby,
-      createdBy: userInfo && userInfo._id,
     };
     e.preventDefault();
     dispatch(createBook(data));
     history.push('/books');
   };
-  console.log(category);
   return (
     <div className='row container-height'>
       <div className='col-lg-6 col-md-6 m-auto'>
@@ -72,7 +62,7 @@ const AddBook = ({ history }) => {
                         <select
                           value={category}
                           onChange={e => setCategory(e.target.value)}
-                          className='custom-select'>
+                          className='custom-select' required>
                           <option Value='Select A Book'>
                             Choose One
                           </option>
@@ -92,7 +82,7 @@ const AddBook = ({ history }) => {
                           className='form-control'
                           id='exampleInputEmail1'
                           aria-describedby='emailHelp'
-                          placeholder='Author name'
+                          placeholder='Author name' required
                         />
                       </div>
                       <div className='form-group'>
@@ -103,7 +93,7 @@ const AddBook = ({ history }) => {
                           type='text'
                           className='form-control'
                           id='exampleInputPassword1'
-                          placeholder='Book title'
+                          placeholder='Book title' required
                         />
                       </div>
                       <div className='form-group'>
@@ -114,7 +104,7 @@ const AddBook = ({ history }) => {
                           type='text'
                           className='form-control'
                           id='exampleInputPassword1'
-                          placeholder='User Name'
+                          placeholder='User Name' required
                         />
                       </div>
 

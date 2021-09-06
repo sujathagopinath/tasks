@@ -46,6 +46,7 @@ router.post('/update', async (req, res, next) => {
         req.flash('error', 'Invalid role');
         return res.redirect('/admin/users')
     }
+    console.log("userid", req.user.id)
     if (req.user.id === id) {
         req.flash('error', 'Admin cannot change their role ask another Admin to change');
         return res.redirect('/admin/users')

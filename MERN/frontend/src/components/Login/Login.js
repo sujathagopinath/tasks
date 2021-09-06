@@ -5,15 +5,13 @@ import ErrorMessage from '../DisplayMessage/ErrorMessage';
 import Loading from '../Loading/Loading';
 
 const Login = ({ history }) => {
-  const [email, setemail] = useState('');
-  const [password, setpassword] = useState('');
-
+  const [email, setemail] = useState('sujatha@gmail.com');
+  const [password, setpassword] = useState('sujathag');
   const dispatch = useDispatch();
 
   //Before login in we will check if you have login the we redirect you
 
   const userLoginDetails = useSelector(state => state.userLogin);
-
   const { loading, userInfo, error } = userLoginDetails;
   console.log(loading, userInfo, error);
 
@@ -22,6 +20,7 @@ const Login = ({ history }) => {
       history.push('/');
     }
   }, [dispatch, userInfo, history]);
+
   //submit form
   const submitFormHandler = e => {
     e.preventDefault();

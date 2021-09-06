@@ -50,12 +50,12 @@ app.use((req, res, next) => {
     next(httpErrors.NotFound());
 })
 
-// app.use((error, req, res, next) => {
-//     error.status = error.status || 500
-//     res.status(error.status);
-//     res.render('error_40x', { error })
-//     // res.send("something went wrong")
-// })
+app.use((error, req, res, next) => {
+    error.status = error.status || 500
+    res.status(error.status);
+    res.render('error_40x', { error })
+    // res.send("something went wrong")
+})
 
 mongoose.connect("mongodb://localhost:27017/RoleBasedAuth",
     {

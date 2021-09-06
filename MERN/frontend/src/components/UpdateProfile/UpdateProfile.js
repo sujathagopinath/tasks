@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/actions/users/userActions';
 import ErrorMessage from '../DisplayMessage/ErrorMessage';
@@ -9,10 +9,6 @@ const UpdateProfile = ({ history }) => {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
   console.log(userInfo);
-
-  useEffect(() => {
-    if (userInfo === null) history.push('/login');
-  }, [userInfo, history]);
 
   const [name, setname] = useState(userInfo ? userInfo.name : '');
   const [email, setemail] = useState(userInfo ? userInfo.email : '');

@@ -3,28 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBooks } from '../../redux/actions/books/bookActions';
 import Loading from '../Loading/Loading';
 
-
-
 const Books = ({ history }) => {
   //Fetch books
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBooks());
   }, [dispatch]);
+
   const bookslist = useSelector(state => state.booksList);
   const { books, loading } = bookslist;
   console.log(bookslist);
   console.log("Books", (books));
   // End of fetch books
-
-  //Redirect
-
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
-  useEffect(() => {
-    if (userInfo === null) history.push('/login');
-  }, [userInfo, history]);
-
 
   return (
     <div>
@@ -57,7 +47,6 @@ const Books = ({ history }) => {
                     );
                   })}
               </tbody>
-
             </table>
           </div>
         </div>

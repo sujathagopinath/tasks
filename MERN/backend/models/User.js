@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
 //Popuplating this field of books to user s
 UserSchema.virtual('books', {
   ref: 'Book',
-  foreignField: 'createdBy',
+  foreignField: 'createdbyId',
   localField: '_id',
 });
 UserSchema.set('toJSON', { virtuals: true });

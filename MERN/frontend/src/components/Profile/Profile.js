@@ -13,13 +13,6 @@ const Profile = ({ history }) => {
     dispatch(getUserProfile());
   }, [dispatch, history]);
 
-  //Check if user is login otherwise redirect
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
-  useEffect(() => {
-    if (userInfo === null) history.push('/login');
-  }, [userInfo, history]);
-
   useEffect(() => {
     dispatch(fetchBooks());
   }, [dispatch]);
@@ -28,14 +21,18 @@ const Profile = ({ history }) => {
     dispatch(deleteBook(id));
     history.push('/books');
   };
+
+  function updatefunc(book) {
+    sessionStorage.setItem('book', JSON.stringify(book))
+    console.log("updatefunc", book)
+    history.push('/book');
+  }
   //Get user Profile
   const userProfile = useSelector(state => state.userProfile);
   const { loading, user } = userProfile;
-
   console.log("user:", user);
 
   const books = userProfile.user && userProfile.user.books;
-
   const renderTable = () => {
     if (books) {
       return (
@@ -63,14 +60,16 @@ const Profile = ({ history }) => {
                     className='fas fa-trash '
                     style={{ color: 'red', cursor: 'progress' }}></i></td>
                   <td>
-                    <Link to={`/book/${book && book._id}`}>
+                    <button onClick={() => updatefunc(book)}>
                       <i
                         className='far fa-edit'
                         style={{
-                          color: 'yellow',
+                          color: 'red',
                           cursor: 'progress',
                         }}></i>
-                    </Link>
+                    </button>
+
+                    {/* </Link> */}
                   </td>
                 </tr>
               );

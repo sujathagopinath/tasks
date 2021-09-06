@@ -20,7 +20,8 @@ import {
 //Create book
 
 export const createBook = bookData => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
     try {
       dispatch({
         type: CREATE_BOOK_REQUEST,
@@ -29,10 +30,11 @@ export const createBook = bookData => {
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`
         },
       };
+      // console.log("booked", data)
       const { data } = await axios.post('/api/books', bookData, config);   //category title author createdby
-
       dispatch({
         type: CREATE_BOOK_SUCCESS,
         payload: data,
@@ -40,7 +42,9 @@ export const createBook = bookData => {
     } catch (error) {
       dispatch({
         type: CREATE_BOOK_FAIL,
-        payload: error.response && error.response.data.message,
+        payload: error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
       });
     }
   };
@@ -49,7 +53,8 @@ export const createBook = bookData => {
 //Fetch all books
 
 export const fetchBooks = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
     try {
       dispatch({
         type: FETCH_BOOK_REQUEST,
@@ -58,6 +63,7 @@ export const fetchBooks = () => {
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`
         },
       };
       const { data } = await axios.get('/api/books', config);
@@ -78,7 +84,8 @@ export const fetchBooks = () => {
 //delete a book
 
 export const deleteBook = id => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
     try {
       dispatch({
         type: DELETE_BOOK_REQUEST,
@@ -88,6 +95,7 @@ export const deleteBook = id => {
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`
         },
       };
       const { data } = await axios.delete(`/api/books/${id}`, config);
@@ -111,7 +119,8 @@ export const deleteBook = id => {
 
 //Fetch a signle book
 export const fetchBook = (id, bookData) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
     try {
       dispatch({
         type: BOOK_DETAIL_REQUEST,
@@ -120,10 +129,10 @@ export const fetchBook = (id, bookData) => {
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`
         },
       };
       const { data } = await axios.get(`/api/books/${id}`, bookData, config);
-
 
       dispatch({
         type: BOOK_DETAIL_SUCCESS,
@@ -141,20 +150,23 @@ export const fetchBook = (id, bookData) => {
 //UPDATE BOOK
 
 export const updateBook = (id, bookData) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
     try {
       dispatch({
         type: BOOK_UPDATE_REQUEST,
         loading: true,
       });
 
-
       const config = {
         headers: {
           'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`
         },
       };
-      const { data } = await axios.put(`/api/books/${id}`, bookData, config);
+      const { data } = await axios.put(`/api/books/${id}`, bookData, config)
+      console.log("bookdata", bookData)
+
       dispatch({
         type: BOOK_UPDATE_SUCCESS,
         payload: data,
@@ -168,3 +180,20 @@ export const updateBook = (id, bookData) => {
     }
   };
 };
+
+
+//createbook
+// await axios.post('/api/books', bookData, config)  //category title author createdby
+      // .then((res) => {
+      //   console.log("resposne", res.data.book)
+
+      // }).catch((error) => {
+      //   console.log("error", error)
+      // })
+
+//update
+// .then((res) => {
+      //   console.log("newresposne", res)
+      // }).catch((error) => {
+      //   console.log("newerr", error)
+      // })

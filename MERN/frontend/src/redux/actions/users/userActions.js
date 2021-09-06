@@ -17,7 +17,6 @@ import {
   FETCH_USERS_FAIL,
   FETCH_USERS_SUCCESS,
 } from '../actionTypes';
-
 export const registerUser = (name, email, password) => {
   return async dispatch => {
     try {
@@ -59,16 +58,18 @@ export const registerUser = (name, email, password) => {
 };
 
 export const loginUser = (email, password) => {
+  // let history = useHistory();
   return async dispatch => {
+
     try {
       dispatch({
         type: USER_LOGIN_REQUEST,
       });
 
       const config = {
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-
         },
       };
       const { data } = await axios.post(

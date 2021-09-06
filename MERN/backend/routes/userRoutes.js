@@ -14,7 +14,7 @@ userRouter.post(
     const userExist = await User.findOne({ email: email })
     if (userExist) {
       res.status(400)
-      throw new Error('User Exist');
+      throw new Error('User Exist')
     }
     const userCreated = await User.create({ name, email, password });
     // res.send(userCreated);
@@ -34,22 +34,22 @@ userRouter.post(
   '/login',
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email })
     //Compare password
     if (user && (await user.isPasswordMatch(password))) {
-      req.session.user = user;
+      // req.session.user = user;
       console.log("req.sessionid", req.session.id)
-      res.status(200);
+      res.status(200)
       res.json({
         _id: user._id,
         name: user.name,
         email: user.email,
         token: authTokenGenerator(user._id),
-      });
+      })
     }
     else {
-      res.status(401);
-      throw new Error('Invalid login credentials');
+      res.status(401)
+      throw new Error('Invalid login credentials')
     }
   })
 );
@@ -66,16 +66,16 @@ userRouter.get(
         .then(user => {
           if (user) {
             console.log('user', user);
-            res.status(200);
-            res.send(user);
+            res.status(200)
+            res.send(user)
           }
           else {
-            res.status(404);
-            res.send('You dont have profile yet');
+            res.status(404)
+            res.send('You dont have profile yet')
           }
         })
     } catch (error) {
-      res.status(500).send("something went wrong");
+      res.status(500).send("something went wrong")
     }
   })
 );
@@ -100,12 +100,12 @@ userRouter.put(
         (error, data) => {
           console.log("data", data)
           if (data == null) {
-            res.status(404);
-            res.send('User profile not found');
+            res.status(404)
+            res.send('User profile not found')
           }
           else {
-            res.status(200);
-            res.send('User profile updated successfully');
+            res.status(200)
+            res.send('User profile updated successfully')
           }
         })
     } catch (error) {
@@ -125,12 +125,12 @@ userRouter.get(
       await User.find().populate('books')
         .then(user => {
           if (user) {
-            res.status(200);
-            res.json(user);
+            res.status(200)
+            res.json(user)
           }
           else {
-            res.status(404);
-            res.send("No user found");
+            res.status(404)
+            res.send("No user found")
           }
         })
     } catch (error) {

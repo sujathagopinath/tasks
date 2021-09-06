@@ -7,3 +7,5 @@ const authTokenGenerator = userId => {
 };
 
 module.exports = authTokenGenerator;
+
+
