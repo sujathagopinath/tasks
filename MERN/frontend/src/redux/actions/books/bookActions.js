@@ -103,10 +103,6 @@ export const deleteBook = id => {
         type: DELETE_BOOK_SUCCESS,
         payload: data,
       });
-
-      dispatch({
-        type: FETCH_BOOK_SUCCESS,
-      });
     } catch (error) {
       dispatch({
         type: DELETE_BOOK_FAIL,
@@ -180,6 +176,15 @@ export const updateBook = (id, bookData) => {
     }
   };
 };
+
+
+
+
+
+
+
+
+
 
 
 //createbook

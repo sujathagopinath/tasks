@@ -16,10 +16,6 @@ const authMiddlware = asynchHandler(async (req, res, next) => {
       // console.log(req.headers.authorization.split(' ')[1]);
       token = req.headers.authorization.split(' ')[1];
       console.log("token", token)
-      if (!token) {
-        res.status(401)
-        return res.send('Not authorised, no token')
-      }
       //Decode the user
       jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
         if (error) {
@@ -38,6 +34,10 @@ const authMiddlware = asynchHandler(async (req, res, next) => {
     }
   }
 
+  if (!token) {
+    res.status(401)
+    return res.send('Not authorised, no token')
+  }
 
 });
 

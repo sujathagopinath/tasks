@@ -5,8 +5,8 @@ import ErrorMessage from '../DisplayMessage/ErrorMessage';
 import Loading from '../Loading/Loading';
 
 const Login = ({ history }) => {
-  const [email, setemail] = useState('sujatha@gmail.com');
-  const [password, setpassword] = useState('sujathag');
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('');
   const dispatch = useDispatch();
 
   //Before login in we will check if you have login the we redirect you

@@ -37,8 +37,6 @@ userRouter.post(
     const user = await User.findOne({ email: email })
     //Compare password
     if (user && (await user.isPasswordMatch(password))) {
-      // req.session.user = user;
-      console.log("req.sessionid", req.session.id)
       res.status(200)
       res.json({
         _id: user._id,

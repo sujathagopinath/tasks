@@ -4,12 +4,13 @@ import { updateBook } from '../../redux/actions/books/bookActions';
 
 const BookDetail = ({ history }) => {
   const book = JSON.parse(sessionStorage.getItem('book'))
+  console.log("updatebook", book)
 
   const [category, setCategory] = useState(book.category);
   const [title, setTitle] = useState(book.title);
   const [author, setAuthor] = useState(book.author);
   const [createdby, setCreatedby] = useState(book.createdby);
-  const [id] = useState(JSON.parse(sessionStorage.getItem('book'))._id)
+  const [id] = useState(book._id)
 
   const dispatch = useDispatch();
   //dispatch action
@@ -22,7 +23,7 @@ const BookDetail = ({ history }) => {
     };
     e.preventDefault();
     dispatch(updateBook(id, data));
-    history.push('/books');
+    history.push('/profile');
   };
   return (
     <div className='row container-height'>
@@ -95,3 +96,29 @@ const BookDetail = ({ history }) => {
 };
 
 export default BookDetail;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const [id] = useState(JSON.parse(sessionStorage.getItem('book'))._id)

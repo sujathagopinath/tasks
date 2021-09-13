@@ -63,7 +63,7 @@ const AddBook = ({ history }) => {
                           value={category}
                           onChange={e => setCategory(e.target.value)}
                           className='custom-select' required>
-                          <option Value='Select A Book'>
+                          <option Value='Select A Book' required>
                             Choose One
                           </option>
                           <option value='religion'>Religion</option>
@@ -97,14 +97,14 @@ const AddBook = ({ history }) => {
                         />
                       </div>
                       <div className='form-group'>
-                        <label htmlFor='exampleInputPassword1'>User Name</label>
+                        <label htmlFor='exampleInputPassword1'>Nick Name</label>
                         <input
                           value={createdby}
                           onChange={e => setCreatedby(e.target.value)}
                           type='text'
                           className='form-control'
                           id='exampleInputPassword1'
-                          placeholder='User Name' required
+                          placeholder='Nickname' required
                         />
                       </div>
 

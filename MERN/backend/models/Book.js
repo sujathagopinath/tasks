@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const BookSchema = new mongoose.Schema(
   {
     category: {
@@ -18,11 +17,6 @@ const BookSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // createdBy: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'User',
-    //   required: true,
-    // },
     createdbyId: {
       type: String,
       required: true,
