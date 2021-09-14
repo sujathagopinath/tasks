@@ -1,15 +1,5 @@
-const express = require("express");
-const Joi = require("joi");
-
-const app = express();
-
-app.use(express.json());
-
-const check = (req, res, next) => {
-    const schema = Joi.object({
-        title: Joi.string().min(5).max(30).required(),
-        content: Joi.string().min(24).max(255).required(),
-    });
+const schema = require('./schema')
+const middleware = (req, res, next) => {
     const { title, content } = req.body;
     const { error } = schema.validate({ title, content });
     if (error) {
@@ -28,10 +18,4 @@ const check = (req, res, next) => {
     return next();
 };
 
-app.post("/", check, (req, res) => {
-    return res.json(req.body);
-});
-
-app.listen(4000, (req, res) => {
-    console.log("Server is running on port 4000");
-})
+module.exports = middleware
