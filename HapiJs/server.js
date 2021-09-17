@@ -1,7 +1,11 @@
 const Hapi = require('@hapi/hapi');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const path = require('path')
-const Mongoose = require('mongoose')
+// const User = require('./User')
+// const dbConnect = require('./dbConnect');
+const mongoose = require('mongoose')
+// dbConnect();
+
 
 const init = async () => {
     const server = Hapi.server({
@@ -28,49 +32,44 @@ const init = async () => {
         }
     ])
 
-    Mongoose.connect(
-        "mongodb://localhost:27017/HapiJs",
-        {
-            useFindAndModify: false,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useNewUrlParser: true,
-        },
-        () => {
-            console.log('DB connected');
-        }
-    );
+    mongoose.connect(
+        "mongodb://localhost:27017/Hapijs", {
+        useNewUrlParser: true
+    })
 
-    const UserModel = Mongoose.model("user", {
+    const User = mongoose.model("users", {
         username: String,
         password: String,
-        email: String
     });
 
     server.route({
         method: "POST",
-        path: "/users",
+        path: "/login",
         options: {
             validate: {
                 payload: Joi.object({
                     username: Joi.string().required(),
                     password: Joi.string().required(),
-                    email: Joi.string().required()
                 }),
                 failAction: (request, h, error) => {
-                    return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover()
+                    return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover();
                 }
             }
         },
         handler: async (request, h) => {
             try {
-                var user = new UserModel(request.payload);
-                var result = await user.save();
-                return h.response(result);
+                let user = new User(request.payload);
+                console.log("request", request.payload)
+                console.log("users", user)
+
+                var result = await user.save()
+                return h.response(result)
             } catch (error) {
                 return h.response(error).code(500)
             }
-        }
+        },
+
+
     })
 
     server.route([
