@@ -1,113 +1,205 @@
 const Hapi = require('@hapi/hapi');
 const Joi = require('@hapi/joi')
 const userModel = require('./models/User')
-const mongoose = require('mongoose')
-// const dbConnect = require('./config/dbConnect')
-// dbConnect();
-
-mongoose.connect(
-    "mongodb://localhost:27017/validation", {
-    useNewUrlParser: true
-}).then(() => {
-    console.log("DB Connected")
-}).catch((error) => {
-    console.log(error)
-})
-
-
-const server = Hapi.server({
-    host: 'localhost',
-    port: 4000,
-})
-
-server.route({
-    method: 'POST',
-    path: '/signup',
-    handler: async (request, h) => {
-        try {
-            const { username, email, password, phonenumber } = request.payload
-            const userExist = await userModel.findOne({ email: email })
-            if (userExist) {
-                return 'User has already taken'
-            }
-            const usercreated = await userModel.create({ username, password, email, phonenumber })
-            const result = await usercreated.save()
-            return h.response(result).code(200);
-        } catch (error) {
-            return h.response(error).code(500)
-        }
-    },
-    options: {
-        validate: {
-            payload: Joi.object({
-                username: Joi.string().min(2).max(10).required(),
-                email: Joi.string().min(6).required().email(),
-                password: Joi
-                    .string()
-                    .regex(/^[a-zA-Z0-9]{5,10}$/)
-                    .required(),
-                phonenumber: Joi
-                    .string()
-                    .regex(/^[7-9]\d{9}$/)
-                    .required()
-            }),
-
-            failAction: (request, h, error) => {
-                return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover();
-            }
-        }
-    }
-})
-
-server.route({
-    method: 'POST',
-    path: '/login',
-    handler: async (request, h) => {
-
-    }
-})
-
-server.route({
-    method: 'GET',
-    path: '/users/{id}',
-    handler: async (request, h) => {
-        try {
-            const people = await userModel.findById(request.params.id)
-            console.log("params", request.params)
-            return h.response(people)
-        } catch (error) {
-            return h.response(error).code(500)
-        }
-    }
-})
-
-server.route({
-    method: 'PUT',
-    path: '/update/{id}',
-    handler: async (request, h) => {
-        try {
-            const person = await userModel.findByIdAndUpdate(request.params.id, request.payload)
-            return h.response(person)
-        } catch (error) {
-            return h.response(error).code(500)
-        }
-    },
-    options: {
-        validate: {
-            payload: Joi.object({
-                username: Joi.string().optional(),
-                phonenumber: Joi.string().regex(/^[7-9]\d{9}$/).required()
-
-            }),
-            failAction: (request, h, error) => {
-                return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover();
-            }
-        }
-    }
-})
-
+// const createUserSchema = require('./schemas/createUser');
+const Jwt = require('hapi-auth-jwt')
+const bcrypt = require('bcrypt')
+const createToken = require('./utils/token')
+const dbConnect = require('./config/dbConnect');
+const secret = require('./config');
+dbConnect();
 
 const init = async () => {
+    const server = Hapi.server({
+        host: 'localhost',
+        port: 4000,
+    })
+
+
+    // var validate = function (request, decodedToken, callback) {
+    //     console.log("id", decodedToken.id)
+    //     var error,
+    //         credentials = user[decodedToken.id] || {};
+
+    //     if (!credentials) {
+    //         return callback(error, false, credentials);
+    //     }
+
+    //     return callback(error, true, credentials)
+    // };
+
+
+    // await server.register({
+    //     plugin: require('hapi-auth-jwt2'), function(error) {
+
+    //         server.auth.strategy('token', 'jwt', {
+    //             key: secret,
+    //             validateFunc: validate,
+    //             verifyOptions: { algorithms: ['HS256'] }  // only allow HS256 algorithm
+    //         })
+    //     }
+    // })
+
+    await server.register({
+        plugin: require('hapi - auth - bearer - token')
+    });
+    server.auth.strategy('simple', 'bearer-access-token', {
+        allowQueryToken: true,              // optional, false by default
+        validate: async (request, token, h) => {
+
+            // here is where you validate your token
+            // comparing with token from your database for example
+            const isValid = token === '1234';
+
+            const credentials = { token };
+            const artifacts = { test: 'info' };
+
+            return { isValid, credentials, artifacts };
+        }
+    })
+
+    server.auth.default('simple');
+
+    // module.exports = {
+    server.route({
+        method: 'POST',
+        path: '/signup',
+        handler: async (request, h) => {
+            try {
+                const { username, email, password, phonenumber } = request.payload
+                const userExist = await userModel.findOne({ email: email })
+                if (userExist) {
+                    return 'User has already taken'
+                }
+                const usercreated = await userModel.create({ username, password, email, phonenumber })
+                const result = await usercreated.save()
+                return h.response({ result, id_token: createToken(usercreated) }).code(200);
+            } catch (error) {
+                return h.response(error).code(500)
+            }
+        },
+
+        options: {
+            validate: {
+                payload: Joi.object({
+                    username: Joi
+                        .string()
+                        .min(2)
+                        .max(10)
+                        .required(),
+                    email: Joi
+                        .string()
+                        .min(6)
+                        .email()
+                        .required(),
+                    password: Joi
+                        .string()
+                        .regex(/^[a-zA-Z0-9]{5,10}$/)
+                        .required(),
+                    phonenumber: Joi
+                        .string()
+                        .regex(/^[7-9]\d{9}$/)
+                        .required()
+                }),
+                failAction: (request, h, error) => {
+                    return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover();
+                }
+            }
+        }
+
+    })
+
+    server.route({
+        method: 'POST',
+        path: '/login',
+        handler: async (request, h) => {
+            try {
+                const { email, password } = request.payload;
+                const user = await userModel.findOne({ email: email })
+                if (user && (await user.isPasswordMatch(password))) {
+                    return h.response({ user, id_token: createToken(user) }).code(200);
+                }
+                else {
+                    return h.response('Invalid login credentials').code(400)
+                }
+            } catch (error) {
+                return h.response(error).code(500)
+            }
+        },
+        options: {
+            validate: {
+                payload: Joi.object({
+                    email: Joi
+                        .string()
+                        .min(6)
+                        .email()
+                        .required(),
+                    password: Joi
+                        .string()
+                        .regex(/^[a-zA-Z0-9]{5,10}$/)
+                        .required(),
+                }),
+                failAction: (request, h, error) => {
+                    return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover();
+                }
+            }
+        }
+    })
+
+    server.route({
+        method: 'GET',
+        path: '/users/{id}',
+        // config: {
+        //     auth: 'token'
+        // },
+        handler: async (request, h) => {
+            try {
+                const people = await userModel.findById(request.params.id)
+                // console.log("params", request.params)
+                return h.response(people).code(200)
+            }
+            catch (error) {
+                return h.response(error).code(500)
+            }
+        }
+    })
+
+    server.route({
+        method: 'PUT',
+        path: '/update/{id}',
+        handler: async (req, h) => {
+            try {
+                const salt = await bcrypt.genSalt(10);
+                const password = await bcrypt.hash(req.payload.password, salt);
+                console.log("username", req.payload.username)
+
+                await userModel.findByIdAndUpdate(req.params.id,
+                    {
+                        username: req.payload.name,
+                        email: req.payload.email,
+                        password: password,
+                    },
+
+                    { new: true },
+                    (error, data) => {
+                        console.log("data", data)
+                        if (data) {
+
+                            return h.response(data).code(200)
+                        }
+                        else {
+                            return 'User profile updated successfully'
+                        }
+                    })
+            } catch (error) {
+                return h.response(error).code(500)
+            }
+        }
+    })
+    //     }
+    // });
+
+    // })
     await server.start();
     console.log('Server started at 4000')
 }
