@@ -41,26 +41,19 @@ const init = async () => {
     // })
 
     await server.register({
-        plugin: require('hapi - auth - bearer - token')
+        plugin: require('hapi-auth-bearer-token')
     });
     server.auth.strategy('simple', 'bearer-access-token', {
-        allowQueryToken: true,              // optional, false by default
+        allowMultipleHeaders: true,              // optional, false by default
         validate: async (request, token, h) => {
-
-            // here is where you validate your token
-            // comparing with token from your database for example
-            const isValid = token === '1234';
-
+            token = request.headers.authorization.split(' ')[1];
+            console.log('token', token)
+            const isValid = token
             const credentials = { token };
-            const artifacts = { test: 'info' };
-
-            return { isValid, credentials, artifacts };
+            return { isValid, credentials };
         }
     })
 
-    server.auth.default('simple');
-
-    // module.exports = {
     server.route({
         method: 'POST',
         path: '/signup',
@@ -149,9 +142,9 @@ const init = async () => {
     server.route({
         method: 'GET',
         path: '/users/{id}',
-        // config: {
-        //     auth: 'token'
-        // },
+        config: {
+            auth: 'simple'
+        },
         handler: async (request, h) => {
             try {
                 const people = await userModel.findById(request.params.id)
@@ -167,39 +160,54 @@ const init = async () => {
     server.route({
         method: 'PUT',
         path: '/update/{id}',
+        config: {
+            auth: 'simple'
+        },
         handler: async (req, h) => {
             try {
                 const salt = await bcrypt.genSalt(10);
                 const password = await bcrypt.hash(req.payload.password, salt);
-                console.log("username", req.payload.username)
+                await userModel.findByIdAndUpdate(req.params.id, {
+                    username: req.payload.username,
+                    email: req.payload.email,
+                    password: password,
+                    phonenumber: req.payload.phonenumber
+                })
+                return h.response('User Profile got updated').code(200)
 
-                await userModel.findByIdAndUpdate(req.params.id,
-                    {
-                        username: req.payload.name,
-                        email: req.payload.email,
-                        password: password,
-                    },
-
-                    { new: true },
-                    (error, data) => {
-                        console.log("data", data)
-                        if (data) {
-
-                            return h.response(data).code(200)
-                        }
-                        else {
-                            return 'User profile updated successfully'
-                        }
-                    })
             } catch (error) {
                 return h.response(error).code(500)
             }
-        }
+        },
+        // options: {
+        //     validate: {
+        //         payload: Joi.object({
+        //             username: Joi
+        //                 .string()
+        //                 .min(2)
+        //                 .max(10)
+        //                 .required(),
+        //             email: Joi
+        //                 .string()
+        //                 .min(6)
+        //                 .email()
+        //                 .required(),
+        //             password: Joi
+        //                 .string()
+        //                 .regex(/^[a-zA-Z0-9]{5,10}$/)
+        //                 .required(),
+        //             phonenumber: Joi
+        //                 .string()
+        //                 .regex(/^[7-9]\d{9}$/)
+        //                 .required()
+        //         }),
+        //         failAction: (request, h, error) => {
+        //             return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover();
+        //         }
+        //     }
+        // }
     })
-    //     }
-    // });
 
-    // })
     await server.start();
     console.log('Server started at 4000')
 }
