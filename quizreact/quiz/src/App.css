@@ -1,0 +1,16 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a{
+  text-decoration: inherit;
+  color: inherit;
+}
+.app{
+  min-height: 750px;
+  border: 8px solid #39445a93;
+  margin: 2px;
+  padding: 5px;
+  background-size: cover;
+}
