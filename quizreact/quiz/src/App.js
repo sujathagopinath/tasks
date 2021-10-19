@@ -14,9 +14,10 @@ function App() {
     const { data } = await axios.get
       // ('https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple')
       (`https://opentdb.com/api.php?amount=5${category && `& category=${category}`
-        }${difficulty && `&difficulty=${difficulty}`}& type=multiple`)
-    // console.log(data)
-    setQuestions(data.results)
+        }${difficulty && `&difficulty=${difficulty}`}& type=multiple`);
+
+    console.log("triviadb", data)
+    setQuestions(data.results);
   }
   return (
     <BrowserRouter>
@@ -30,16 +31,17 @@ function App() {
             />
           </Route>
 
-          <Route path="/quiz" exact>
+          <Route path="/quiz">
             <Quiz
               name={name}
               questions={questions}
               score={score}
               setScore={setScore}
+              setQuestions={setQuestions}
             />
           </Route>
 
-          <Route path="/result" exact>
+          <Route path="/result">
             <Result
               name={name}
               score={score} />

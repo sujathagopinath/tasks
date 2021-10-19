@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import ErrorMessage from '../components/ErrorMessage';
+import ErrorMessage from './ErrorMessage';
 import './Question.css'
 
 const Questions = ({
@@ -14,8 +14,8 @@ const Questions = ({
     setScore,
 }) => {
     const [selected, setSelected] = useState();
-    const [error, setError] = useState()
-    const history = useHistory()
+    const [error, setError] = useState(false);
+    const history = useHistory();
 
     const handleSelect = (i) => {
         if (selected === i && selected === correct) {
@@ -36,9 +36,10 @@ const Questions = ({
     }
 
     const handleNext = () => {
-        if (currQues.questions == 5) {
+        if (currQues > 5) {
             history.push("/result");
-        } else if (selected) {
+        }
+        else if (selected) {
             setCurrQues(currQues + 1);
             setSelected();
         }
@@ -56,9 +57,10 @@ const Questions = ({
                 {error && <ErrorMessage>{error}</ErrorMessage>}
                 {options &&
                     options.map((i) => (
-                        <button onClick={() => handleCheck(i)}
+                        <button
                             className={`singleoption ${selected && handleSelect(i)}`}
                             key={i}
+                            onClick={() => handleCheck(i)}
                             disabled={selected}
                         >
                             {i}
@@ -83,7 +85,7 @@ const Questions = ({
                     style={{ width: 185 }}
                     onClick={handleNext}
                 >
-                    Next Question
+                    {currQues > 5 ? "Submit" : "Next Question"}
                 </Button>
             </div>
         </div>
