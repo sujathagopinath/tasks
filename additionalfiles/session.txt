@@ -1,0 +1,18 @@
+app.use(session({
+  secret: "some key",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,
+    maxAge: 1000 * 60 * 60,
+  },
+})
+);
+
+
+
+ req.session.user = true;
+    console.log("req.session", req.session)
+    console.log("req.sessionid", req.session.id)
+    console.log("email", user.email)
+    req.session.user = user.email

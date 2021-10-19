@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>
+            reg
+        </title>
+        <script>
+            function validate()
+            {
+                var  Passwords = document.getElementById("password").value;
+                var  RePassword = document.getElementById("PAssword").value;
+                if(Passwords!=RePassword)
+               {
+                   document.getElementById("PassWord").style.visibility="visible";
+                   return false;
+               }
+
+
+               else
+               {
+                   return true;
+                }
+            }
+
+           
+        </script>
+    </head>
+    <body>
+        <form onsubmit="return validate()">
+            <input type="password"  placeholder="Password" id="password" required pattern="[a-z A-Z 0-9]{1,15}">
+                <label id="Password" style="color: red; visibility: hidden;">Invalid password</label><br><br>
+                <span>Re-enter Password :</span><br>
+                <input type="password"  placeholder=" Re-enter Password" id="PAssword" required pattern="[a-z A-Z 0-9]{1,15}">
+                <label id="PassWord" style="color: red; visibility: hidden;"> password does not match</label><br><br>
+                <button type="submit" >sign in</button>
+        </form>
+    </body>
+</html>

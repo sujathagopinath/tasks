@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>
+         FormValidations
+        </title>
+        <script>
+            function func1(){
+                var unmae = document.getElementById("text1");
+                var password = document.getElementById("pass1");
+
+                /*if(unmae.value.trim()=="" || password.value.trim()=="")
+                {
+                    alert("No blank value is allowed");
+                    return false;
+                }
+                else{
+                    return true;
+                }*/
+      
+                if(unmae.value.trim()=="" )
+                {
+                    //alert("username is blank");
+                    unmae.style.border = "solid 3px red";
+                    document.getElementById("check").style.visibility="visible";
+                    return false;
+                }
+                else if(password.value.trim()==""){
+                    
+                    //alert("Password is blank");
+                    password.style.border ="solid 3px red ";
+                    document.getElementById("check1").style.visibility="visible";
+                    return false;
+                }
+                else if(password.value.trim().length<5){
+                    alert("password is too short");
+                    return false;
+                }
+                else{
+                    return true;
+                }
+
+            }
+
+        </script>
+    </head>
+    <body>
+        <form onsubmit="return func1()"  action="message.html">
+            <input type="text" id="text1"placeholder="UserName"/>
+            <label id="check" style="color: red; visibility: hidden;">Invalid UserName</label>
+            <br><br>
+            <input type="password" id="pass1" placeholder="Password"/>
+            <label id="check1" style="color: red; visibility: hidden;">Invalid UserName</label><br><br>
+            <button type="submit" id="btn">Submit</button>
+        </form>
+
+    </body>
+</html>

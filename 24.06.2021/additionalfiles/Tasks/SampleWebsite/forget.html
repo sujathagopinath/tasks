@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <title>ForgetPassword</title>
+    <link href="forget.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="./images/fp.png" />
+
+</head>
+
+<body>
+    <div class="forget">
+        <form onsubmit="return true" action="Login.html">
+            <img src="./images/fp.png" class="avatar">
+            <!--p id="uname">Username</p>
+                <input type="text" name="Username" placeholder="Enter Username"-->
+
+            <p id="password">Dear User, Your One-time password : <span id="otp"></span></p>
+            <!--input type="text" name="otp" placeholder="Enter the OTP"--><br><br>
+
+            <input type="button" name="" value="Generate-OTP" onclick="generateotp()" />
+            <input type="submit" name="" value="Verify">
+            <!--button class="button">Send Recovery Link</button-->
+        </form>
+    </div>
+
+    <script>
+        function generateotp() {
+            let digits = '0123456789';
+            let OTP = '';
+            for (let i = 0; i < 4; i++) {
+                OTP += digits[Math.floor(Math.random() * 10)];
+            }
+            document.getElementById("otp").innerHTML = OTP;
+        }
+
+    </script>
+
+
+</body>
+
+</html>

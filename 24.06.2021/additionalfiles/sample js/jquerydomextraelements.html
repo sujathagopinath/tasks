@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .mydivs{
+            border: 2px solid blue;
+            padding: 30px;
+            margin: 5px;
+        }
+        .newpara{
+            background: aqua;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+        .newparachange{
+            font-style: italic;
+            color: brown;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn1">Addclass</button><br>
+    <button id="btn2">Removeclass</button><br>
+    <button id="btn3">ToggleClass</button><br>
+    <button id="btn4">css</button><br>
+    
+    <div id="div1" class="mydivs">
+        <p id="p1" class="p1class" value="Helloworld">This is third paragraph</p>
+        <p id="p2" class="p1class">This is new paragraph</p>
+    
+    </div>
+    <script src="jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#div1").addClass("newpara newparachanges");
+            })
+           
+            $("#btn2").click(function(){
+                $("#div1").removeClass("newpara newparachanges");
+            })
+
+            $("#btn3").click(function(){
+                $("#div1").toggleClass("newpara");
+            })
+
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>
+            DOM Manipulations
+        </title>
+        <script>
+          function buttonClick()
+          {
+              var str = document.getElementById("heading").innerHTML;
+              alert(str);
+              //document.getElementById("heading").innerHTML="changes can be done";
+              //alert("Button Clicked");
+          }
+        </script>
+    </head>
+    <body>
+        <button onclick="buttonClick()">Click Me</button>
+        <h2 id="heading">Some Random Text </h2>
+    </body>
+</html>

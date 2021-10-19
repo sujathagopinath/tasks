@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title> sigup</title>
+        <script>
+            function validate()
+            {
+                var Firstname=document.getAnimations("First Name").value;
+                var lastname=document.getAnimations("Last Name").value;
+                var regnum=document.getAnimations("Register number").value;
+                var email=document.getAnimations("email").value;
+                var mob=document.getAnimations("Mobile").value;
+                var Password=document.getAnimations("Password").value;
+                var epassword=document.getAnimations("repassword").value;
+                var fnamere =/(a-z A-z)/;
+                var lnamere =/(A-Z a-z)/;
+                var regnumre =/19171(0-9){4}/;
+                var mailre =/(a-z 0-9 )@gmail.com/;
+                var mobre =/(6-9)(0-9){9}/;
+                var passre=/(a-z A-Z 0-9 ~!@#\$%\^&\*)/;
+                var epassre=/(a-z A-Z 0-9 ~!@#\$%\^&\*)/;
+                if(fnamere.test(Firstname))
+                {
+                    //alert("valid");
+                    document.getElementById("f1").style.visibility="hidden";
+                }
+                else if(lnamere.test(lastname))
+                {
+                    //alert("valid");
+                    document.getElementById("l1").style.visibility="hidden";
+                }
+                else if(regnumre.test(regnum))
+                {
+                    //alert("valid");
+                    document.getElementById("r1").style.visibility="hidden";
+                }
+                else if(mailre.test(email))
+                {
+                    //alert("valid");
+                    document.getElementById("m1").style.visibility="hidden";
+                }
+                else if(mobre.test(mob))
+                {
+                    //alert("valid");
+                    document.getElementById("m1").style.visibility="hidden";
+                }
+                else if(passre.test(Password))
+                {
+                    //alert("valid");
+                    document.getElementById("p1").style.visibility="hidden";
+                }
+                 else if(epassre.test(epassword))
+                {
+                   // alert("valid");
+                   document.getElementById("p2").style.visibility="hidden";
+                }
+                else{
+                    alert("Invalid");
+                }
+
+
+
+            }
+
+
+
+
+
+        </script>
+        
+    </head>
+    <body>
+        <form>
+            <h2> sign up</h2>
+            <span>First Name</span><br>
+            <input type="text" id="First Name" placeholder="first name">
+            <label id="f1" style="color: red; visibility: hidden;" >Invalid firstname</label><br><br>
+            
+            <span>Last Name</span><br>
+            <input type="text" id="Last Name" placeholder="last name">
+            <label  id="l1" style="color: red; visibility: hidden;" >Invalid lastname</label><br><br>
+            <span>Register number</span><br>
+            <input type="number " id="Register number" placeholder="register number">
+            <label id="r1"  style="color: red; visibility: hidden;" >Invalid register number</label><br><br>
+            <span>e-mail</span><br>
+            <input type="mail" id="mail" placeholder="e-mail">
+            <label id="m1" style="color: red; visibility: hidden;" >Invalid email</label><br><br>
+            <span>date of birth</span><br>
+            <input type="date" name="dob"><br><br>
+            <span>Gender</span><br>
+            <input type="radio" name="gender"><span>Male</span>
+            <input type="radio" name="gender"><span>Female</span><br><br>
+            <span>Mobile</span><br>
+            <input  type="number " id="mobile" placeholder="mobile number">
+            <label id="m1" style="color: red; visibility: hidden;" >Invalid mobile number</label><br><br>
+            <span>Password</span><br>
+            <input type="password" id="password" placeholder="password">
+            <label  id="p1" style="color: red; visibility: hidden;" >Invalid password</label><br><br>
+            <span>Re-enter password</span><br>
+            <input type="password" id="password" placeholder=" re-enter password">
+            <label  id="p2" style="color: red; visibility: hidden;" >Invalid password</label><br><br>
+            <input type="checkbox" ><span>I agree with all terms and conditions</span><br><br>
+            <button type="submit" onclick="validate()">sign in</button>
+            
+            
+
+            
+        </form>
+    </body>
+
+
+
+</html>

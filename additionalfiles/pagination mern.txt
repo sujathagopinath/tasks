@@ -1,0 +1,73 @@
+Project Title : Books
+Domain: MERN
+Back-end: Node Js, Express, MongoDB
+Front-end: React JS, Redux
+Models: Users and Books
+Authentication: JWT
+
+
+
+const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [booksperpage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const fetchbooks = async () => {
+      setLoading(true);
+      const res = await axios.get('/books')
+      setBooks(res.data);
+      setLoading(false);
+    }
+    fetchbooks();
+  }, [])
+
+  //Get current Books
+  const indexOfLastBook = currentPage * books;
+  const indexofFirstBook = indexOfLastBook - books;
+  const currentBooks = books.slice(indexofFirstBook, indexOfLastBook);
+  //Change Page
+  const paginate = pagenumber => setCurrentPage(pagenumber);
+
+<Books books={currentBooks} loading={loading} />
+      <Pagination books={booksperpage}
+        totalbooks={books.length}
+        paginate={paginate} />
+
+
+
+ <Link className='dropdown-item' to='/addbook'>
+                    Add book
+                  </Link>
+                  <Link className='dropdown-item' to='/books'>
+                    Books
+                  </Link> */}
+
+
+
+
+
+
+
+ import React from 'react'
+// import { render } from '@testing-library/react';
+
+// import Users from '../src/components/Users/Users'
+
+// import { Provider } from 'react-redux'
+// import configureStore from 'redux-mock-store'
+
+
+
+// describe('With React Testing Library', () => {
+//   const initialState = { output: 10 }
+//   const mockStore = configureStore()
+//   let store, wrapper
+
+//   it('Shows `${userInfo}`', () => {
+//     store = mockStore(initialState)
+//     const { getByText } = render(<Provider store={store}><Users /></Provider>)
+
+//     expect(getByText(`${userInfo}`)).not.toBeNull()
+//   })
+// })

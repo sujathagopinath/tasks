@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>
+            Jquery DOM 
+        </title>
+        <script>
+
+        </script>
+    </head>
+    <body>
+        <button id="btn">Action</button>
+        <div id="div1" class="mydivs">
+            <p id="p1" value="HelloWorld">This is 3rd paragraph in second division</p>
+        </div>
+
+    </body>
+    <script src="jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+           /* $("#btn").click(function(){
+                var txt = $("#p1").text();   //text is a method
+                alert(txt);
+                //alert($("#p1").text());
+                
+            })*/ // getter method
+
+            /* setter method
+
+            $("#btn").click(function(){
+                $("#p1").text("Hello world");
+            })*/
+
+            /* Attribute
+            $("#btn").click(function(){
+                alert($("#p1").attr("value"));
+            })*/
+
+            $("#btn").click(function(){
+                alert($("#p1").css("font-size"));
+            })
+
+
+        })
+    </script>
+</html>

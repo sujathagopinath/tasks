@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .mydivs{
+            border: 2px solid blue;
+            padding: 30px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn1">Append</button><br>
+    <button id="btn2">After</button><br>
+    <button id="btn3">prepend</button><br>
+    <button id="btn4">before</button><br>
+    <button id="btn5">Remove</button><br>
+    <button id="btn6">Empty</button>
+    <div id="div1" class="mydivs">
+        <p id="p1" class="p1class" value="Helloworld">This is third paragraph</p>
+        <p id="p2" class="p1class">This is new paragraph</p>
+    
+    </div>
+    <script src="jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                $("#div1").append("<p>This is 2nd para</p>");
+            })
+
+            $("#btn2").click(function(){
+                $("#div1").after("<p>This is 2nd para</p>");
+            })
+
+            $("#btn5").click(function(){
+               $("p").remove("#p2");
+                // $("#div1").remove();
+            })
+         
+           
+        })
+    </script>
+</body>
+</html>

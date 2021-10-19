@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Degugging</title>
+        <script>
+            function addvalue(){
+                var a = document.getElementById("t1").value;
+                var b = document.getElementById("t2").value;
+                document.getElementById("op").innerHTML="Result = "+(a+b);
+            }
+
+        </script>
+    </head>
+    <body>
+        <input id="t1" type="text" placeholder="Text 1"/>
+        <br><br>
+        <input id="t2" type="text" placeholder="Text 2"/>
+        <br><br>
+        <button onclick="addvalue()" id="btn">Add</button>
+        <h2 id="op">Result = </h2>
+    </body>
+</html>
