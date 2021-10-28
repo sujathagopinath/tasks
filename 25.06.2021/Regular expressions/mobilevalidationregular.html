@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>
+            
+        </title>
+        <script>
+            function validate(){
+                var username = document.getElementById("uname").value;
+                //var regx = /[7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/; [^a-x]abc eg:yabc
+                //var regx = /[7-9][0-9]{9}/;
+                var regx = /^[7-9]\d{9}$/;  //\s -whitespace \t tab \d digits \w alpha
+                //var regx = /^([a-z A-z 0-9 \.-]+)@([a-z A-z 0-9]+).([a-z]{2,10}) .([a-z]{2,4}?)$/; //emailvalidation ///abcd@gmail.co.in //com|co
+                if(regx.test(username)){
+                    document.querySelector("#blu").innerHTML="valid"
+                    document.getElementById("blu").style.visibility="visible";
+                    document.getElementById("blu").style.color="green";
+                   // document.querySelector("p")
+                }
+                else{
+                    document.getElementById("blu").innerHTML="invalid"
+                    document.getElementById("blu").style.visibility="visible";
+                    document.getElementById("blu").style.color="red";
+                }
+            }
+            
+
+        </script>
+    </head>
+    <body>
+        <form action="message.html">
+            <input id="uname" placeholder="username" type=" text"><br>
+            <label id="blu" style="color: red; visibility: hidden;">Invalid UserName</label>
+            <br>
+            <button onclick="validate()" type="button">Submit</button>
+        </form>
+
+    </body>
+</html>

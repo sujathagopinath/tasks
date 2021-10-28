@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>
+            Mouse Events
+            
+        </title>
+        <script>
+            function setNew(){
+                document.getElementById("img1").src="images/sign1.png";
+
+
+            }
+            function setOld(){
+                document.getElementById("img1").src="images/gooi.png";
+
+            }
+      
+        </script>
+    </head>
+    <body>
+     <img id="img1"  onmouseover="setNew()" onmouseout="setOld()" src="images/gooi.png" width="300"/>
+    </body>
+</html>

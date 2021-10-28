@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn1">Set Value</button>
+    <button id="btn2">Get Value</button>
+    <div id="div1" class="mydivs">
+        <p id="p1" class="p1class" value="Helloworld">This is third paragraph</p>
+    
+    </div>
+    <script src="jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+         
+           /* $("#btn1").click(function(){ //attribute method
+               //alert($("#p1").attr("class"));
+               $("#p1").attr("class","p2class");
+            })
+
+            $("#btn2").click(function(){
+               alert($("#p1").attr("class"));
+              // $("#p1").attr("class","p2class");
+            }) */
+
+            //CSS method
+  
+            $("#btn1").click(function(){ 
+               //alert($("#p1").attr("class"));
+               $("#p1").css("font-size","25px");
+            })
+
+            $("#btn2").click(function(){
+               alert($("#p1").css("font-size"));
+              // $("#p1").attr("class","p2class");
+            }) 
+
+        })
+    </script>
+</body>
+</html>

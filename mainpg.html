@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Design</title>
+  <link rel="shortcut icon" type="image/x-icon" href="./images/rd.jpg" />
+  <link rel="stylesheet" href="mainpg.css">
+  <!--script src="https://kit.fontawesome.com/9c59bb837e.js" crossorigin="anonymous"></script-->
+</head>
+
+<body>
+  <header>
+    <a href="#" class="logo">Food<span>.</span></a>
+    <div class="menutoggle" onclick="toggleMenu();"></div>
+    <ul class="navigation">
+      <li><a href="#banner">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#expert">Expert</a></li>
+
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="Login.html">logout</a></li>
+
+    </ul>
+  </header>
+
+  <section class="banner" id="banner">
+    <div class="content">
+      <h2>Always Choose Good</h2>
+      <p>"You are what you eat, so don't be fast, cheap, easy, or fake.
+        By choosing healthy over skinny you are choosing self-love over self-judgement.” </p>
+      <a href="#menu" class="btn">Our Menu</a>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="row">
+      <div class="cols">
+        <h2 class="titletext"><span>A</span>bout Us</h2><br>
+        <p>Today, ‘Organization Name’ can be found in 30 nations worldwide in in excess of 10,000 areas.
+          It has turned into the world’s driving’ Coffee and Baked Goods chain, serving’
+          in excess of 900 million doughnuts and 1.5 some espresso a year all inclusive.
+          Furthermore, presently it’s additionally <br>in India. At ‘Organization Name’ India,
+          you can appreciate a wide determination of doughnuts, espresso, drinks and sandwiches,
+          that will have you sipping’ and slurping and gorgin’ and more.</p>
+      </div>
+      <diV class="cols">
+        <div class="imgbx">
+          <img src="./images/about.jpg">
+        </div>
+      </diV>
+    </div>
+  </section>
+
+  <section class="menu" id="menu">
+    <div class="title">
+      <h2 class="titletext">Our<span>M</span>enu</h2><br>
+      <p>Your menu is more than a simple list of the items your restaurant has to offer.
+        Carefully thought out restaurant menu design can improve everything
+        from your brand identity to your customer’s experience to your profits.
+        In fact, good restaurant menu design can increase your profits by 10–15%.</p><br>
+    </div>
+
+    <section class="container content-section">
+      <h2 class="section-header">Brunch</h2>
+      <div class="shop-items">
+        <div class="shop-item">
+          <span class="shop-item-title">Salads</span>
+          <img class="shop-item-image" src="./images/menu1.jpg">
+          <div class="shop-item-details">
+            <span class="shop-item-price">$12.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+          </div>
+        </div>
+
+        <div class="shop-item">
+          <span class="shop-item-title">Soup</span>
+          <img class="shop-item-image" src="./images/menu2.jpg">
+          <div class="shop-item-details">
+            <span class="shop-item-price">$14.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+          </div>
+        </div>
+
+        <div class="shop-item">
+          <span class="shop-item-title">Combo's</span>
+          <img class="shop-item-image" src="./images/menu8.jpg">
+          <div class="shop-item-details">
+            <span class="shop-item-price">$9.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+          </div>
+        </div>
+
+        <div class="shop-item">
+          <span class="shop-item-title">Veggies</span>
+          <img class="shop-item-image" src="./images/menu4.jpg">
+          <div class="shop-item-details">
+            <span class="shop-item-price">$19.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container content-section">
+      <h2 class="section-header">Dine Out</h2>
+      <div class="shop-items">
+        <div class="shop-item">
+          <span class="shop-item-title">Pasta</span>
+          <img class="shop-item-image" src="./images/menu3.jpg">
+          <div class="shop-item-details">
+            <span class="shop-item-price">$19.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+          </div>
+        </div>
+
+        <div class="shop-item">
+          <span class="shop-item-title">Drinks</span>
+          <img class="shop-item-image" src="./images/menu7.jpg">
+          <div class="shop-item-details">
+            <span class="shop-item-price">$6.99</span>
+            <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container content-section">
+      <h2 class="section-header">CART</h2>
+      <div class="cart-row">
+        <span class="cart-item cart-header cart-column">ITEM</span>
+        <span class="cart-price cart-header cart-column">PRICE</span>
+        <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+      </div>
+
+      <div class="cart-items">
+        <div class="cart-row">
+          <div class="cart-item cart-column">
+            <img class="cart-item-image" src="./images/menu8.jpg" width="100" height="100">
+            <span class="cart-item-title">Combo's</span>
+          </div>
+          <span class="cart-price cart-column">$19.99</span>
+          <div class="cart-quantity cart-column">
+            <input class="cart-quantity-input" type="number" value="1">
+            <button class="btn btn-danger" type="button">REMOVE</button>
+          </div>
+        </div>
+
+        <div class="cart-row">
+          <div class="cart-item cart-column">
+            <img class="cart-item-image" src="./images/menu4.jpg" width="100" height="100">
+            <span class="cart-item-title">Veggies</span>
+          </div>
+          <span class="cart-price cart-column">$9.99</span>
+          <div class="cart-quantity cart-column">
+            <input class="cart-quantity-input" type="number" value="2">
+            <button class="btn btn-danger" type="button">REMOVE</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-total">
+        <strong class="cart-total-title">Total</strong>
+        <span class="cart-total-price">$39.97</span>
+      </div>
+      <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+    </section>
+  </section>
+
+  <section class="expert" id="expert">
+    <div class="title">
+      <h2 class="titletext">Our Kitchen <span>E</span>xperts</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+    <div class="content">
+      <div class="box">
+        <div class="imgbx">
+          <img src="./images/expert1.jpg">
+        </div>
+        <div class="text">
+          <h3>Marcel</h3>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="imgbx">
+          <img src="./images/expert2.jpg">
+        </div>
+        <div class="text">
+          <h3>Etienne</h3>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="imgbx">
+          <img src="./images/expert3.jpg">
+        </div>
+        <div class="text">
+          <h3>Marie</h3>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="imgbx">
+          <img src="./images/expert4.jpg">
+        </div>
+        <div class="text">
+          <h3>George</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonials">
+    <div class="title white">
+      <h2 class="titletext">They <span>S</span>aid About Us</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+    </div>
+    <div class="content">
+      <div class="box">
+        <div class="imgbx">
+          <img src="./images/testi1.jpg"/>
+        </div>
+        <div class="text">
+          <p>Great food and service. Long time neighborhood restaurant and followed a culture.</p><br>
+          <h3>- Ritche.E</h3>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="imgbx">
+          <img src="./images/testi2.jpg"/>
+        </div>
+        <div class="text">
+          <p>Incredible toasted ravioli, dinner salad with a delicious house dressing loaded.</p><br>
+          <h3>- Norbert</h3>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="imgbx">
+          <img src="./images/testi3.jpg"/>
+        </div>
+        <div class="text">
+          <p>Great food at reasonable prices & good services.</p><br>
+          <h3>- Jim.S</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="title">
+      <h2 class="titletext"><span>C</span>ontact Us</h2>
+      <P>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </P>
+    </div>
+    <div class="contactform">
+      <h3>Queries And Feedbacks</h3>
+
+      <form method="post" autocomplete="off" name="google-sheet"></form>
+
+      <div class="inputbox">
+        Name <input name="data[name]" required>
+      </div>
+
+      <div class="inputbox">
+        Email-Id <input name="data[email-id]" required>
+      </div>
+
+      <div class="inputbox">
+        Messages <input class="msg" name="data[messages]" required>
+      </div>
+
+      <div class="inputbox">
+        <!--input type="submit" value="Send"-->
+        <button class="btn" type="submit">Submit</button>
+      </div>
+      </form>
+    </div>
+  </section>
+
+  <div class="copyright">
+    <p>Copyright 2021<a href="#"> Restaurant.</a> All Right Reserved</p>
+  </div>
+
+  <script src="mainpg.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+.rectangle{
+    border: 3px solid black;
+    border-radius: 10px;
+    width: 500px;
+    height: 100px;
+}
+.text{
+    padding: 5px 5px;
+    font-size: 25px;
+    animation-name: textfield;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes textfield {
+     0% {
+    margin-left: 0px;
+  }
+    50% {
+    margin-left: 330px;    
+  }
+ 
+}
+

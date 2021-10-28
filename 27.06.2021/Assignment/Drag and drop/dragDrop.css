@@ -1,0 +1,16 @@
+.hide {
+    display: none;
+}
+
+.rectangle{
+   width: 500px;
+    height: 200px;
+    border: 5px solid rgb(0, 0, 0);
+    background-color: rgb(56, 199, 255);
+}
+
+.drag-item{
+    width: 150px;
+    height: 150px;
+    cursor: move;
+}

@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>
+            
+        </title>
+        <script>
+           function func(){
+               var str1 = document.getElementById("rd1");
+               var str2 = document.getElementById("rd2"); 
+               if(str1.checked==true){
+                    alert("The channel selected is: "+rd1.value);
+
+               } 
+               else if(str2.checked==true){
+                alert("The channel selected is: "+rd2.value);
+               }
+               else{
+                   alert("No channel is selected");
+               }
+           }
+        </script>
+    </head>
+    <body>
+        <input id="rd1" name="grp1" type="radio" value="simple">Simple snippets</input><br><br>
+        <input id="rd2" name="grp1" type="radio" value="learn">Learnings</input><br><br>
+        <button onclick="func()">Click Me</button>
+    
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="d1" >
+        <p id="p1">This a html tag</p><br>
+    </div>
+    <div id="d2">
+        <p id="p2">It contains client side server</p>
+
+    </div>
+</body>
+<script>
+    var a1 = document.getElementById("d1");
+    var a2 = document.getElementById("p1");
+    var a3 = document.getElementById("d2");
+    var a4 = document.getElementById("p2"); 
+     // Add event listner 
+     // syntax: element.addeventListner(event,function,usecapture);
+
+     //a1.addEventListener("click",a,true);
+     //a2.addEventListener("click",b,true);
+
+     a1.addEventListener("click",a,false);
+     a2.addEventListener("click",b,false);
+
+     function a(){
+         a3.style.backgroundColor="red";
+         a3.style.padding="40px";
+         a4.textContent+="Hello";
+     }
+
+     function b(){
+        
+         a4.textContent+="Welcome";
+     }
+
+</script>
+</html>

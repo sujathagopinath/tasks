@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>
+            Intro to Jquery
+        </title>
+        
+    </head>
+    <body>
+        <h2 id="heading">Intro to jquery</h2>
+        <div id="firstdiv" class="mydivs">
+            <p>This is my first para</p>
+            <p>This is my first para</p>
+        </div> 
+
+        <div id="secdiv" class="mydivs">
+            <p>This is my second para</p>
+            <p>This is my second para</p>
+        </div> 
+
+        <div id="thirddiv" class="mydivs">
+            <ul>
+                <li>item1</li>
+                <li>item2</li>
+                <li>item3</li>
+                <li>item4</li>
+            </ul>
+        </div> 
+
+        <button id="btn">click Me</button>
+
+    </body>
+    <script src="jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("button").click(fn1);
+
+       function fn1(){
+           $("#firstdiv").fadeToggle();
+       }
+
+        });
+        
+
+    </script>
+</html>
