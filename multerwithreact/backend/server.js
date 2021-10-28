@@ -36,12 +36,7 @@ app.post('/imageupload', async (req, res) => {
     try {
         let upload = multer({ storage: storage }).single('avatar');
         upload(req, res, (err) => {
-            // if (!req.file) {
-            //     return res.send('Please select an image to upload');
-            // }
-            // else if (err) {
-            //     return res.send(err);
-            // }
+
 
             const user = new Image({
                 imageName: req.file.filename,
