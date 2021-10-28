@@ -54,7 +54,6 @@ app.post('/posts', verifyToken, (req, res) => {
             })
         }
     })
-
 })
 
 function verifyToken(req, res, next) {
