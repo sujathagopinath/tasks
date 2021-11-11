@@ -1,3 +1,5 @@
+//useeffect first runs a  function
+
 import React,{useEffect} from "react";
 
 const Hooks = ()=>{
@@ -14,4 +16,4 @@ const Hooks = ()=>{
     )
 }
 
-export default Hooks
+export default Hooks  //useEffect1, ui rendering and useeffect

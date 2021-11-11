@@ -1,10 +1,10 @@
 const Hapi = require('@hapi/hapi');
 const Joi = require('@hapi/joi');
 const path = require('path')
-// const User = require('./User')
-// const dbConnect = require('./dbConnect');
+const user = require('./User')
+const dbConnect = require('./dbConnect');
 const mongoose = require('mongoose')
-// dbConnect();
+dbConnect();
 
 
 const init = async () => {
@@ -51,9 +51,6 @@ const init = async () => {
                     username: Joi.string().required(),
                     password: Joi.string().required(),
                 }),
-                failAction: (request, h, error) => {
-                    return error.isJoi ? h.response(error.details[0]).takeover() : h.response(error).takeover();
-                }
             }
         },
         handler: async (request, h) => {
