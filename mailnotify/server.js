@@ -8,7 +8,7 @@ const Userrouter = require('./routes/userroute')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/users', Userrouter)
+app.use('/add', Userrouter)
 
 app.get('/', (req, res) => {
     res.send("Mail Notify");
