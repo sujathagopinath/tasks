@@ -1,52 +1,66 @@
-body{
-    background:rgb(2,0,36);
-    background:radial-gradient(circle,rgba(2,0,36,1) 0%,rgba(0,212,255,1) 0%, rgba(9,9,121,1) 100%);
+body {
+  background: rgb(2, 0, 36);
+  background: radial-gradient(
+    circle,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(0, 212, 255, 1) 0%,
+    rgba(9, 9, 121, 1) 100%
+  );
 }
 
-.container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 500px;
-    width:100%;
-    margin: auto;
-    height: 100%;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+  height: 100%;
 }
 
-h2{
-    align-items: center;
-    color: rgb(177, 26, 38);
-    margin-left: 120px;
+h2 {
+  align-items: center;
+  color: rgb(177, 26, 38);
+  margin-left: 120px;
 }
 
-.container > form{
-    width: 70%;
-    border: 1px solid #dfdfdf;
-    padding: 5px;
-    margin-top: 100px;
-    border-radius: 5px;
-    background: #fff;
+.container > form {
+  width: 70%;
+  border: 1px solid #dfdfdf;
+  padding: 5px;
+  margin-top: 100px;
+  border-radius: 5px;
+  background: #fff;
 }
 
-
-input{
-    width: 100%;
-    padding:12px 20px;
-    margin:8px 0;
-    box-sizing: border-box;
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
 }
 
-button{
-margin-left: 100px;
-border-radius: 5px;
-color: crimson;
-cursor: pointer;
+.submit {
+  margin-left: 100px;
+  border-radius: 5px;
+  color: crimson;
+  cursor: pointer;
 }
 
-.icons{
-    color: rgb(3, 3, 99);
-    margin-left: 325px;
-    font-size: 1rem;
-    border: 1px solid #000;
-    cursor: pointer;
+.btn {
+  margin-left: auto;
+  border-radius: none;
+  color: crimson;
+  cursor: pointer;
+}
+.icons {
+  color: rgb(3, 3, 99);
+  margin-left: 325px;
+  font-size: 1rem;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.text-danger {
+  color: Red;
 }

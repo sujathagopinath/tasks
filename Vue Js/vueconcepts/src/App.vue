@@ -27,6 +27,9 @@
     <h6>{{ count }}</h6>
     <button v-on:mouseover="count = count + 1">Increment</button>
     <button v-on:mouseover="decrement(2)">Decrement 2</button>
+    <h2>Methods</h2>
+    <h5>Addition = {{ add(2, 3, 1) }}</h5>
+    <h5>Multiply = {{ multiply(3) }}</h5>
   </div>
 </template>
 
@@ -45,6 +48,7 @@ export default {
       isSoldout: false,
       human: "oldone",
       count: 0,
+      basemultiplier: 2,
     };
   },
   methods: {
@@ -55,6 +59,12 @@ export default {
     decrement(num) {
       //Passing an arguments
       this.count -= num;
+    },
+    add(a, b, c) {
+      return a + b + c;
+    },
+    multiply(num) {
+      return num * this.basemultiplier;
     },
   },
 };
