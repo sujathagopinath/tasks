@@ -1,0 +1,14 @@
+{
+   "datas":[
+       {
+           "id":1,
+           "name":"test",
+           "email":"test@gmail.com"
+       },
+       {
+           "id":2,
+           "name":"newuser",
+           "email":"newuser@gmail.com"
+       }    
+   ]
+}
