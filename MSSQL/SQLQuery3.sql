@@ -240,6 +240,13 @@ values(1,'AAA','aa@gmail.com','chennai'),
 (4,'DDD','dd@gmail.com','mumbai'),
 (5,'EEE','ee@gmail.com','kerala')
 
+SELECT * FROM customer
+DECLARE @id INT
+DECLARE @c_name nvarchar(30), @c_email nvarchar(30), @c_city nvarchar(30)
+
+DECLARE @Counter INT  
+SET @Counter = 1  
+
 DECLARE Customers CURSOR
 FOR 
 SELECT id,c_name,email,city FROM customer
@@ -248,8 +255,79 @@ OPEN Customers
 
 FETCH NEXT FROM Customers INTO @id,@c_name,@email,@city
 
-DECLARE @id INT
-DECLARE @c_name nvarchar(30), @c_email nvarchar(30), @c_city nvarchar(30)
+CREATE TABLE producttbl(
+brand_id INT,
+brand_name varchar(50),
+rate INT
+)
+
+INSERT INTO producttbl(brand_id,brand_name,rate)VALUES(1,'abc',1200),
+(2,'xyz',1300),
+(3,'uvw',1400),
+(4,'qwe',1500),
+(5,'asd',1600)
+
+SELECT * FROM producttbl
+
+SET NOCOUNT ON;
+
+DECLARE @brand_id INT
+DECLARE @brand_name varchar(20)
+
+SET @brand_id = 0 
+
+PRINT '--------Brand Details --------';
+
+DECLARE brand_cursor CURSOR FOR
+SELECT distinct(brand_id)
+FROM producttbl;
+
+OPEN brand_cursor
+
+FETCH NEXT FROM brand_cursor
+INTO @brand_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
