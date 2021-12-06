@@ -175,8 +175,33 @@ BEGIN
 END
 
 INSERT INTO Employees values(6,'JOHN',32000,'male',23)
+INSERT INTO Employees values(7,'Naveen',33000,'male',33)
+INSERT INTO Employees values(8,'aparna',34000,'female',20)
 
 select * from employeeverify
+
+create trigger trdeleteemployees
+ON Employees
+FOR Delete
+AS
+BEGIN
+	Declare @ID INT
+	select @ID = ID from deleted
+	insert into employeeverify
+	 VALUES ('New employee with Id = ' + CAST(@Id AS VARCHAR(10)) + ' is deleted at ' + CAST(Getdate() AS VARCHAR(22)))
+
+END
+
+delete from employees where ID = 6
+
+select * from employeeverify
+
+
+
+
+
+
+
 
 
 
