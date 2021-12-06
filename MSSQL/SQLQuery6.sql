@@ -172,6 +172,54 @@ SET @expres = NULL;
 SET @value = 'MSSQL';  
 SELECT ISNULL(@expres, @value) AS Result;  
 
+create table Employee(
+ID INT,
+Emp_name varchar(40) NOT NULL,
+AGE INT,
+SALARY INT,
+)
+
+INSERT INTO Employee(ID, Emp_name,AGE,SALARY)Values
+(208,'sana',NULL,30000),
+(209,'varsha',32,NULL)
+(201,'akhshy',31,25000),
+(202,'madhu',18,26000),
+(203,'arun',23,27000),
+(204,'aravind',33,28000),
+(205,'ajay',31,29000),
+(206,'saran',35,30000),
+(207,'varun',32,31000)
+
+select * from Employee
+
+SELECT   
+  ID, Emp_Name,  
+  ISNULL(Age, 31) AS Age,   
+  ISNULL(Salary, NULL) AS Salary   
+ FROM Employee; 
+ 
+ UPDATE Employee SET SALARY = 50000 where ID = 201
+
+ SELECT SUM(ISNULL(SALARY,25000)) AS SUMOFSALARIES FROM Employee
+
+ SELECT * FROM EMPLOYEE WHERE SALARY IS NULL
+
+ SELECT * FROM Employee WHERE Salary ISNULL(NULL, 0;  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
