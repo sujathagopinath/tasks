@@ -196,6 +196,69 @@ delete from employees where ID = 6
 
 select * from employeeverify
 
+--- After Triggers
+create trigger trupdate
+ON Employees
+AFTER UPDATE
+AS
+BEGIN
+    INSERT INTO employeeverify
+    SELECT Audit_action,'UPDATE', GETDATE() FROM inserted;
+END
+
+create table students(
+name varchar(30),
+marks int,
+gender varchar(20)
+)
+
+Insert into students(name,marks,gender)values
+('asd',90,'male'),
+('qwe',80,'female'),
+('zxc',88,'male')
+
+
+
+insert into StudentInfo(name,marks)
+select name,marks from students
+where gender = 'male'
+
+select * from StudentInfo
+
+insert into StudentInfo(name,marks)
+select name,marks from students
+order by marks
+
+select NULLIF(25,25) AS Result  --- If the number or the string has the same value 
+-- it returns NULL 
+
+select NULLIF(35,25) AS Result  --- if the arguments has the different value it will
+---return the first value
+
+select * from StudentInfo where NULLIF(marks,'')IS NULL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
