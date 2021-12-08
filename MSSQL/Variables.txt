@@ -1,0 +1,72 @@
+Variables:
+
+Variables is one which holds the values dynamically,
+depends on the user needs.
+
+In MSSQL its within the scope of the variable of procedure.
+contols the function flows also
+
+Declare a variable:
+
+---Declaration variable
+Declare @variablename datatype
+---to assign a value to variable
+SET @variablename = value  or  select @variablename =value,@variablename =value;
+set or select can used assign value to variable. 
+set can only one variable but select assign mutiple variable in single statement
+PRINT @variablename
+
+
+declaration in procedure
+
+create procedure procedurename
+AS
+BEGIN
+decalare @variablename datatype
+set @variablename = values
+select *,@variablname 'columnname' from tablename    ---within the quotes column names can be displayed.
+END
+
+Table variable:
+
+local variable of datatype TABLE
+it can hold data set of containing different datatypes
+
+Syntax : declare @tabvar TABLE(col dt, col dt)
+
+key points:
+table variable in TEMPDB. tempdb sys db and not in memory. 
+DDL statement will not support create,alter,drop,truncate
+It does not regard transaction
+
+####user defined variable
+CREATE FUNCTION UDF_TableVariable()  
+RETURNS INT  
+AS  
+BEGIN  
+    --Declaration of Table Variable  
+    DECLARE @TableVariable TABLE(Name VARCHAR(50))   
+    IF EXISTS(SELECT 1 FROM @TableVariable)  
+        RETURN 1   
+    RETURN 0  
+END  
+GO;  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
