@@ -191,6 +191,195 @@ SELECT meeting_date AS CURRENT_MONTH_LAST_DATE, EOMONTH(meeting_date, 1) AS NEXT
 
 SELECT meeting_date AS DATE, DAY(EOMONTH(meeting_date)) AS NUMBER_OF_DAYS FROM meetings
 
+----Dynamic SQL query
+Declare @decision varchar(10)=''
+
+declare @dynamicquery varchar(max)=''
+
+select @decision = 'c', @decision = 'A' 
+
+IF(@decision = 'c')
+BEGIN
+	select COUNT(*) count from pivott
+END
+ELSE IF(@decision = 'A')
+BEGIN
+	select avg(amount)avg from pivott
+END
+ELSE
+BEGIN
+	select SUM(amount)sum from pivott
+END
+
+----Query fro dynamic sql
+
+declare @decision varchar(20) = ''
+---set @decision = 'C'
+
+declare @dec varchar(20) = ''
+---set @dec = 'A'
+
+select @decision = 'C', @dec='A'
+
+declare @dynamicsql varchar(max) = ''
+declare @fun varchar(40) = ''
+
+IF(@decision = 'C')
+BEGIN
+	set @fun = 'count(*) Count'
+END
+ELSE IF(@dec = 'A')
+BEGIN
+	set @fun = 'avg(amount) AVGERAGE'
+END
+ELSE
+BEGIN
+	set @fun ='sum(amount) TOTAL'
+END
+
+set @dynamicsql = ' select ' + @fun +' from pivott'
+
+PRINT @dynamicsql
+
+EXECUTE(@dynamicsql)
+
+---- Dynamic PIVOT SQL
+
+declare @Months varchar(max) = '',
+        @Sqlquery varchar(max);
+
+---with CTE_Months
+--AS
+--(
+select distinct monthname from pivott ---CTE_Months
+--)
+
+select @Months += monthname + ',' from pivott
+
+set @Months = LEFT(@Months,LEN(@Months)-1)
+
+set @Sqlquery =' 
+select * from (
+select year,monthname,amount from pivott
+)main
+PIVOT(
+sum(amount)for monthname IN(' + @Months + ')
+)AS P
+'
+EXECUTE(@Sqlquery)
+
+---Alias
+
+CREATE TABLE Products(  
+    prodID varchar(10),  
+    prodName varchar(20),  
+    quantity int  
+);  
+
+insert into Products(prodID,prodName,quantity)
+values('abc','MILK',10),
+('xyz','Biscuits',12),
+('pqrs','Snacks',20)
+
+select prodName as list_of_prod from Products
+
+select prodName  list_of_prod from Products
+
+select prodName  [list_of_prod] ,quantity [quant] from Products
+
+select prodName as [list_of_prod] ,quantity as [quant] from Products
+
+select prodName  [list_of_prod] ,quantity [$quants] from Products
+
+--- Left function
+
+select LEFT('circus',2)
+
+select left(prodName,3) from Products
+
+select RIGHT(prodName,3),prodName from Products
+
+---Sequence 
+create table seqstuds(
+studId int,
+RollNo int,
+Name varchar(20)
+)
+
+insert into seqstud(studId,RollNo,Name)
+values(202,1234,'sujatha'),
+(204,1234,'yasica'),
+(203,1236,'madhu'),
+(208,1238,'mithu'),
+(206,1240,'akhshy')
+
+select * from seqstud order by studId asc
+
+create sequence studseqs
+AS INT
+start with 202
+increment BY 2
+
+insert into seqstuds(RollNo,Name)values
+(1234,'suja'),
+(1235,'vaishu'),
+(1234,'bhuna'),
+(1238,'varsha'),
+(1239,'akila')
+
+create sequence studentsequences
+AS INT
+start with 201
+increment BY 2
+
+update seqstuds set studId = NEXT VALUE for studentsequences
+
+select * from seqstuds
+
+create sequence stuud
+AS INT
+start with 209 
+increment BY -1
+cycle
+
+update seqstuds set studId = NEXT VALUE for studentsequences
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
