@@ -50,6 +50,11 @@ Begin Transaction
 insert into Employee values(6,'Ajay','1999-12-10 00:00:00',5)
 commit Transaction
 
+Begin Transaction 
+update Employee set employeename='deepak' where employeeid =3
+waitfor delay '00:00:03'
+commit Transaction
+
 
 
 

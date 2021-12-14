@@ -37,12 +37,65 @@ waitfor delay '00:00:03';
 select  employeeid,employeename from Employee
 commit transaction
 
+Alter database SOURCE set Allow_Snapshot_Isolation On
+
 set transaction Isolation Level snapshot
 Begin Transaction
 select employeeid,employeename from Employee
 waitfor delay '00:00:03';
 select  employeeid,employeename from Employee
 commit transaction
+
+select employeename,employeeid from Employee
+
+set transaction Isolation Level Serializable
+Begin Transaction
+select employeeid,employeename from Employee
+waitfor delay '00:00:03';
+select  employeeid,employeename from Employee
+commit transaction
+
+set transaction isolation level read uncommitted
+Begin tran
+select employeeid,employeename from Employee where employeeid = 1
+
+SELECT @@SPID AS session_id   
+
+set transaction isolation level repeatable read
+Begin tran
+select employeeid,employeename from Employee where employeeid = 1
+
+Rollback tran
+
+select * from Active_locks()
+
+SELECT * FROM sys.dm_tran_locks  WHERE request_session_id=56
+
+---Shared locks
+
+begin transaction
+
+select * from Employee with(holdlock) where employeeid = 1
+
+select resource_type,request_mode,resource_description from sys.dm_tran_locks
+where resource_type <>'DATABASE'
+
+rollback
+
+set transaction isolation level repeatable read
+Begin transaction
+select employeeid,employeename from Employee where employeeid = 3
+
+Rollback transaction
+
+
+
+
+
+
+
+
+
 
 
 
