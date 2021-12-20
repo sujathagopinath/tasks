@@ -1,0 +1,23 @@
+{
+  "name": "praticehapijs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/good-console": "^9.0.1",
+    "@hapi/hapi": "^20.2.1",
+    "@hapi/vision": "^6.1.0",
+    "good": "^8.1.2",
+    "hapi": "^18.1.0"
+  },
+  "devDependencies": {
+    "@hapi/lab": "^24.4.0",
+    "handlebars": "^4.7.7"
+  }
+}
