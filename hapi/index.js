@@ -89,7 +89,6 @@ server.route({
     handler: (request, h) => {
 
         const payload = request.payload;
-
         return `Welcome ${payload.username}!`;
     },
     options: {

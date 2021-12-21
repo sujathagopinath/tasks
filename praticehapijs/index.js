@@ -1,4 +1,5 @@
 const Hapi = require('@hapi/hapi')
+const request = require('request')
 
 const init = async () => {
     const server = Hapi.server({
@@ -11,6 +12,12 @@ const init = async () => {
         {
             plugin: require("@hapi/vision"),
            
+        },
+        {
+            plugin: require("@hapi/cookie"),
+        },
+        {
+            plugin: require("@hapi/basic"),
         },
         {
             plugin: require("good"),
@@ -34,6 +41,23 @@ const init = async () => {
             }
         }
     ])
+    server.auth.strategy('login', 'cookie', {
+        cookie: {
+            name: 'session',
+            password: 'socccersoccersoccersoccerccersocc',
+            isSecure: false
+        },
+        redirectTo: '/login',
+        validateFunc: async (request, session) => {
+            if (session.username === 'test', session.password ==='sujatha') {
+                return {valid:true}
+            }
+            else {
+                return {valid:false}
+            }
+        }
+    })
+    server.auth.default('login')
 
     server.views({
         engines: {
@@ -55,6 +79,11 @@ const init = async () => {
         method: 'GET',
         handler: (request, h) => {
            return h.view('index',{title:'new title'}) 
+        },
+        options: {
+            auth: {
+                mode:'try'
+            }
         }
     })
 
@@ -63,6 +92,54 @@ const init = async () => {
         method: 'GET',
         handler: (request, h) => {
            return h.view('layout') 
+        }
+    })
+
+    server.route({
+        path: '/logout',
+        method: 'GET',
+        handler: (request, h) => {
+           return h.view('login') 
+        }
+    })
+
+    server.route({
+        path:'/login',
+        method: 'POST',
+        handler: (request, h) => {
+            // return h.view('index',{username:request.payload.username})
+            if (request.payload.username === 'test' && request.payload.password === 'sujatha') {
+            console.log('username:',request.payload.username)
+                request.cookieAuth.set({
+                    username: request.payload.username,
+                    password: request.payload.password
+                })
+                return h.redirect('/welcome')
+            }
+            else {
+               return h.redirect('/vision')
+            }
+        },
+        options: {
+            auth: {
+                mode:'try'
+            }
+        }
+    })
+
+    server.route({
+        path:'/welcome',
+        method: 'GET',
+        handler: (req, res) => {
+            return res.view('login')
+        }
+    })
+
+    server.route({
+        path: '/{any*}',
+        method: 'GET',
+        handler: (request, h) => {
+           return '<h2>Oh No You Lost</h2>'
         }
     })
 
@@ -105,11 +182,6 @@ const init = async () => {
     console.log(await server.methods.sum([4,5]))
 // end of server methods
     
-    const onRequest = function (request, h) {   ///To change all request to GET
-        request.setMethod('GET')
-        return h.continue
-    };
-    server.ext('onRequest',onRequest)
 
     await server.start();
     console.log('Server started at 4000')

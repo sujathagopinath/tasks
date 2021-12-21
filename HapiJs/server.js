@@ -65,8 +65,6 @@ const init = async () => {
                 return h.response(error).code(500)
             }
         },
-
-
     })
 
     server.route([
