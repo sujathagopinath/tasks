@@ -1,10 +1,17 @@
 const Hapi = require('@hapi/hapi')
+const Joi = require('@hapi/joi')
 const request = require('request')
 
 const init = async () => {
     const server = Hapi.server({
         host: 'localhost',
         port: 4000,
+        routes: {
+            cors: {
+                origin: ['*'],
+                credentials:true
+            }
+        }
 
     })
 
@@ -94,6 +101,21 @@ const init = async () => {
            return h.view('layout') 
         }
     })
+// Headers 
+     server.route({
+        path: '/headers',
+        method: 'GET',
+         handler: function (request, reply) {
+            const headers = request.headers
+             const name = headers.name
+             const cacheControl = headers['cache-control']
+             console.log(cacheControl)
+             console.log(name)
+             console.log("headers: ", headers)
+             
+            return reply(headers)
+        }
+    })
 
     server.route({
         path: '/logout',
@@ -123,17 +145,43 @@ const init = async () => {
         options: {
             auth: {
                 mode:'try'
-            }
+            },
+            validate: {
+                payload: Joi.object({
+                    username: Joi.string().min(1).max(20),
+                    password: Joi.string().min(7)
+                })
+            },
         }
     })
 
     server.route({
         path:'/welcome',
         method: 'GET',
-        handler: (req, res) => {
-            return res.view('login')
+        options: {
+            cors: {
+                credentials:true
+            },
+            handler: (req, res) => {
+                return `hello ${request.auth.credentials.username}`
+                // return res.view('login')
+            }
         }
+        
     })
+
+    server.route({
+    method: 'GET',
+    path: '/index',
+    options: {
+        cors: true,
+        handler: async (req, h) => {
+            return h.response({
+                text: 'Lorem ipsum'
+            });
+        }
+        }
+    });
 
     server.route({
         path: '/{any*}',

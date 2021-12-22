@@ -1,0 +1,18 @@
+{
+  "name": "hapiandsqlserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.1",
+    "dotenv": "^6.2.0",
+    "fs-extra": "^7.0.1",
+    "mssql": "^4.3.9"
+  }
+}

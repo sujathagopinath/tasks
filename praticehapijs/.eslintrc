@@ -1,0 +1,15 @@
+{
+    "extends": "eslint:all",
+    "rules": {
+        // enable additional rules
+        "no-console":"error",
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}
