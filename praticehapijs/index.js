@@ -1,6 +1,7 @@
 const Hapi = require('@hapi/hapi')
 const Joi = require('@hapi/joi')
 const request = require('request')
+const HapiSwagger = require('hapi-swagger');
 
 const init = async () => {
     const server = Hapi.server({
@@ -15,6 +16,13 @@ const init = async () => {
 
     })
 
+    const swaggerOptions = {
+    info: {
+        title: 'Books API Documentation',
+        version: '0.0.1',
+    }
+};
+
     await server.register([
         {
             plugin: require("@hapi/vision"),
@@ -25,6 +33,10 @@ const init = async () => {
         },
         {
             plugin: require("@hapi/basic"),
+        },
+        {
+             plugin: HapiSwagger,
+            options: swaggerOptions
         },
         {
             plugin: require("good"),
@@ -115,7 +127,21 @@ const init = async () => {
              
             return reply(headers)
         }
-    })
+     })
+    
+    server.route({
+    method: 'GET',
+    path: '/books',
+    options: {
+      description: 'Get books list',
+        notes: 'Returns an array of books',
+        tags: ['api'],
+        handler: async (request, h) => {
+            const books = await readFile('./books.json', 'utf8');
+            return h.response(JSON.parse(books));
+        }
+    }
+});
 
     server.route({
         path: '/logout',
