@@ -3,8 +3,9 @@ const sqlConfig = {
     user: 'sa',
     password: 'Aspire@123',
     database: 'SOURCE',
-    server: 'localhost',
-    port: 1433, 
+  server: 'localhost',
+  port: 1433, 
+    driver: 'tedious',
     dialect: "mssql",
     dialectOptions: {
         instanceName: "SQLEXPRESS"

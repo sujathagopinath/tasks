@@ -1,18 +1,13 @@
 const Hapi = require('@hapi/hapi')
-// const mssql = require('mssql')
-// const dotenv = require("dotenv");
-// dotenv.config();
-// const dbconnect = require('./config')
-// dbconnect();
 
 var sql = require('mssql');
 var Request = require('tedious').Request;
-var TYPES = require('tedious').TYPES; 
+// var TYPES = require('tedious').TYPES; 
 
 const init = async () => {
     const server = Hapi.server({
         host: 'localhost',
-        port: 8000
+        port: 4000
     })
 
  var Connection = require('tedious').Connection;
@@ -21,10 +16,15 @@ const init = async () => {
         user: "sa",
         password: "Aspire@123",
         server: "localhost",
-        port:1433,
+        port: 1433,
         options: {
             database: "SOURCE",
             encrypt: false,
+            trustServerCertificate: false,
+            dialect: "mssql",
+            dialectOptions: {
+                instanceName: "SQLEXPRESS"
+            }
         },
     }
  var connection = new Connection(dbconfig);
@@ -38,23 +38,10 @@ const init = async () => {
         if (err) {
             console.log(err);}
         });
-//     //  var result = "";
-//     //     request.on('row', function(columns) {
-//     //         columns.forEach(function(column) {
-//     //           if (column.value === null) {
-//     //             console.log('NULL');
-//     //           } else {
-//     //             result+= column.value + " ";
-//     //           }
-//     //         });
-//     //         console.log(result);
-//     //         result ="";
-//     //     });
-
         connection.execSql(request);
     };
 
-
+  
 
 server.route({
     method: 'GET',
@@ -78,7 +65,7 @@ server.route({
 });
     
 await server.start();
-    console.log('Server started at 8000')
+    console.log('Server started at 4000')
 }
 
 process.on('unhandledRejection', (err) => {
@@ -87,5 +74,3 @@ process.on('unhandledRejection', (err) => {
 })
 
 init();
-
-
