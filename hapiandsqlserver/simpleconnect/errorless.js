@@ -46,8 +46,8 @@ const init = async () => {
 server.route({
     method: 'GET',
     path:'/welcome',
-    handler: function (request, reply) {
-    return reply('hello world');
+    handler: function (request, h) {
+    return 'hello world';
 }
 });
 
