@@ -1,3 +1,5 @@
+"use strict";
+
 const Hapi = require('@hapi/hapi')
 const Joi = require('@hapi/joi')
 const request = require('request')
