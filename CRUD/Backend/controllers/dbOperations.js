@@ -29,12 +29,11 @@ async  function  addUser(user) {
   try {
     let  pool = await  sql.connect(config);
     let  insertuser = await  pool.request()
-    .input('Id', sql.Int, user.Id)
-    .input('Name', sql.NVarChar, user.Name)
-    .input('Age', sql.Int, user.Age)
-    .input('Emailid', sql.NVarChar, user.Emailid)
-    .input('Phoneno', sql.NVarChar, user.Phoneno)
-    .execute('InsertUsers');
+    // .input('pk_user_Id', sql.Int, user.pk_user_Id)
+    .input('Name', sql.VarChar, user.Name)
+    .input('EmailId', sql.VarChar, user.EmailId)
+    .input('Password', sql.VarChar, user.Password)
+    .execute('AddUser');
     return  insertuser.recordsets;
   }
   catch (err) {

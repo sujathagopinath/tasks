@@ -15,6 +15,7 @@
     "mssql": "^7.3.0",
     "relish": "^3.0.0",
     "request": "^2.88.2",
-    "tedious": "^14.0.0"
+    "tedious": "^14.0.0",
+    "tedious-connection-pool": "^1.0.5"
   }
 }

@@ -148,7 +148,101 @@ const init = async () => {
         }
     })
 
+    server.route({
+        method: 'POST',
+        path: '/signup',
+        config: {
+            handler: function (req, h) {
+                const query = promisify(dbConnect.query);
+                inputData = {
+                    // id= req.paylaod.id,
+                    first_name: req.payload.first_name,
+                    last_name: req.payload.last_name,
+                    email_address: req.paylaod.email_address,
+                    password: req.paylaod.password,
+                    confirm_password:req.paylaod.confirm_password
+                }
+                var sql = 'SELECT * FROM Person WHERE email_address = ?';
+                dbConnect.query(sql, [inputData.email_address], function (err, data, fields) {
+                    if (err) throw err
+                    if (data.length > 1) {
+                        var msg = inputData.email_address + "was already exist";
+                    } else if (inputData.confirm_password != inputData.password) {
+                        var msg = "Password & Confirm Password is not Matched";
+                    } else {
+                        var sql = 'INSERT INTO Users SET ?';
+                        dbConnect.query(sql, inputData, function (err, data) {
+                            if (err) throw err;
+                        });
+                        var msg = "Your are successfully registered";
+                    }
+                    return msg
+                })
+            }
+        }
+    })
+
+     
     
+    server.route({
+        method: 'POST',
+        path: '/register',
+        config: {
+            handler: function (request, h) {
+                let user = { ...request.paylaod }
+                Db.addUser(user).then(data => {
+                  return data;
+                })
+            }
+        }
+    })
+    
+
+
+    server.route({
+        method: 'POST',
+        path: '/update-product',
+        config: {
+            handler:function(req,h) {
+                var Rows = req.payload.Rows;
+                dbConnect.callProc("purchaseList", Rows, function (err, success) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        return 'updated'
+                    }
+                });
+            
+
+            }
+        }
+    })
+
+    server.route({
+        method: 'POST',
+        path: '/login',
+        config: {
+            handler: async (req, h)=> {
+                // const query = promisify(dbConnect.query);
+                var username = req.payload.username;
+                var password = req.payload.password;
+                sql.connect(dbConnect, function (err) {
+                    if (err) console.log(err);
+                    var request = new sql.Request();
+                    let query = "exec LoginMember @Username='" + username + "', @Password='" + password + "';";
+                    console.log(query)
+                    request.query(query, function (err, recordset) {
+                        if (err) {
+                            console.log(err);
+                            sql.close();
+                        }
+                        sql.close();
+                        return h.recordset;
+                    });
+                });
+            }
+        }
+    })
     
 await server.start();
     console.log('Happi server started at 3001')
