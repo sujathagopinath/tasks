@@ -23,11 +23,10 @@ const dbConnect = sql.connect(config, err => {
     }
     console.log("Connection made to sql server !");
 
-    // new sql.Request().query('select 1 as number', (err, result) => {
-    //     console.dir(result)
+    new sql.Request().query("CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))", (err, result) => {
+        console.dir("Table created")
         
-    // })
-
+    })
 });
 
 sql.on('error', err => {

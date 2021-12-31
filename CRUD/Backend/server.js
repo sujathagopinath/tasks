@@ -153,23 +153,26 @@ const init = async () => {
         path: '/signup',
         config: {
             handler: function (req, h) {
-                const query = promisify(dbConnect.query);
+                // const query = promisify(dbConnect.query);
                 inputData = {
                     // id= req.paylaod.id,
                     first_name: req.payload.first_name,
                     last_name: req.payload.last_name,
-                    email_address: req.paylaod.email_address,
-                    password: req.paylaod.password,
-                    confirm_password:req.paylaod.confirm_password
+                    // email_address: req.paylaod.email_address,
+                    // Emailid:req.paylaod.Emailid,
+                    // password: req.paylaod.password,
+                    // confirm_password:req.paylaod.confirm_password
                 }
-                var sql = 'SELECT * FROM Person WHERE email_address = ?';
-                dbConnect.query(sql, [inputData.email_address], function (err, data, fields) {
+                var sql = 'SELECT * FROM Person WHERE first_name = ?';
+             const db = dbConnect.query(sql, [inputData.first_name], function (err, data, fields) {
                     if (err) throw err
                     if (data.length > 1) {
-                        var msg = inputData.email_address + "was already exist";
-                    } else if (inputData.confirm_password != inputData.password) {
-                        var msg = "Password & Confirm Password is not Matched";
-                    } else {
+                        var msg = inputData.first_name + "was already exist";
+                    } 
+                    // else if (inputData.confirm_password != inputData.password) {
+                    //     var msg = "Password & Confirm Password is not Matched";
+                    // }
+                     else {
                         var sql = 'INSERT INTO Users SET ?';
                         dbConnect.query(sql, inputData, function (err, data) {
                             if (err) throw err;
@@ -232,12 +235,15 @@ const init = async () => {
                     let query = "exec LoginMember @Username='" + username + "', @Password='" + password + "';";
                     console.log(query)
                     request.query(query, function (err, recordset) {
-                        if (err) {
-                            console.log(err);
-                            sql.close();
+                        if (recordset) {
+                            console.log(recordset);
+                            // sql.close();
                         }
-                        sql.close();
-                        return h.recordset;
+                        else {
+                            console.log(err);
+                        }
+                        // sql.close();
+                    
                     });
                 });
             }

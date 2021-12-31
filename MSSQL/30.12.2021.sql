@@ -93,6 +93,81 @@ END
 Exec LoginMember 
 
 
+select * from Person
+
+CREATE TYPE [dbo].[Tvp_Login] AS TABLE(  
+[Name] [varchar](50) NULL,  
+[Email] [varchar](50) NULL  
+)  
+GO  
+
+Create PROCEDURE [dbo].[Proc_insertuser] (@tbl_Login TVP_LOGIN readonly)  
+AS  
+BEGIN  
+BEGIN try  
+-- Insert statements for procedure here  
+INSERT INTO tbl_login  
+(NAME,  
+Email)  
+SELECT NAME,  
+Email  
+FROM @tbl_Login  
+Select 1 as 'Code', 'Inserted Successfuly.' as 'Message'  
+END try  
+BEGIN catch  
+DECLARE @ErrorNumber INT  
+DECLARE @ErrorMessage VARCHAR(2000)  
+DECLARE @ErrorSeverity INT  
+DECLARE @ErrorState INT  
+SELECT @ErrorNumber = Error_number(),  
+@ErrorMessage = 'Error occured at time of inserting'  
++ Error_message(),  
+@Errorseverity = Error_severity(),  
+@ErrorState = Error_state()  
+RAISERROR (@Errormessage,@ErrorSeverity,@ErrorState)  
+END catch  
+END  
+
+create table login(
+name varchar(50),
+email varchar(50),
+password varchar(50)
+)
+
+drop table login
+
+CREATE procedure [dbo].[Insertloginuser]  
+(  
+@name varchar(50),  
+@email varchar(50),  
+@password varchar(50)  
+)  
+AS  
+BEGIN  
+insert into login (name,email,password) values( @name, @email, @password)  
+END  
+
+EXEC Insertloginuser sujatha,sujatha,sujatha
+
+select * from Login
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
