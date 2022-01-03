@@ -150,40 +150,39 @@ const init = async () => {
 
     server.route({
         method: 'POST',
-        path: '/signup',
+        path: '/log',
         config: {
             handler: function (req, h) {
-                // const query = promisify(dbConnect.query);
-                inputData = {
-                    // id= req.paylaod.id,
-                    first_name: req.payload.first_name,
-                    last_name: req.payload.last_name,
-                    // email_address: req.paylaod.email_address,
-                    // Emailid:req.paylaod.Emailid,
-                    // password: req.paylaod.password,
-                    // confirm_password:req.paylaod.confirm_password
+                try {
+                    var employeesTable = new sql.Table();
+                    employeesTable.columns.add('LoginName', sql.NVarChar(40));
+                    employeesTable.columns.add('PasswordHash', sql.Binary(64));
+                    employeesTable.columns.add('FirstName', sql.NVarChar(40));
+                     employeesTable.columns.add('LastName', sql.NVarChar(40));
+                    const {LoginName,PasswordHash,FirstName,LastName}= req.payload
+                    employeesTable.rows.add(LoginName, PasswordHash,FirstName,LastName)
+                    console.log("Login",LoginName);
+                    console.log("emptable", employeesTable);
+
+                    const pool = new sql.ConnectionPool(dbConnect);
+                    const request = pool.request();
+                    
+                    request.input('User', employeesTable);
+                    request.execute('uspAddUser')
+                        .then(function (recordsets) {
+                            console.dir(recordsets);
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                } catch (error) {
+                    console.log("error", error);
                 }
-                var sql = 'SELECT * FROM Person WHERE first_name = ?';
-             const db = dbConnect.query(sql, [inputData.first_name], function (err, data, fields) {
-                    if (err) throw err
-                    if (data.length > 1) {
-                        var msg = inputData.first_name + "was already exist";
-                    } 
-                    // else if (inputData.confirm_password != inputData.password) {
-                    //     var msg = "Password & Confirm Password is not Matched";
-                    // }
-                     else {
-                        var sql = 'INSERT INTO Users SET ?';
-                        dbConnect.query(sql, inputData, function (err, data) {
-                            if (err) throw err;
-                        });
-                        var msg = "Your are successfully registered";
-                    }
-                    return msg
-                })
             }
         }
     })
+
+
 
      
     
