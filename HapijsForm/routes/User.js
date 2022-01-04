@@ -112,53 +112,93 @@ module.exports = [
                 }
             }
         },
-        handler:async(req,h)=> {
-            var userEmail = req.payload.userEmail
-            var userPassword = req.payload.userPassword
-            if (userEmail != null && userPassword != null) {
-                const result = await getpool();
-                result.input('userEmail', sql.NVarChar(50), req.payload.userEmail)
-                    .input('userPassword', sql.NVarChar(sql.MAX), req.payload.userPassword)
-                    .output('responseMessage', sql.VarChar(50))
-                    .execute('spSignInUser', function (err, data) {
-                        if (err) {
-                            h.response(err).code(500)
-                        }
-                        else {
-                            result.query('Select * from signupUser where userEmail=' + "'" + req.payload.userEmail + "'")
-                                .then(function (datas) {
-                                    console.log(datas['recordset'][0]['userEmail'] + 'RESULTS');
-                                    bcrypt.compare(req.payload.userPassword, datas['recordset'][0]['userPassword'], (err, results) => {
-                                        if (err) {
-                                            return h.response(err).code(500)
-                                        } if (results) {
-                                            const token = jwt.sign({
-                                                email: datas['recordset'][0]['userEmail'],
-                                                userId: datas['recordset'][0]['userId'],
-                                            },
-                                                process.env.JWT_KEY,
-                                                {
-                                                    expiresIn: '1h'
+        handler: async (req, h) => {
+            try {
+                var userEmail = req.payload.userEmail
+                var userPassword = req.payload.userPassword
+                if (userEmail != null && userPassword != null) {
+                    const result = await getpool();
+                    result.input('userEmail', sql.NVarChar(50), req.payload.userEmail)
+                        .input('userPassword', sql.NVarChar(sql.MAX), req.payload.userPassword)
+                        .output('responseMessage', sql.VarChar(50))
+                        .execute('spSignInUser', function (err, data) {
+                            if (err) {
+                                h.response(err).code(500)
+                            }
+                            else {
+                                result.query('Select * from signupUser where userEmail=' + "'" + req.payload.userEmail + "'")
+                                    .then(function (datas) {
+                                        console.log(datas['recordset'][0]['userEmail'] + 'RESULTS');
+                                        bcrypt.compare(req.payload.userPassword, datas['recordset'][0]['userPassword'], (err, results) => {
+                                            if (err) {
+                                                return h.response({message:err}).code(500)
+                                            } if (results) {
+                                                const token = jwt.sign({
+                                                    email: datas['recordset'][0]['userEmail'],
+                                                    userId: datas['recordset'][0]['userId'],
                                                 },
-                                            );
-                                            console.log(results);
-                                            return h.response({
-                                                message: 'success',
-                                                userdata: datas['recordset'],
-                                                access_token: token,
-                                            }).code(200)
-                                        }
-                                        return h.response('Incorrect Password').code(404)
+                                                    process.env.JWT_KEY,
+                                                    {
+                                                        expiresIn: '1h'
+                                                    },
+                                                );
+                                                console.log("results", results);
+                                                console.log("datas", datas)
+                                                console.log("accesstoken",token)
+                                                return h.response({ 
+                                                   message:'success',
+                                                    userdata: datas['recordset'],
+                                                    access_token: token}).code(201)
+                                                }
+                                            return h.response('Incorrect Password').code(404)
+                                        });
+                                    }).catch(function (err) {
+                                        return h.response(err).code(500)
                                     });
-                                }).catch(function (err) {
-                                    return h.response(err).code(500)
-                                });
-                        }
+                            }
+                        });
+                }
+                else {
+                    return h.response('Check User Details').code(400)
+                }
+            }
+            catch (error) {
+                return h.response(error).code(500)
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/getusers/{userId?}',
+        config: {
+            handler: async(req, h)=> {
+                // const query = promisify(db.query);
+                var userId = req.params.userId
+                console.log('userId',userId)
+                 const result = await getpool();
+                   result .input("params", sql.Int, userId)
+                    .query(`select * from signupUser where userId = @params`)
+                    .then(function (dbData) {
+                        if (dbData == null || dbData.length === 0)
+                            return;
+                        console.dir(`User with Code ${userId}`);
+                        console.dir(dbData);
+                    })
+                    .catch(function (error) {
+                        console.dir(error);
                     });
             }
-            else {
-                return h.response('Check User Details').code(400)
+        }
+    },
+    {
+        method: 'PUT',
+        path: '/update/{userId?}',
+        config: {
+            handler: async (req, h) => {
+                
+                
             }
+        
         }
     }
     

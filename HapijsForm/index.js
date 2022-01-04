@@ -1,20 +1,26 @@
 const Hapi = require('@hapi/hapi');
-// var routes = require('./routes/User');
-// server.route(routes.User);
-
-const fs = require('fs');
-const util = require('util');
-
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
-
+const bunyan = require("bunyan");
+const uuid = require("uuid");
 const init = async () => {
     const server = Hapi.server({
         host: 'localhost',
         port: 8000,
     })
-
-   
+    
+    await server.register([
+        {
+            // plugin: require(""),
+           plugin: require( 'hapi-account' ),
+            options: {
+                logger: bunyan.createLogger({
+                    name: 'hapi-logger',
+                    serializers: bunyan.stdSerializers,
+                    enableByDefault: false
+                })
+            }
+        },
+    ])
+    
     var routes = require('./routes/User');
     server.route(routes);
 

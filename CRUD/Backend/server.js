@@ -63,7 +63,7 @@ const init = async () => {
                 console.log('code',Code)
                 new sql.Request()
                     .input("params", sql.Int, Code)
-                    .query(`select * from Employee where Code = @params`)
+                    .query(`select * from  where Code = @params`)
                     .then(function (dbData) {
                         if (dbData == null || dbData.length === 0)
                             return;
