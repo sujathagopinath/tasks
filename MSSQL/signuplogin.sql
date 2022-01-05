@@ -65,7 +65,8 @@ end
 
 select * from signupUser
 
-create procedure  spUpdateusers
+
+CREATE PROCEDURE spUpdateuser
 @userId int,
 @userEmail nvarchar(50),
 @userPassword nvarchar(max),
@@ -75,8 +76,16 @@ AS
 BEGIN
 set nocount on;
 update signupUser set userEmail = @userEmail, userPassword = @userPassword where userId = @userId
-set @responseMessage = 'Success';
-END
+end
+if(@@ROWCOUNT>0)
+begin
+set @responseMessage = 'Updated user profile';
+end
+else
+begin
+set @responseMessage = 'No user profile found';
+end
+
 
 
 

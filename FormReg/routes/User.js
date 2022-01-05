@@ -4,6 +4,7 @@ const db = require('../config/db');
 const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const middleware = require('../Validation/middleware');
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -11,9 +12,11 @@ async function getpool() {
   return result;
 }
 
-router.post('/signup', (req, res, next) => {
-    if (req.body.userEmail != null && req.body.userPassword != null) {
-        bcrypt.hash(req.body.userPassword, 10, async (err, hash) => {
+router.post('/signup', middleware, (req, res, next) => {
+    var userEmail = req.body.userEmail
+    var userPassword = req.body.userPassword
+    if (userEmail != null && userPassword != null) {
+        bcrypt.hash(userPassword, 10, async (err, hash) => {
             if (err) {
                 return res.status(500).json({
                     error: {
@@ -23,7 +26,7 @@ router.post('/signup', (req, res, next) => {
             }
             else {
                 const result = await getpool();
-                result.input('userEmail', sql.NVarChar(50), req.body.userEmail)
+                result.input('userEmail', sql.NVarChar(50), userEmail)
                     .input('userPassword', sql.NVarChar(sql.MAX), hash)
                     .output('responseMessage', sql.VarChar(50))
                     .execute('spSignupUser', function (err, data) {
@@ -47,7 +50,7 @@ router.post('/signup', (req, res, next) => {
                                 res.status(201).json({
                                     message: 'Success',
                                     data: {
-                                        email: req.body.userEmail,
+                                        email: userEmail,
                                         password: hash,
                                         userId: data['recordset'][0]['userId']
                                     }
@@ -73,8 +76,8 @@ router.post('/signin', async (req, res, next) => {
     if (userEmail != null && userPassword != null) {
         const result = await getpool();
         result.
-            input('userEmail', sql.NVarChar(50), req.body.userEmail)
-            .input('userPassword', sql.NVarChar(sql.MAX), req.body.userPassword)
+            input('userEmail', sql.NVarChar(50), userEmail)
+            .input('userPassword', sql.NVarChar(sql.MAX), userPassword)
             .output('responseMessage', sql.VarChar(50))
             .execute('spSignInUser', function (err, data) {
                 if (err) {
@@ -161,42 +164,47 @@ router.get('/getusers/:userId', async (req, res) => {
 })
 
 router.post('/update/:userId', async (req, res) => {
-    const userId = req.params.userId
     const userEmail = req.body.userEmail
-    const userPassword = req.body.userPassword
-
     const salt = await bcrypt.genSalt(10);
-    await bcrypt.hash(userPassword, salt);
+    const userPassword = await bcrypt.hash(req.body.userPassword, salt);
    
     if (userEmail != null && userPassword != null) {
-       const result = await getpool();
-        result.input('userEmail', sql.NVarChar(50), req.body.userEmail)
-            .input('userPassword', sql.NVarChar(sql.MAX), req.body.userPassword)
-            .input('userId',sql.Int,req.params.userId)
+        const result = await getpool();
+        result.input('userEmail', sql.NVarChar(50), userEmail)
+            .input('userPassword', sql.NVarChar(sql.MAX), userPassword)
+            .input('userId', sql.Int, req.params.userId)
             .output('responseMessage', sql.VarChar(50))
-            .execute('spUpdateusers').then(function (err, result) {  
-               
+            .execute('spUpdateuser', function (err, data) {
                 if (err) {
-                    console.log(err)
+                    res.status(400).json({
+                        error: {
+                            message: err
+                        }
+                       
+                    })
                 }
                 else {
-                    result.query("UPDATE signupUser set userEmail= '" + req.body.userEmail + "', userPassword=" + req.body.userPassword + "where userId=" + req.params.userId)
-                        .then(function (dbData) {
-                            if (dbData == null || dbData.length === 0)
-                                res.status(200)
-                            res.send(dbData)
-                            // console.dir(`DELETED with Code ${userId}`);
-                            console.dir(dbData);
-                        })
-                        .catch(function (error) {
-                            console.dir(error);
+                    result.query("UPDATE signupUser set userEmail= '" + userEmail + "' ,  userPassword= '" + userPassword + "' where userId= " + req.params.userId)
+                    console.log("data", data)
+                    if (data['output']['responseMessage'] == 'No user profile found') {
+                        res.status(404).json({
+                            error: {
+                                message: 'No user profile found'
+                            }
                         });
+                    }
+                    else {
+                        res.status(200).json({
+                            message: 'updated user profile',
+                            data: {
+                                email: userEmail,
+                                password: userPassword
+                            }
+                        })
+                    }
                 }
-            })  
-    } else {
-        res.send('Updation failed')
+            })
     }
-      
 })
 
 

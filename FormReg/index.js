@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const routes = require('./routes/User')
+const products = require('./routes/Products')
 const bunyan = require("bunyan");
 const uuid = require("uuid");
 
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/users', routes.router)
+app.use('/api/products', products.productRoute)
 
 
 

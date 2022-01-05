@@ -191,14 +191,50 @@ module.exports = [
         }
     },
     {
-        method: 'PUT',
+        method: 'POST',
         path: '/update/{userId?}',
         config: {
             handler: async (req, h) => {
-                
-                
+                const userEmail = req.payload.userEmail
+                const salt = await bcrypt.genSalt(10);
+                const userPassword = await bcrypt.hash(req.payload.userPassword, salt);
+                if (userEmail != null && userPassword != null) {
+                    const result = await getpool();
+                    result.input('userEmail', sql.NVarChar(50), userEmail)
+                        .input('userPassword', sql.NVarChar(sql.MAX), userPassword)
+                        .input('userId', sql.Int, req.params.userId)
+                        .output('responseMessage', sql.VarChar(50))
+                        .execute('spUpdateuser', function (err, data) {
+                            if (err) {
+                                res.status(400).json({
+                                    error: {
+                                        message: err
+                                    }
+                                })
+                            }
+                            else {
+                                result.query("UPDATE signupUser set userEmail= '" + userEmail + "' ,  userPassword= '" + userPassword + "' where userId= " + req.params.userId)
+                                console.log("data", data)
+                                if (data['output']['responseMessage'] == 'No user profile found') {
+                                    res.status(404).json({
+                                        error: {
+                                            message: 'No user profile found'
+                                        }
+                                    });
+                                }
+                                else {
+                                    res.status(200).json({
+                                        message: 'updated user profile',
+                                        data: {
+                                            email: userEmail,
+                                            password: userPassword
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                }
             }
-        
         }
     }
     
