@@ -14,8 +14,8 @@ const authMiddlware = async (req, res, next) => {
           res.status(401)
           return res.send("Not authorised, invalid token")
         }
-        req.decoded = decoded.id
-        console.log("decoded", decoded.id);
+        req.decoded = decoded.userId
+        console.log("decoded", decoded.userId);
         next();
       });
     } catch (error) {

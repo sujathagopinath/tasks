@@ -1,7 +1,4 @@
-use loginSignup
-
-
-CREATE TABLE Product (
+CREATE TABLE Products (
     productId int primary key identity(1,1),
     productname nvarchar(50),
 	price int,
@@ -33,6 +30,3 @@ set @responseMessage = ERROR_MESSAGE();
 end catch
 
 end
-
-
-select * from signupUser

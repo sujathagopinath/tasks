@@ -1,13 +1,13 @@
-const schema = require('./pattern')
-const middleware = (req, res, next) => {
-    const { userEmail, userPassword } = req.body;
-    const { error } = schema.validate({ userEmail, userPassword });
+const schemas = require('./productpattern')
+const productvalidation = (req, res, next) => {
+    const { productname,price } = req.body;
+    const { error } = schemas.validate({ productname,price });
     if (error) {
         switch (error.details[0].context.key) {
-            case "userEmail":
+            case "productname":
                 res.status(400).json({ message: error.details[0].message });
                 break;
-            case "userPassword":
+            case "price":
                 res.status(400).json({ message: error.details[0].message });
                 break;
             default:
@@ -18,4 +18,4 @@ const middleware = (req, res, next) => {
     return next();
 };
 
-module.exports = middleware
+module.exports = productvalidation

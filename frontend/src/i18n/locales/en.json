@@ -1,0 +1,13 @@
+{
+  "product": {
+    "name": "E products"
+  },
+  "login": {
+    "login": "Login",
+    "forgot_password": "Forgot password",
+    "enter_password": "Enter password",
+    "enter_email": "Enter the email address",
+    "email": "Email",
+    "password": "Password"
+  }
+}

@@ -4,7 +4,7 @@ const db = require('../config/db');
 const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const middleware = require('../Validation/middleware');
+const middleware = require('../Validation/uservalidation');
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -125,10 +125,10 @@ router.post('/signin', async (req, res, next) => {
                                 });
                             });
                         }).catch(function (err) {
-                            return res.status(500).json({
+                            return res.status(404).json({
                                 error:
                                 {
-                                    message: 'Check User Details'
+                                    message: 'User Does not Exists'
                                 }
                             });
                         });
@@ -162,6 +162,21 @@ router.get('/getusers/:userId', async (req, res) => {
             console.dir(error);
         });
 })
+
+router.get('/allusers', async (req, res) => {
+    const result = await getpool();
+    result.query('select * from signupUser')
+        .then(function (data) {
+            console.log('data',data)
+        if (data) {
+            res.status(200)
+            res.send(data)
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
+})
+
 
 router.post('/update/:userId', async (req, res) => {
     const userEmail = req.body.userEmail
@@ -208,22 +223,6 @@ router.post('/update/:userId', async (req, res) => {
 })
 
 
-router.get('/deleteuser/:userId', async (req, res) => {
-    var userId = req.params.userId
-    console.log('userId', userId)
-    const result = await getpool();
-    result.input("params", sql.Int, userId)
-        .query(`DELETE from signupUser where userId = @params`)
-        .then(function (dbData) {
-            if (dbData == null || dbData.length === 0)
-                res.status(200)
-                res.send(dbData)
-            console.dir(`DELETED with Code ${userId}`);
-            console.dir(dbData);
-        })
-        .catch(function (error) {
-            console.dir(error);
-        });
-})
+
 
 module.exports = { router }
