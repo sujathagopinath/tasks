@@ -8,6 +8,7 @@ select * from Products
 
 Create table signupUser(
 userId int primary key identity(1,1),
+userName varchar(50),
 userEmail nvarchar(50),
 userPassword nvarchar(max)
 );
@@ -15,6 +16,7 @@ userPassword nvarchar(max)
 ----------------------------------------------
 
 Create proc spSignupUser
+@userName varchar(50),
 @userEmail nvarchar(50),
 @userPassword nvarchar(max),
 @responseMessage varchar(50) output
@@ -32,8 +34,8 @@ END
 ELSE
 BEGIN
 Insert into signupUser
-Output Inserted.userId,@userEmail as Email,@userPassword as Password
-values(@userEmail,@userPassword);
+Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password
+values(@username, @userEmail,@userPassword);
 
 set @responseMessage = 'Success';
 END
@@ -74,6 +76,7 @@ end
 
 CREATE PROCEDURE spUpdateuser
 @userId int,
+@userName varchar(50),
 @userEmail nvarchar(50),
 @userPassword nvarchar(max),
 @responseMessage varchar(50) output
@@ -81,7 +84,7 @@ CREATE PROCEDURE spUpdateuser
 AS
 BEGIN
 set nocount on;
-update signupUser set userEmail = @userEmail, userPassword = @userPassword where userId = @userId
+update signupUser set userName = @userName, userEmail = @userEmail, userPassword = @userPassword where userId = @userId
 end
 if(@@ROWCOUNT>0)
 begin
@@ -97,7 +100,9 @@ end
 CREATE TABLE Products (
     productId int primary key identity(1,1),
     productname nvarchar(50),
+	productnote nvarchar(50),
 	price int,
+	Discount int Default '0',
     custId int FOREIGN KEY REFERENCES signupUser(userId)
 );
 
@@ -105,7 +110,9 @@ CREATE TABLE Products (
 
 create procedure spProductcreate
 @productname nvarchar(50),
+@productnote nvarchar(50),
 @price int,
+@Discount int ='0',
 @custId int,
 @responseMessage varchar(50) output
 AS
@@ -113,8 +120,9 @@ begin
 set nocount on;
 begin try
 Insert into Products
-Output Inserted.productId,@productname as productname,@price as price,@custId as custId
-values(@productname,@price,@custId);
+Output Inserted.productId,@productname as productname,@productnote as productnote,
+@price as price,@Discount as Discount, @custId as custId
+values(@productname,@productnote,@price,@Discount,@custId);
 
 SELECT Products.productname, Products.price
 FROM Products
@@ -141,6 +149,35 @@ delete from signupUser where userId = @userId
 END
 
 ------------------------------------------------------------
+create proc spupdateproducts
+@productId int,
+@productname nvarchar(50),
+@productnote nvarchar(50),
+@price int ,
+@Discount int,
+@responseMessage varchar(50) output
+
+AS
+BEGIN
+set nocount on;
+IF (@price >= 1000)
+BEGIN
+set @discount = @price - 500
+update Products set productname = @productname, productnote = @productnote,price=@price, discount = @discount where productId = @productId
+if(@@ROWCOUNT>0)
+begin
+set @responseMessage = 'Updated Products';
+end
+End 
+
+ELSE 
+BEGIN
+set @discount = 0
+update Products set productname = @productname, productnote = @productnote,price=@price, discount = @discount where productId = @productId
+set @responseMessage = 'Product Not Updated'
+END
+END
+
 
 
 

@@ -13,9 +13,10 @@ async function getpool() {
 }
 
 router.post('/signup', middleware, (req, res, next) => {
+    var userName = req.body.userName
     var userEmail = req.body.userEmail
     var userPassword = req.body.userPassword
-    if (userEmail != null && userPassword != null) {
+    if (userName!=null && userEmail != null && userPassword != null) {
         bcrypt.hash(userPassword, 10, async (err, hash) => {
             if (err) {
                 return res.status(500).json({
@@ -26,7 +27,8 @@ router.post('/signup', middleware, (req, res, next) => {
             }
             else {
                 const result = await getpool();
-                result.input('userEmail', sql.NVarChar(50), userEmail)
+                result.input('userName',sql.VarChar(50),userName)
+                    .input('userEmail', sql.NVarChar(50), userEmail)
                     .input('userPassword', sql.NVarChar(sql.MAX), hash)
                     .output('responseMessage', sql.VarChar(50))
                     .execute('spSignupUser', function (err, data) {
@@ -50,6 +52,7 @@ router.post('/signup', middleware, (req, res, next) => {
                                 res.status(201).json({
                                     message: 'Success',
                                     data: {
+                                        Name: userName,
                                         email: userEmail,
                                         password: hash,
                                         userId: data['recordset'][0]['userId']
@@ -75,8 +78,7 @@ router.post('/signin', async (req, res, next) => {
     var userPassword = req.body.userPassword
     if (userEmail != null && userPassword != null) {
         const result = await getpool();
-        result.
-            input('userEmail', sql.NVarChar(50), userEmail)
+        result.input('userEmail', sql.NVarChar(50), userEmail)
             .input('userPassword', sql.NVarChar(sql.MAX), userPassword)
             .output('responseMessage', sql.VarChar(50))
             .execute('spSignInUser', function (err, data) {
@@ -179,13 +181,15 @@ router.get('/allusers', async (req, res) => {
 
 
 router.post('/update/:userId', async (req, res) => {
-    const userEmail = req.body.userEmail
-    const salt = await bcrypt.genSalt(10);
-    const userPassword = await bcrypt.hash(req.body.userPassword, salt);
+    var userName = req.body.userName
+    var userEmail = req.body.userEmail
+    var salt = await bcrypt.genSalt(10);
+    var userPassword = await bcrypt.hash(req.body.userPassword, salt);
    
-    if (userEmail != null && userPassword != null) {
+    if (userName !=null && userEmail != null && userPassword != null) {
         const result = await getpool();
-        result.input('userEmail', sql.NVarChar(50), userEmail)
+        result.input('userName',sql.VarChar(50),userName)
+            .input('userEmail', sql.NVarChar(50), userEmail)
             .input('userPassword', sql.NVarChar(sql.MAX), userPassword)
             .input('userId', sql.Int, req.params.userId)
             .output('responseMessage', sql.VarChar(50))
@@ -199,7 +203,7 @@ router.post('/update/:userId', async (req, res) => {
                     })
                 }
                 else {
-                    result.query("UPDATE signupUser set userEmail= '" + userEmail + "' ,  userPassword= '" + userPassword + "' where userId= " + req.params.userId)
+                    result.query("UPDATE signupUser set userName= '" + userName + "' , userEmail= '" + userEmail + "' ,  userPassword= '" + userPassword + "' where userId= " + req.params.userId)
                     console.log("data", data)
                     if (data['output']['responseMessage'] == 'No user profile found') {
                         res.status(404).json({
@@ -212,6 +216,7 @@ router.post('/update/:userId', async (req, res) => {
                         res.status(200).json({
                             message: 'updated user profile',
                             data: {
+                                Name:userName,
                                 email: userEmail,
                                 password: userPassword
                             }

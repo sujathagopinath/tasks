@@ -13,14 +13,14 @@ async function getpool() {
 }
 
 productRoute.post('/create',  authenticate, async (req, res, next) => {
-    const {productname, price } = req.body
+    const {productname,productnote, price } = req.body
     console.log("body", req.body)
     console.log("decode", req.decoded)
     const custId = req.decoded
-    if (productname != null && price != null) {
+    if (productnote!=null && productname != null && price != null) {
         const result = await getpool();
-        result
-            .input('productname', sql.NVarChar(50), productname)
+        result.input('productname', sql.NVarChar(50), productname)
+            .input('productnote',sql.NVarChar(50),productnote)
             .input('price', sql.Int, price)
             .input('custId', sql.Int, custId)
             .output('responseMessage', sql.VarChar(50))
@@ -40,6 +40,7 @@ productRoute.post('/create',  authenticate, async (req, res, next) => {
                             message: "Product has been created",
                             data: {
                                 ProductName: productname,
+                                ProductNote:productnote,
                                 Price: price,
                                 productId: data['recordset'][0]['productId'],
                                 UserId:custId
@@ -88,6 +89,66 @@ productRoute.get('/allproducts', async (req, res) => {
         }).catch((err) => {
             console.log(err)
         })
+})
+
+productRoute.post('/update/:productId',authenticate, async (req, res) => {
+    var productname = req.body.productname
+    var productnote = req.body.productnote
+    var price = req.body.price
+    var discount;
+    var productId = req.params.productId
+   
+    if (productname!=null && productnote!=null && price!=null) {
+        const result = await getpool();
+        result.input('productname',sql.NVarChar(50),productname)
+            .input('productnote', sql.NVarChar(50),productnote)
+            .input('price', sql.Int, price)
+            .input('discount',sql.Int,discount)
+            .input('productId', sql.Int, productId)
+            .output('responseMessage', sql.VarChar(50))
+            .execute('spupdateproducts', function (err, data) {
+                if (err) {
+                    res.status(400).json({
+                        error: {
+                            message: err
+                        }
+                       
+                    })
+                }
+                else {
+                     console.log("data", data)
+                    if (price >= 1000) {
+                        discount = req.body.price-500
+                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "' , discount= '" + discount + "' where productId= " + productId)
+                        console.log("discount value", discount);
+                        console.log("data", data)
+                        res.status(200).json({
+                            message: 'updated Products with Discount',
+                            data: {
+                                ProdName: productname,
+                                ProdNote: productnote,
+                                Price: price,
+                                Discount:discount
+                            }
+                        })
+                    }
+                    else {
+                        discount = 0
+                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "'  where productId= " + productId)
+                        res.status(200).json({
+                            data: {
+                                message:  'Products got updated'
+                            }
+                        });
+                    }
+                    // res.status(404).json({
+                    //     error: {
+                    //         message:'No products got updated'
+                    //     }
+                    // })
+                }
+            })
+    }
 })
 
 productRoute.get('/deleteproduct/:productId',authenticate, async (req, res) => {

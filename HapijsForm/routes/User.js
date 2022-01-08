@@ -16,6 +16,10 @@ module.exports = [
         options: {
             validate: {
                 payload: Joi.object({
+                    userName: Joi.string()
+                        .min(4)
+                        .max(20)
+                        .required(),
                     userEmail: Joi
                         .string()
                         .min(6)
@@ -33,10 +37,11 @@ module.exports = [
         },
 
         handler: async (req, h) => {
+            var userName = req.payload.userName
             var userEmail = req.payload.userEmail
             var userPassword = req.payload.userPassword
-            // console.log("email", userEmail)
-            if (userEmail != null && userPassword != null) {
+            
+            if (userName!=null && userEmail != null && userPassword != null) {
                 bcrypt.hash(userPassword, 10, async (err, hash) => {
                     if (err) {
                         return h.code(500).json({
@@ -47,12 +52,13 @@ module.exports = [
                     }
                     else {
                         const result = await getpool();
-                        result.input('userEmail', sql.NVarChar(50), req.payload.userEmail)
+                        result.input('userName',sql.VarChar(50),userName)
+                            .input('userEmail', sql.NVarChar(50), userEmail)
                             .input('userPassword', sql.NVarChar(sql.MAX), hash)
                             .output('responseMessage', sql.VarChar(50))
                             .execute('spSignupUser', function (err, data) {
                         if (err) {
-                           return h.response.status(500).json({
+                           return h.code(500).json({
                                 error: {
                                     message: err
                                }
@@ -61,21 +67,12 @@ module.exports = [
                         else {
                             console.log("data",data);
                             if (data['output']['responseMessage'] == 'Failed') {
-                                h.response.code(404).json({
-                                    error: {
-                                        message: 'User Exist'
-                                    }
-                                });
+                            //    return h.response({ result, id_token: createToken(usercreated) }).code(200);
+                                return h.response('user exist').code(200);
                             }
                             else {
-                                h.response.code(201).json({
-                                    message: 'Success',
-                                    data: {
-                                        email: req.payload.userEmail,
-                                        password: hash,
-                                        userId: data['recordset'][0]['userId']
-                                    }
-                                });
+                              return h.response({Name:userName,Email:userEmail})
+                                    
                             }
                         }
                      });
@@ -83,11 +80,7 @@ module.exports = [
                 });
             }
             else {
-                return h.response.status(404).json({
-                    error: {
-                        message: 'not found'
-                    }
-                });
+                return h.response("Not Found").code(404)
             }
         }
     },
