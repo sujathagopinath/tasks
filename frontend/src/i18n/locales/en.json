@@ -1,12 +1,10 @@
 {
   "product": {
-    "name": "E products"
+    "name": "E-products"
   },
-  "login": {
-    "login": "Login",
-    "forgot_password": "Forgot password",
-    "enter_password": "Enter password",
-    "enter_email": "Enter the email address",
+  "signin": {
+    "signin": "Sign In",
+    "email_address": "Email Address",
     "email": "Email",
     "password": "Password"
   }

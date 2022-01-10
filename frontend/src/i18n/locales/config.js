@@ -6,10 +6,10 @@ i18n.use(initReactI18next).init({
   lng: 'ta',
   resources: {
     en: {
-      translations: require('./locales/en/translations.json')
+      translations: require('./locales/en.json')
     },
     ta: {
-      translations: require('./locales/ta/translations.json')
+      translations: require('./locales/ta.json')
     }
   },
   ns: ['translations'],
