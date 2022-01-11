@@ -1,0 +1,19 @@
+{
+  "product": {
+    "name": "E-Products",
+    "register":"Register",
+    "login":"Login"
+  },
+  "signin": {
+    "signin": "Sign In",
+    "email_address": "Email Address",
+    "email": "Email",
+    "password": "Password",
+    "dont_account":"Don't Have an account Sign Up"   
+  },
+  "signup":{
+    "signup":"Sign Up",
+    "username":"User Name",
+    "do_account":"Have an account? Sign In"
+  }
+}
