@@ -6,6 +6,9 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
+  USER_PROFILE_REQUEST,
+  USER_PROFILE_SUCCESS,
+  USER_PROFILE_FAIL,
   USER_LOGOUT,
 } from './actionTypes';
 
@@ -82,6 +85,39 @@ export const loginUser = (userEmail, userPassword) => {
     }
   };
 };
+
+export const getUserProfile = () => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
+    console.log(userInfo)
+    try {
+      dispatch({
+        type: USER_PROFILE_REQUEST,
+      });
+      const config = {
+        headers: {
+          authorization: `Bearer ${userInfo.access_token}`,
+        },
+        params: {
+          id: JSON.parse(sessionStorage.getItem('userData')).userId
+        }
+      };
+      // console.log(JSON.parse(sessionStorage.getItem('userData')).email);
+
+      const { data } = await axios.get('/api/users/getuserdata', config);
+      dispatch({
+        type: USER_PROFILE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: USER_PROFILE_FAIL,
+        payload: error.response && error.response.data.message,
+      });
+    }
+  };
+};
+
 
 export const logoutUser = () => {
   return async dispatch => {

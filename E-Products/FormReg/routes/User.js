@@ -5,6 +5,7 @@ const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const middleware = require('../Validation/uservalidation');
+const tokenValidation = require('../tokenValidation/token')
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -147,22 +148,32 @@ router.post('/signin', async (req, res, next) => {
     }
 });
 
-router.get('/getusers/:userId', async (req, res) => {
+router.get('/getuserdata',tokenValidation, async (req, res) => {
     var userId = req.params.userId
     console.log('userId', userId)
     const result = await getpool();
-    result.input("params", sql.Int, userId)
-        .query(`select * from signupUser where userId = @params`)
-        .then(function (dbData) {
-            if (dbData == null || dbData.length === 0)
-                res.status(200)
-                res.send(dbData)
-            console.dir(`User with Code ${userId}`);
-            console.dir(dbData);
+    result.input("userId", sql.Int, userId)
+        .output('responseMessage', sql.VarChar(50))
+        .execute('spgetuserData', function (err, data) {
+            if (err) {
+                return res.status(500).json({
+                    error: {
+                        message: err
+                    }
+                });
+            }
+            else {
+                console.log('data', data)
+                if (data) {
+                    res.status(200)
+                    res.send(data)
+                }
+                else {
+                    res.send('No User profile found')
+                }
+            }
         })
-        .catch(function (error) {
-            console.dir(error);
-        });
+        
 })
 
 router.get('/allusers', async (req, res) => {
@@ -180,7 +191,7 @@ router.get('/allusers', async (req, res) => {
 })
 
 
-router.post('/update/:userId', async (req, res) => {
+router.post('/update/:userId',tokenValidation, async (req, res) => {
     var userName = req.body.userName
     var userEmail = req.body.userEmail
     var salt = await bcrypt.genSalt(10);

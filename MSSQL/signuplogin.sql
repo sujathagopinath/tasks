@@ -97,6 +97,24 @@ end
 
 ------------------------------------------------------------------
 
+create procedure spgetuserDatas
+@userId int,
+@responseMessage varchar(50) output
+
+AS
+BEGIN
+SET nocount on;
+begin try
+SELECT Products.productname, Products.price,Products.productnote,Products.Discount,signupUser.userName
+FROM Products
+LEFT JOIN signupUser ON signupUser.userId = Products.custId
+set @responseMessage = 'Success';
+end try
+begin catch
+set @responseMessage = ERROR_MESSAGE();
+end catch
+END
+------------------------------------------------------------------
 CREATE TABLE Products (
     productId int primary key identity(1,1),
     productname nvarchar(50),

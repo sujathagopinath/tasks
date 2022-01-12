@@ -13,6 +13,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/Actions/Users/useraction';
+import { useNavigate } from 'react-router-dom';
+import ErrorMessage from '../Displaytext/Errormessage';
 
 
 
@@ -21,7 +23,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit">
-        Your Website
+       E-Products
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -38,8 +40,7 @@ const Login = () => {
   const [userEmail, setemail] = useState('');
   const [userPassword, setpassword] = useState('');
   const dispatch = useDispatch();
-
-  
+  const history = useNavigate();
 
   const userLoginDetails = useSelector(state => state.userLogin);
   const { userInfo, error } = userLoginDetails;
@@ -47,7 +48,7 @@ const Login = () => {
 
   // useEffect(() => {
   //   if (userInfo) {
-  //     history.push('/');
+  //     history('/');
   //   }
   // }, [dispatch, userInfo, history]);
 
@@ -75,6 +76,7 @@ const Login = () => {
             
             <LockOpenOutlinedIcon/>
           </Avatar>
+          {error && <ErrorMessage error={error} />}
           <Typography component="h1" variant="h5">
             {t('signin.signin')}
           </Typography>

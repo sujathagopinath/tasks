@@ -14,13 +14,14 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/Actions/Users/useraction';
 import { useNavigate } from 'react-router-dom';
+import ErrorMessage from '../Displaytext/Errormessage';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit">
-        Your Website
+        E-Products
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -66,21 +67,22 @@ const Register = () => {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+          {error && <ErrorMessage error={error} />}
           <Typography component="h1" variant="h5">
-           {t("signup.signup")}
+            {t("signup.signup")}
           </Typography>
-                  <Box component="form" onSubmit={formSubmitHandler} noValidate sx={{ mt: 1 }}>
-                      <TextField
+          <Box component="form" onSubmit={formSubmitHandler} noValidate sx={{ mt: 1 }}>
+            <TextField
               margin="normal"
-              required
               fullWidth
               id="name"
-              label={t("signup.username")}
+              label= {t("signup.username")}
               value={userName}
               onChange={e => setusername(e.target.value)}
               name="name"
               autoComplete="name"
               autoFocus
+              required
             />
             <TextField
               margin="normal"
