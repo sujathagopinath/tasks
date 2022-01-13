@@ -1,6 +1,6 @@
 import React,{Suspense} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+// import './index.css';
 import App from './App';
 import './components/i18n/locales/config';
 import reportWebVitals from './reportWebVitals';

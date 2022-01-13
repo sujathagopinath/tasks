@@ -1,4 +1,5 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
+import '../../assests/ind.css'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -49,7 +50,7 @@ const Register = () => {
     dispatch(registerUser(userName, userEmail,userPassword));
     console.log(userInfo);
     if (userInfo !== null && error === undefined)
-       history('/login');
+       history('/signin');
   };
 
   return (
@@ -119,7 +120,7 @@ const Register = () => {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href='/login'variant="body2">
+                <Link href='/signin'variant="body2">
                   {t("signup.do_account")}
                 </Link>
               </Grid>

@@ -1,0 +1,21 @@
+.container{
+    background-color: #f1f1f1;
+    width: 100%;
+    height: 100%;
+}
+
+img {
+ height: 200%;
+  border-radius: 5%;
+  display: block;
+  background-size: cover;
+  border: #f1f1f1 1px solid;
+  margin-left: 250px;
+}
+
+h2 {
+    font-size: 36px;
+    color: rgb(109, 167, 167);
+    text-shadow: 2px 2px 2px #963838;
+    font-style: italic;
+}

@@ -1,4 +1,4 @@
-ul{
+.underline{
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -8,7 +8,7 @@ ul{
   color: #EDF5E1;
   font-size: 18px;
 }
-.nav-item{
+.items{
     display: inline;
     float: right;
     margin-right: 20px;
@@ -17,7 +17,7 @@ ul{
 
 }
 
-.nav-link{
+.links{
     padding: 8px;
     text-decoration: none;
     color: #EDF5E1;
@@ -25,7 +25,7 @@ ul{
     box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
 }
 
-.button {
+.press {
   display: inline;
   padding: 8px;
   font-size: 18px;
@@ -40,9 +40,9 @@ ul{
   box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
 }
 
-.button:hover {background-color:#666}
+.press:hover {background-color:#666}
 
-.button:active {
+.press:active {
   background-color: #05386B;
   box-shadow: 0 5px #666;
   transform: translateY(4px);

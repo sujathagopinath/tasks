@@ -3,22 +3,24 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer from '../Reducers/UserReducer/userReducer';
 import userProfileReducer from '../Reducers/UserReducer/userProfileReducer'
+import usersListReducer from '../Reducers/UserReducer/userListReducer';
+import userUpdateReducer from '../Reducers/UserReducer/userUpdateReducer';
 
 
 const reducer = combineReducers({
   userLogin: userReducer,
-  userProfile:userProfileReducer
+  userProfile: userProfileReducer,
+  usersList: usersListReducer,
+  updatedUser:userUpdateReducer
 });
 const middleware = [thunk]
-//store
-//Get the user in Session storage
 
-const userDataFromStorage = sessionStorage.getItem('userData')
-  ? JSON.parse(sessionStorage.getItem('userData'))
+const userAuthFromStorage = sessionStorage.getItem('userAuthData')
+  ? JSON.parse(sessionStorage.getItem('userAuthData'))
   : null;
 
 const initialState = {
-  userLogin: { userInfo: userDataFromStorage },
+  userLogin: { userInfo: userAuthFromStorage },
 };
 
 const store = createStore(

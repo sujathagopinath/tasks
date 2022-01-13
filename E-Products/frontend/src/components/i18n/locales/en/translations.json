@@ -2,14 +2,16 @@
   "product": {
     "name": "E-Products",
     "register":"Register",
-    "login":"Login"
+    "login":"Login",
+    "logout":"Logout"
   },
   "signin": {
     "signin": "Sign In",
     "email_address": "Email Address",
     "email": "Email",
     "password": "Password",
-    "dont_account":"Don't Have an account Sign Up"   
+    "dont_account":"Don't Have an account Sign Up",
+    "what's":"What's In Store"  
   },
   "signup":{
     "signup":"Sign Up",

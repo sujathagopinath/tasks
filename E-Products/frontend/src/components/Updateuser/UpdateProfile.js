@@ -1,51 +1,49 @@
 import React, { useState } from 'react';
+import '../../assests/ind.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../../redux/actions/users/userActions';
-import ErrorMessage from '../DisplayMessage/ErrorMessage';
-import SuccessMessage from '../DisplayMessage/SuccessMessage';
+import { updateUser } from '../../redux/Actions/Users/useraction';
+import ErrorMessage from '../Displaytext/Errormessage';
+import SuccessMessage from '../Displaytext/Successmessage';
 
-const UpdateProfile = ({ history }) => {
-  //Get the user from Sessionstorage and pass to the initial states
+const UpdateProfile = () => {
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
-  console.log(userInfo);
+  console.log("info",userInfo);
 
-  const [name, setname] = useState(userInfo ? userInfo.name : '');
-  const [email, setemail] = useState(userInfo ? userInfo.email : '');
-  const [password, setpassword] = useState('');
-  // const [id] = useState(JSON.parse(sessionStorage.getItem('userAuthData'))._id)
-  console.log(userLogin);
+  const [userName, setname] = useState(userInfo ? userInfo.userName : '');
+  const [userEmail, setemail] = useState(userInfo ? userInfo.userEmail : '');
+  const [userPassword, setpassword] = useState('');
+  
+  
+  console.log("login",userLogin);
 
-  //Get the updated user details from store and display message
   const updatedUser = useSelector(state => state.updatedUser);
-  console.log('up',updateUser)
-  const { user, loading, success, error } = updatedUser;
+const { userdata, loading, success, error } = updatedUser;
+  console.log('userdat',userInfo.userdata)
 
-  //dispatch
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  //submit
   const formSubmitHandler = e => {
     e.preventDefault();
-    dispatch(updateUser(name, email, password));
+    dispatch(updateUser(userName, userEmail, userPassword));
   };
 
   return (
     <div className='row container-height'>
       <div className='col-lg-6 col-md-6 m-auto'>
         <div className='container'>
-          {user && !loading && success && (
+          {userdata && !loading && success && (
             <SuccessMessage msg='Updated successfully. Logout and login with your new credentials' />
           )}
-          {!user && !loading && error && (<ErrorMessage error="Invalid user Id" />)}
+          {!userdata && !loading && error && (<ErrorMessage error="Invalid user Id" />)}
           <h1 className='text-center'>Update</h1>
 
           <form onSubmit={formSubmitHandler}>
             <fieldset>
               <div className='form-group'>
-                <label htmlFor='exampleInputEmail1'>Name</label>
+                <label htmlFor='exampleInputEmail1'>UserName</label>
                 <input
-                  value={name}
+                  value={userName}
                   onChange={e => setname(e.target.value)}
                   type='text'
                   className='form-control'
@@ -57,7 +55,7 @@ const UpdateProfile = ({ history }) => {
               <div className='form-group'>
                 <label htmlFor='exampleInputEmail1'>Email address</label>
                 <input
-                  value={email}
+                  value={userEmail}
                   onChange={e => setemail(e.target.value)}
                   type='email'
                   className='form-control'
@@ -69,7 +67,7 @@ const UpdateProfile = ({ history }) => {
               <div className='form-group'>
                 <label htmlFor='exampleInputPassword1'>Password</label>
                 <input
-                  value={password}
+                  value={userPassword}
                   onChange={e => setpassword(e.target.value)}
                   type='password'
                   className='form-control'

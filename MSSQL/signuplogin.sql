@@ -97,17 +97,19 @@ end
 
 ------------------------------------------------------------------
 
-create procedure spgetuserDatas
+create procedure spgetuser
 @userId int,
+@userName nvarchar(50),
+@userEmail nvarchar(50),
 @responseMessage varchar(50) output
 
 AS
 BEGIN
 SET nocount on;
 begin try
-SELECT Products.productname, Products.price,Products.productnote,Products.Discount,signupUser.userName
-FROM Products
-LEFT JOIN signupUser ON signupUser.userId = Products.custId
+SELECT Products.productname, Products.price,Products.productnote,Products.Discount,
+signupUser.userId,signupUser.userName,signupUser.userEmail
+FROM Products INNER JOIN signupUser ON Products.custId = signupUser.userId
 set @responseMessage = 'Success';
 end try
 begin catch

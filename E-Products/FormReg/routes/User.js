@@ -149,12 +149,16 @@ router.post('/signin', async (req, res, next) => {
 });
 
 router.get('/getuserdata',tokenValidation, async (req, res) => {
-    var userId = req.params.userId
+    var userId = req.decoded
+    var userName = req.body.userName
+    var userEmail = req.body.userEmail
     console.log('userId', userId)
     const result = await getpool();
     result.input("userId", sql.Int, userId)
+        .input("userName", sql.NVarChar(50), userName)
+        .input("userEmail", sql.NVarChar(50), userEmail)
         .output('responseMessage', sql.VarChar(50))
-        .execute('spgetuserData', function (err, data) {
+        .execute('spgetuser', function (err, data) {
             if (err) {
                 return res.status(500).json({
                     error: {
@@ -191,18 +195,20 @@ router.get('/allusers', async (req, res) => {
 })
 
 
-router.post('/update/:userId',tokenValidation, async (req, res) => {
+router.put('/update', tokenValidation, async (req, res) => {
+    var userId =req.body.userId
     var userName = req.body.userName
     var userEmail = req.body.userEmail
     var salt = await bcrypt.genSalt(10);
     var userPassword = await bcrypt.hash(req.body.userPassword, salt);
+    console.log('id',req.decoded)
    
     if (userName !=null && userEmail != null && userPassword != null) {
         const result = await getpool();
         result.input('userName',sql.VarChar(50),userName)
             .input('userEmail', sql.NVarChar(50), userEmail)
             .input('userPassword', sql.NVarChar(sql.MAX), userPassword)
-            .input('userId', sql.Int, req.params.userId)
+            .input('userId', sql.Int, userId)
             .output('responseMessage', sql.VarChar(50))
             .execute('spUpdateuser', function (err, data) {
                 if (err) {

@@ -1,16 +1,9 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
-const PrivateRoute = ({
-    component: Component,
-    ...rest
-}) => (
-    <Route {...rest} render={props =>
-        sessionStorage.getItem("userAuthData")
-            ? (<Component {...props} />)
-            : (<Navigate to={{ pathname: "/login" }} />)
-    }
-    />
-)
+const  PrivateRoute = ({ children })=> {
+    const auth = sessionStorage.getItem("userAuthData")
+    return auth ? children : <Navigate to="/signin" />;
+}
 
 export default PrivateRoute

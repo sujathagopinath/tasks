@@ -15,47 +15,56 @@ const Header = () => {
     const dispatch = useDispatch();
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin;
-    const navigate = useNavigate();
+    const history = useNavigate();
 
-  const logoutHandler = () => {
+ const logoutHandler = () => {
     dispatch(logoutUser());
-    navigate.push('/');
+    history('/');
   };
 
 
   return (
       <header>
-          <nav className='navbar'>
-              <div className='nav-top'>
-                  <ul>
+          <nav>
+              
+                  <ul className='underline'>
                        {t("product.name")}
                       
-                      {userInfo ? (
-                          <li className='nav-item'>
-                              <Link className='nav-link' to='/prodcuts'>
-                                  Products
+                  {userInfo ? (
+                      <>
+                          <li className='items'>
+                              <Link className='links' to='/prodcuts'>
+                                      Products
                               </Link>
                           </li>
+                          <li className='items'>
+                              <button className='press' onClick={logoutHandler}>
+                                 {t("product.logout")}
+                              </button>
+                          </li>
+                      </>
+                          
+
                       ) : (
                               <>
-                                  <li className='nav-item'>
-                                      <button  className='button' onClick={logoutHandler}>
-                                          Logout
+                                  <li className='items'>
+                                      <button  className='press' onClick={logoutHandler}>
+                                         {t("product.logout")}
                                       </button>
                                   </li>
 
-                                   <li className='nav-item'>
-                                      <button className='button'  onClick={() => handleclick('ta')}>Tamil</button>
-                                      <button  className='button' onClick={()=>handleclick('en')}>English</button>
+                                   <li className='items'>
+                                      <button className='press'  onClick={() => handleclick('ta')}>Tamil</button>
+                                      <button  className='press' onClick={()=>handleclick('en')}>English</button>
                                   </li>
                                   
-                                  <li className='nav-item'>
-                                      <Link className='nav-link' to='/register'>
+                                  <li className='items'>
+                                      <Link className='links' to='/signup'>
                                         {t("product.register")}
                                       </Link>
                                   </li>
-                                  <li className='nav-item'>
-                                      <Link className='nav-link' to='/login'>
+                                  <li className='items'>
+                                      <Link className='links' to='/signin'>
                                          {t("product.login")}
                                       </Link>
                                   </li>
@@ -63,7 +72,7 @@ const Header = () => {
                           </>
                       )}
                   </ul>
-              </div>
+              
           </nav>
       </header>
   );

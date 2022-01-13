@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/Actions/Users/useraction';
 import { useNavigate } from 'react-router-dom';
 import ErrorMessage from '../Displaytext/Errormessage';
+import Loading from '../Loading/Loading'
 
 
 
@@ -43,14 +44,14 @@ const Login = () => {
   const history = useNavigate();
 
   const userLoginDetails = useSelector(state => state.userLogin);
-  const { userInfo, error } = userLoginDetails;
+  const {loading, userInfo, error } = userLoginDetails;
   console.log(userInfo, error);
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     history('/');
-  //   }
-  // }, [dispatch, userInfo, history]);
+  useEffect(() => {
+    if (userInfo) {
+      history('/');
+    }
+  }, [dispatch, userInfo, history]);
 
   //submit form
   const submitFormHandler = e => {
@@ -76,13 +77,13 @@ const Login = () => {
             
             <LockOpenOutlinedIcon/>
           </Avatar>
+          {loading && <Loading />}
           {error && <ErrorMessage error={error} />}
           <Typography component="h1" variant="h5">
             {t('signin.signin')}
           </Typography>
                   <Box component="form" onSubmit={submitFormHandler} noValidate sx={{ mt: 1 }}>
-          
-            <TextField
+          <TextField
               margin="normal"
               required
               fullWidth
@@ -117,7 +118,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href='/register'variant="body2">
+                <Link href='/signup'variant="body2">
                  {t('signin.dont_account')}
                 </Link>
               </Grid>
