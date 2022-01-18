@@ -95,8 +95,10 @@ productRoute.post('/update/:productId',authenticate, async (req, res) => {
     var productname = req.body.productname
     var productnote = req.body.productnote
     var price = req.body.price
-    var discount;
+    var custId = req.decoded
     var productId = req.params.productId
+    var discount;
+    console.log("prodId",productId)
    
     if (productname!=null && productnote!=null && price!=null) {
         const result = await getpool();
@@ -104,9 +106,10 @@ productRoute.post('/update/:productId',authenticate, async (req, res) => {
             .input('productnote', sql.NVarChar(50),productnote)
             .input('price', sql.Int, price)
             .input('discount',sql.Int,discount)
-            .input('productId', sql.Int, productId)
+            .input('productId',sql.Int,productId)
+            .input('custId',sql.Int,custId)
             .output('responseMessage', sql.VarChar(50))
-            .execute('spupdateproducts', function (err, data) {
+            .execute('spupdateproduct', function (err, data) {
                 if (err) {
                     res.status(400).json({
                         error: {

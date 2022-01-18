@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../assests/ind.css'
+// import '../../assests/ind.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/Actions/Users/useraction';
 import ErrorMessage from '../Displaytext/Errormessage';
@@ -19,7 +19,8 @@ const UpdateProfile = () => {
 
   const updatedUser = useSelector(state => state.updatedUser);
 const { userdata, loading, success, error } = updatedUser;
-  console.log('userdat',userInfo.userdata)
+  console.log('userdat', userInfo.userdata)
+  console.log('userdatas',userInfo.userId)
 
     const dispatch = useDispatch();
 

@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from 'react'
+// import '../../assests/ind.css'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
@@ -16,6 +17,7 @@ import { loginUser } from '../../redux/Actions/Users/useraction';
 import { useNavigate } from 'react-router-dom';
 import ErrorMessage from '../Displaytext/Errormessage';
 import Loading from '../Loading/Loading'
+import {Link} from 'react-router-dom'
 
 
 
@@ -118,7 +120,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href='/signup'variant="body2">
+                <Link to='signup'>
                  {t('signin.dont_account')}
                 </Link>
               </Grid>

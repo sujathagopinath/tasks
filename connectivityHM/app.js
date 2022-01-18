@@ -1,25 +1,25 @@
-const Hapi = require('@hapi/hapi')
+// const Hapi = require('@hapi/hapi')
 
-const init = async () => {
-    const server = Hapi.server({
-        host: 'localhost',
-        port: 4000,
-        routes: {
-            cors: {
-                origin: ['*'],
-                credentials:true
-            }
-        }
+// const init = async () => {
+//     const server = Hapi.server({
+//         host: 'localhost',
+//         port: 4000,
+//         routes: {
+//             cors: {
+//                 origin: ['*'],
+//                 credentials:true
+//             }
+//         }
 
-    })
+//     })
 
 console.log("Hello world, This is an app to connect to sql server.");
 var sql = require('mssql')
 var config = {
     "user": "sa", //default is sa
-    "password": "aspire@123",
+    "password": "Aspire@123",
     "server": "ASPIREVM12-24", // for local machine
-    "database": "hapijs", // name of database
+    "database": "newtest", // name of database
     "driver": "tedious",
     "options": {
         "encrypt": true,
@@ -46,16 +46,16 @@ sql.on('error', err => {
 })
 
 
-    await server.start();
-    console.log('Server started at 4000')
-}
+//     await server.start();
+//     console.log('Server started at 4000')
+// }
 
 process.on('unhandledRejection', (err) => {
     console.log(err);
     process.exit(1);
 })
 
-init();
+// init();
 
 
 

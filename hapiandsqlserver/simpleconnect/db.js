@@ -22,16 +22,16 @@ function getEmp() {
             console.log(err);
             return;
         }
-        req.query("select * from Employee", function (err, data) {
+        // req.query("select * from Employee", function (err, data) {
 
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(data);
-            }
-            conn.close();
-        })
+        //     if (err) {
+        //         console.log(err);
+        //     }
+        //     else {
+        //         console.log(data);
+        //     }
+        //     conn.close();
+        // })
     })
 }
 

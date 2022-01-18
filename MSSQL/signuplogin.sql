@@ -1,12 +1,14 @@
-Create database loginSignup
+Create database Backend
 
-use loginSignup
+use Backend
 -------------------------------------------
-select * from signupUser
+select * from Users
 select * from Products
+
+Drop table Users
 --------------------------------------------
 
-Create table signupUser(
+Create table Users(
 userId int primary key identity(1,1),
 userName varchar(50),
 userEmail nvarchar(50),
@@ -27,13 +29,13 @@ set nocount on;
 
 begin try
 
-IF EXISTS (Select userEmail from signupUser where userEmail = @userEmail)
+IF EXISTS (Select userEmail from Users where userEmail = @userEmail)
 BEGIN
 set @responseMessage = 'Failed';
 END
 ELSE
 BEGIN
-Insert into signupUser
+Insert into Users
 Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password
 values(@username, @userEmail,@userPassword);
 
@@ -56,9 +58,9 @@ as
 begin
 set nocount on;
 begin try
-IF EXISTS (Select userEmail,userPassword from signupUser where userEmail = @userEmail and userPassword = @userPassword)
+IF EXISTS (Select userEmail,userPassword from Users where userEmail = @userEmail and userPassword = @userPassword)
 begin
-Select userEmail,userPassword from signupUser where userEmail = @userEmail and userPassword = @userPassword
+Select userEmail,userPassword from Users where userEmail = @userEmail and userPassword = @userPassword
 set @responseMessage = 'Success';
 end
 else
@@ -84,7 +86,7 @@ CREATE PROCEDURE spUpdateuser
 AS
 BEGIN
 set nocount on;
-update signupUser set userName = @userName, userEmail = @userEmail, userPassword = @userPassword where userId = @userId
+update Users set userName = @userName, userEmail = @userEmail, userPassword = @userPassword where userId = @userId
 end
 if(@@ROWCOUNT>0)
 begin
@@ -107,9 +109,9 @@ AS
 BEGIN
 SET nocount on;
 begin try
-SELECT Products.productname, Products.price,Products.productnote,Products.Discount,
-signupUser.userId,signupUser.userName,signupUser.userEmail
-FROM Products INNER JOIN signupUser ON Products.custId = signupUser.userId
+SELECT Products.productId, Products.productname, Products.price,Products.productnote,Products.Discount,
+Users.userId,Users.userName,Users.userEmail
+FROM Products INNER JOIN Users ON Products.custId = Users.userId
 set @responseMessage = 'Success';
 end try
 begin catch
@@ -117,13 +119,33 @@ set @responseMessage = ERROR_MESSAGE();
 end catch
 END
 ------------------------------------------------------------------
+create procedure spfetchuser
+@userId int,
+@userName nvarchar(50),
+@userEmail nvarchar(50),
+@responseMessage varchar(50) output
+
+AS
+BEGIN
+SET nocount on;
+begin try
+SELECT Products.productname, Products.price,Products.productnote,Products.Discount,
+Users.userId,Users.userName,Users.userEmail
+FROM Products INNER JOIN Users ON Products.custId = Users.userId
+set @responseMessage = 'Success';
+end try
+begin catch
+set @responseMessage = ERROR_MESSAGE();
+end catch
+END
+-------------------------------------------------------------------
 CREATE TABLE Products (
     productId int primary key identity(1,1),
     productname nvarchar(50),
 	productnote nvarchar(50),
 	price int,
 	Discount int Default '0',
-    custId int FOREIGN KEY REFERENCES signupUser(userId)
+    custId int FOREIGN KEY REFERENCES users(userId)
 );
 
 --------------------------------------------------------------------
@@ -146,7 +168,7 @@ values(@productname,@productnote,@price,@Discount,@custId);
 
 SELECT Products.productname, Products.price
 FROM Products
-INNER JOIN signupUser ON signupUser.userId = Products.custId
+INNER JOIN users ON users.userId = Products.custId
 
 set @responseMessage = 'success'
 end try
@@ -165,12 +187,13 @@ AS
 BEGIN
 set nocount on;
 delete from Products where custId = @userId;
-delete from signupUser where userId = @userId
+delete from users where userId = @userId
 END
 
 ------------------------------------------------------------
-create proc spupdateproducts
+create proc spupdateproduct
 @productId int,
+@custId int,
 @productname nvarchar(50),
 @productnote nvarchar(50),
 @price int ,

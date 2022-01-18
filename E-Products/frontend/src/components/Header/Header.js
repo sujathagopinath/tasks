@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css'
-import { Link} from 'react-router-dom';
+// import { Link} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/Actions/Users/useraction';
@@ -26,53 +26,56 @@ const Header = () => {
   return (
       <header>
           <nav>
-              
-                  <ul className='underline'>
-                       {t("product.name")}
-                      
+              <ul className='underline'>
+                  {t("product.name")}
                   {userInfo ? (
                       <>
                           <li className='items'>
-                              <Link className='links' to='/prodcuts'>
-                                      Products
-                              </Link>
+                              <a className='links' href='products'>
+                                  Products
+                              </a>
                           </li>
                           <li className='items'>
-                              <button className='press' onClick={logoutHandler}>
-                                 {t("product.logout")}
+                              <a className='links' href='create'>
+                                  Add Product
+                              </a>
+                          </li>
+                          <li className='items'>
+                              <a className='links' href='allusers'>
+                                  Users
+                              </a>
+                          </li>
+                          <li className='nav-item dropdown'>
+                              {/* <a className='links'>{userInfo.userName}</a> */}
+                              <p>{ userInfo.userName}</p>
+                              <a className='items' href='profile'>
+                                  Profile
+                              </a>
+                              <button onClick={logoutHandler} className='press'>
+                                  Logout
                               </button>
                           </li>
                       </>
-                          
-
-                      ) : (
-                              <>
-                                  <li className='items'>
-                                      <button  className='press' onClick={logoutHandler}>
-                                         {t("product.logout")}
-                                      </button>
-                                  </li>
-
-                                   <li className='items'>
-                                      <button className='press'  onClick={() => handleclick('ta')}>Tamil</button>
-                                      <button  className='press' onClick={()=>handleclick('en')}>English</button>
-                                  </li>
-                                  
-                                  <li className='items'>
-                                      <Link className='links' to='/signup'>
-                                        {t("product.register")}
-                                      </Link>
-                                  </li>
-                                  <li className='items'>
-                                      <Link className='links' to='/signin'>
-                                         {t("product.login")}
-                                      </Link>
-                                  </li>
-                                  
-                          </>
-                      )}
-                  </ul>
-              
+                  ) : (
+                          <>
+                              <li className='items'>
+                                  <button className='press' onClick={() => handleclick('ta')}>Tamil</button>
+                                  <button className='press' onClick={() => handleclick('en')}>English</button>
+                              </li>
+                              <li className='items'>
+                                  <a  href="/signup" className='links'>
+                                      {/* {t("product.register")} */}Register
+                                  </a>
+                              </li>
+                              <li className='items'>
+                                  <a href="signin" className='links'>
+                                      {/* {t("product.login")} */} Login
+                                  </a>
+                              </li>
+                              
+                      </>
+                  )}
+              </ul>
           </nav>
       </header>
   );

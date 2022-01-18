@@ -8,6 +8,7 @@ import PrivateRoute from './utils/PrivateRoute';
 import Profile from './components/Userprofile/Profile'
 import ListUsers from './components/Userprofile/ListUsers'
 import UpdateProfile from './components/Updateuser/UpdateProfile';
+import AddProduct from './components/Products/AddProduct';
 
 const App = () => {
   return (
@@ -15,15 +16,17 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route exact path='/' element={<Home/>} />
-          <Route exact path='/signup' element={<Register />} />
-          <Route exact path='/signin' element={<Login />} />
+          <Route exact path="/" element={<Home/>} />
+          <Route  path="/signup" element={<Register />} />
+          <Route  path="signin" element={<Login />} />
           <Route path='/getuserdata' element=
             {<PrivateRoute> <Profile /> </PrivateRoute>} />
           <Route path='/allusers' element=
             {<PrivateRoute>  <ListUsers /> </PrivateRoute>} />
           <Route path='/update' element=
             {<PrivateRoute> <UpdateProfile /> </PrivateRoute>} />
+          <Route path='/create' element=
+            {<PrivateRoute> <AddProduct /> </PrivateRoute>} />
         </Routes>
       </BrowserRouter>
     </>   

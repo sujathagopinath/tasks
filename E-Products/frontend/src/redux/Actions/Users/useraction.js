@@ -76,10 +76,10 @@ export const loginUser = (userEmail, userPassword) => {
         { userEmail, userPassword },
         config
       );
-
+console.log('logindata',data)
       dispatch({
         type: USER_LOGIN_SUCCESS,
-        payload: data,
+        payload: data
       });
 
       sessionStorage.setItem('userAuthData', JSON.stringify(data));

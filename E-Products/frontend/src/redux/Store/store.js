@@ -5,13 +5,14 @@ import userReducer from '../Reducers/UserReducer/userReducer';
 import userProfileReducer from '../Reducers/UserReducer/userProfileReducer'
 import usersListReducer from '../Reducers/UserReducer/userListReducer';
 import userUpdateReducer from '../Reducers/UserReducer/userUpdateReducer';
-
+import createdProductReducer from '../Reducers/ProductReducer/createdProductReducer';
 
 const reducer = combineReducers({
   userLogin: userReducer,
   userProfile: userProfileReducer,
   usersList: usersListReducer,
-  updatedUser:userUpdateReducer
+  updatedUser:userUpdateReducer,
+  productCreated: createdProductReducer,
 });
 const middleware = [thunk]
 

@@ -18,10 +18,11 @@ const Profile = () => {
   console.log('up',userProfile)
   const { loading, user } = userProfile;
   console.log("user:", user);
+  // console.log("email",userProfile.user.recordset.userEmail)
   
 
   // const users = userProfile.user && userProfile.user.products;
-  const users = userProfile.user
+  const users = userProfile.user 
   const renderTable = () => {
     if (users) {
       return (
@@ -39,7 +40,7 @@ const Profile = () => {
           <tbody>
             {users.recordset.map(product => {
               return (
-                <tr className='table-dark' key={product.userId}>
+                <tr className='table-dark' key={product.custId}>
                   <th scope='row'>{product.productname}</th>
                   <td>{product.productnote}</td>
                   <td>{product.price}</td>
@@ -86,10 +87,21 @@ const Profile = () => {
             <Loading/>
           ) : (
             <div className='card m-auto ' style={{ width: '50%' }}>
-              <div className='card-body'>
-                <h5 className='card-title'>{user && user.userEmail}</h5>
+                <div className='card-body'>
+                  {/* {users.recordset.map(product => {
+              return (
+                <tr className='table-dark' key={product.userId}>
+                  <td>{product.userName}</td>
+                  <td>{product.userEmail}</td>  
+                </tr>
+              );
+                  })}
+                   <Link to='/update' className='btn btn-primary'>
+                  Update your profile
+                </Link> */}
+                {/* <h5 className='card-title'>{userProfile.user.userEmail}</h5> */}
                 <p className='card-text'>{user && user.userName}</p>
-                <Link to='/update' className='btn btn-primary'>
+                 <Link to='/update' className='btn btn-primary'>
                   Update your profile
                 </Link>
               </div>

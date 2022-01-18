@@ -18,7 +18,7 @@ router.post('/signup', middleware, (req, res, next) => {
     var userEmail = req.body.userEmail
     var userPassword = req.body.userPassword
     if (userName!=null && userEmail != null && userPassword != null) {
-        bcrypt.hash(userPassword, 10, async (err, hash) => {
+        bcrypt.hash(userPassword, 10,async (err, hash) => {
             if (err) {
                 return res.status(500).json({
                     error: {
@@ -52,12 +52,13 @@ router.post('/signup', middleware, (req, res, next) => {
                             else {
                                 res.status(201).json({
                                     message: 'Success',
-                                    data: {
-                                        Name: userName,
-                                        email: userEmail,
-                                        password: hash,
-                                        userId: data['recordset'][0]['userId']
-                                    }
+                                    
+                                        userdata: data['recordset'],
+                                        // Name: userName,
+                                        // email: userEmail,
+                                        // password: hash,
+                                        // userId: data['recordset'][0]['userId']
+                                    
                                 });
                             }
                         }
@@ -92,7 +93,7 @@ router.post('/signin', async (req, res, next) => {
                     });
                 }
                 else {
-                    result.query('Select * from signupUser where userEmail=' + "'" + req.body.userEmail + "'")
+                    result.query('Select * from Users where userEmail=' + "'" + req.body.userEmail + "'")
                         .then(function (datas) {
                             console.log(datas['recordset'][0]['userEmail'] + 'RESULTS');
                             bcrypt.compare(req.body.userPassword, datas['recordset'][0]['userPassword'], (err, results) => {
@@ -158,7 +159,7 @@ router.get('/getuserdata',tokenValidation, async (req, res) => {
         .input("userName", sql.NVarChar(50), userName)
         .input("userEmail", sql.NVarChar(50), userEmail)
         .output('responseMessage', sql.VarChar(50))
-        .execute('spgetuser', function (err, data) {
+        .execute('spgetusers', function (err, data) {
             if (err) {
                 return res.status(500).json({
                     error: {
@@ -182,7 +183,7 @@ router.get('/getuserdata',tokenValidation, async (req, res) => {
 
 router.get('/allusers', async (req, res) => {
     const result = await getpool();
-    result.query('select * from signupUser')
+    result.query('select * from Users')
         .then(function (data) {
             console.log('data',data)
         if (data) {
@@ -196,7 +197,7 @@ router.get('/allusers', async (req, res) => {
 
 
 router.put('/update', tokenValidation, async (req, res) => {
-    var userId =req.body.userId
+    var userId =req.decoded
     var userName = req.body.userName
     var userEmail = req.body.userEmail
     var salt = await bcrypt.genSalt(10);
@@ -220,7 +221,7 @@ router.put('/update', tokenValidation, async (req, res) => {
                     })
                 }
                 else {
-                    result.query("UPDATE signupUser set userName= '" + userName + "' , userEmail= '" + userEmail + "' ,  userPassword= '" + userPassword + "' where userId= " + req.params.userId)
+                    result.query("UPDATE Users set userName= '" + userName + "' , userEmail= '" + userEmail + "' ,  userPassword= '" + userPassword + "' where userId= " + userId)
                     console.log("data", data)
                     if (data['output']['responseMessage'] == 'No user profile found') {
                         res.status(404).json({
