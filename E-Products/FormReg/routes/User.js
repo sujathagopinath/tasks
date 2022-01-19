@@ -159,7 +159,7 @@ router.get('/getuserdata',tokenValidation, async (req, res) => {
         .input("userName", sql.NVarChar(50), userName)
         .input("userEmail", sql.NVarChar(50), userEmail)
         .output('responseMessage', sql.VarChar(50))
-        .execute('spgetusers', function (err, data) {
+        .execute('spgetuserdata', function (err, data) {
             if (err) {
                 return res.status(500).json({
                     error: {

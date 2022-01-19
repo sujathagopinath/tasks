@@ -99,7 +99,7 @@ end
 
 ------------------------------------------------------------------
 
-create procedure spgetuser
+create procedure spgetuserdata
 @userId int,
 @userName nvarchar(50),
 @userEmail nvarchar(50),
@@ -109,9 +109,9 @@ AS
 BEGIN
 SET nocount on;
 begin try
-SELECT Products.productId, Products.productname, Products.price,Products.productnote,Products.Discount,
-Users.userId,Users.userName,Users.userEmail
-FROM Products INNER JOIN Users ON Products.custId = Users.userId
+SELECT * FROM Users RIGHT JOIN Products ON  Users.userId = Products.custId 
+where Users.userId = @userId
+
 set @responseMessage = 'Success';
 end try
 begin catch
@@ -119,7 +119,7 @@ set @responseMessage = ERROR_MESSAGE();
 end catch
 END
 ------------------------------------------------------------------
-create procedure spfetchuser
+create procedure spfetchusers
 @userId int,
 @userName nvarchar(50),
 @userEmail nvarchar(50),
@@ -129,9 +129,9 @@ AS
 BEGIN
 SET nocount on;
 begin try
-SELECT Products.productname, Products.price,Products.productnote,Products.Discount,
-Users.userId,Users.userName,Users.userEmail
-FROM Products INNER JOIN Users ON Products.custId = Users.userId
+select Products.productname, Products.price,Products.productnote,Products.Discount,
+Users.userName,Users.userEmail from Products,Users
+where Users.userId = Products.custId
 set @responseMessage = 'Success';
 end try
 begin catch
@@ -191,9 +191,8 @@ delete from users where userId = @userId
 END
 
 ------------------------------------------------------------
-create proc spupdateproduct
+create proc spupdateproducts
 @productId int,
-@custId int,
 @productname nvarchar(50),
 @productnote nvarchar(50),
 @price int ,
@@ -220,9 +219,6 @@ update Products set productname = @productname, productnote = @productnote,price
 set @responseMessage = 'Product Not Updated'
 END
 END
-
-
-
 
 
 

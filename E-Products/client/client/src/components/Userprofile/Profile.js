@@ -4,6 +4,8 @@ import { getUserProfile } from '../../Redux/Actions/Users/useraction';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading'
 import home from '../../assests/home.jpg'
+import Button from '@mui/material/Button';
+
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -11,6 +13,12 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch, history]);
+
+  function updatefunc(product) {
+    sessionStorage.setItem('product', JSON.stringify(product))
+    console.log("updatefunc", product)
+    history('/updateproduct');
+  }
 
   //Get user Profile
   const userProfile = useSelector(state => state.userProfile);
@@ -40,6 +48,7 @@ const Profile = () => {
               <th scope='col'>Discount </th>
               <th scope='col'>CustId</th>
               <th scope='col'>Image</th>
+              <th scope='col'>Update</th>
               
             </tr>
           </thead>
@@ -52,7 +61,8 @@ const Profile = () => {
                   <td>{product.price}</td>
                       <td>{product.Discount}</td>
                   <td>{product.userId}</td>
-                  <td><img src={home} alt="Product pic" style={image}/></td>
+                  <td><img src={home} alt="Product pic" style={image} /></td>
+                  <td><Button onClick={() => updatefunc(product)} variant="contained">Update</Button></td>
                 </tr>
               );
             })}

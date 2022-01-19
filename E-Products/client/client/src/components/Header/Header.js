@@ -29,35 +29,45 @@ const Header = () => {
                   {t("product.name")}
                   {userInfo ? (
                       <>
+                           <li className='items'>
+                                  <button className='press' onClick={() => handleclick('ta')}>Ta</button>
+                                  <button className='press' onClick={() => handleclick('en')}>En</button>
+                              </li>
                          <li className='items'>
                               <p>{userInfo.userdata[0].userName}</p>
                           </li>
 
                           <li className='items'>
-                              <button onClick={logoutHandler} className='press'>
-                                  Logout
+                              <button onClick={logoutHandler} className='logout'>
+                                   {t("product.logout")} 
                               </button>
                           </li>
                           
                           <li className='items'>
                               <a className='links' href='products'>
-                                  Products
+                                  {t("header.products")} 
+                             </a>
+                          </li>
+                          <li className='items'>
+                              <a className='links' href='allproducts'>
+                                   {t("header.userproducts")} 
                              </a>
                           </li>
                           <li className='items'>
                               <a className='links' href='create'>
-                                  Add Product
+                                   {t("header.addproducts")} 
                               </a>
                           </li>
+                
                           <li className='items'>
                               <a className='links' href='allusers'>
-                                  Users
+                                   {t("header.users")} 
                               </a>
                           </li>
 
                           <li className='items'>
                               <a className='links' href='update'>
-                                  Profile
+                                  {t("header.profile")} 
                               </a>
                           </li>
                           
@@ -65,8 +75,8 @@ const Header = () => {
                   ) : (
                           <>
                               <li className='items'>
-                                  <button className='press' onClick={() => handleclick('ta')}>Tamil</button>
-                                  <button className='press' onClick={() => handleclick('en')}>English</button>
+                                  <button className='press' onClick={() => handleclick('ta')}>Ta</button>
+                                  <button className='press' onClick={() => handleclick('en')}>En</button>
                               </li>
                               <li className='items'>
                                   <a  href="signup" className='links'>

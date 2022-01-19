@@ -12,7 +12,7 @@ const createdProductReducer = (state = {}, action) => {
       };
     case CREATE_PRODUCT_SUCCESS:
       return {
-        book: action.payload,
+        product: action.payload,
         loading: false,
       };
     case CREATE_PRODUCT_FAIL:

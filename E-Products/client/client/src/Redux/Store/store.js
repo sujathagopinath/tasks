@@ -6,13 +6,15 @@ import userProfileReducer from '../Reducers/UserReducer/userProfileReducer'
 import usersListReducer from '../Reducers/UserReducer/userListReducer';
 import userUpdateReducer from '../Reducers/UserReducer/userUpdateReducer';
 import createdProductReducer from '../Reducers/ProductReducer/createdProductReducer';
+import productListReducer from '../Reducers/ProductReducer/productListReducer';
 
 const reducer = combineReducers({
   userLogin: userReducer,
   userProfile: userProfileReducer,
   usersList: usersListReducer,
   updatedUser: userUpdateReducer,
-  productCreated:createdProductReducer
+  productCreated: createdProductReducer,
+  Productslist:productListReducer
 });
 const middleware = [thunk]
 

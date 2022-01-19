@@ -1,8 +1,14 @@
 import axios from 'axios';
 import {
     CREATE_PRODUCT_FAIL,
-    CREATE_PRODUCT_REQUEST,
-    CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+    PRODUCT_UPDATE_SUCCESS,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_FAIL,
+  FETCH_PRODUCT_REQUEST,
+FETCH_PRODUCT_SUCCESS,
+FETCH_PRODUCT_FAIL
 
 } from './actionTypes.js'
 
@@ -36,3 +42,69 @@ export const createProduct = productData => {
     }
   };
 };
+
+export const updateProduct = (productId, productData) => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
+    try {
+      dispatch({
+        type: PRODUCT_UPDATE_REQUEST,
+        loading: true,
+      });
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.access_token}`
+        },
+      };
+      const { data } = await axios.put(`/api/products/update/${productId}`, productData, config)
+      console.log("productdata", productData)
+
+      dispatch({
+        type: PRODUCT_UPDATE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: PRODUCT_UPDATE_FAIL,
+        loading: false,
+        error: error.response && error.response.data.message,
+      });
+    }
+  };
+};
+
+export const fetchProducts = () => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
+    try {
+      dispatch({
+        type: FETCH_PRODUCT_REQUEST,
+        loading: true,
+      });
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.access_token}`
+        },
+      };
+      const { data } = await axios.get('/api/products/allproducts', config);
+
+      dispatch({
+        type: FETCH_PRODUCT_SUCCESS,
+        payload: data,
+      });
+      console.log('products',data)
+    } catch (error) {
+      dispatch({
+        type: FETCH_PRODUCT_FAIL,
+        error: error.response && error.response.data.message,
+      });
+    }
+  };
+};
+
+
+
+

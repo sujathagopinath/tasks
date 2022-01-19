@@ -9,6 +9,8 @@ import Profile from './components/Userprofile/Profile';
 import ListUsers from './components/Userprofile/ListUsers';
 import UpdateProfile from './components/Updateuser/UpdateProfile'
 import AddProduct from './components/Products/AddProduct'
+import ProductUpdate from './components/Products/ProductUpdate'
+import Products from './components/Products/Products'
 
 function App() {
   return (
@@ -16,17 +18,21 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route exact path="/" element={<Home/>} />
-          <Route  path="signup" element={<SignUp />} />
-           <Route  path="signin" element={<SignIn />} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="signin" element={<SignIn />} />
           <Route path='/products' element=
             {<PrivateRoute> <Profile /> </PrivateRoute>} />
           <Route path='/allusers' element=
             {<PrivateRoute>  <ListUsers /> </PrivateRoute>} /> 
           <Route path='/update' element=
             {<PrivateRoute> <UpdateProfile /> </PrivateRoute>} />
-           <Route path='/create' element=
-            {<PrivateRoute> <AddProduct /> </PrivateRoute>} />   
+          <Route path='/create' element=
+            {<PrivateRoute> <AddProduct /> </PrivateRoute>} /> 
+          <Route path='/updateproduct' element=
+            {<PrivateRoute> <ProductUpdate /> </PrivateRoute>} />
+          <Route path='/allproducts' element=
+            {<PrivateRoute> <Products /> </PrivateRoute>} /> 
         </Routes>
       </BrowserRouter>
     </>   

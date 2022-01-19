@@ -17,5 +17,17 @@
     "signup":"Sign Up",
     "username":"User Name",
     "do_account":"Have an account? Sign In"
+  },
+  "validation":{
+    "username":"Username is Required",
+    "email":"Email is Required",
+    "password":"Password is Required"
+  },
+  "header":{
+    "profile":"Profile",
+    "users":"Users",
+    "products":"Products",
+    "userproducts":"UserProducts",
+    "addproducts":"Add Product"
   }
 }

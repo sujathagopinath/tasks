@@ -1,98 +1,88 @@
-// import React, { useState } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { updateBook } from '../../Redux/Actions/Products/productaction';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateProduct } from '../../Redux/Actions/Products/productaction';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// const ProductUpdate = ({ history }) => {
-// //   const product = JSON.parse(sessionStorage.getItem('book'))
-// //   console.log("updatebook", book)
+const ProductUpdate = () => {
+  const history = useNavigate()
+  const product = JSON.parse(sessionStorage.getItem('product'))
+  console.log("updateproduct", product)
 
-//   const [productname, setProductname] = useState(book.category);
-//   const [productnote, setProductnote] = useState(book.title);
-//   const [price, setPrice] = useState(book.author);
-//   
-//   const [id] = useState(book._id)
+  const [productname, setProductname] = useState(product.productname);
+  const [productnote, setProductnote] = useState(product.productnote);
+  const [price, setPrice] = useState(product.price);
 
-//   const dispatch = useDispatch();
-//   //dispatch action
-//   const formSubmitHandler = e => {
-//     const data = {
-//       category,
-//       title,
-//       author,
-//       createdby,
-//     };
-//     e.preventDefault();
-//     dispatch(updateBook(id, data));
-//     history.push('/profile');
-//   };
-//   return (
-//     <div className='row container-height'>
-//       <div className='col-lg-6 col-md-6 m-auto'>
-//         <div className='container'>
-//           <>
-//             <h1 className='text-center'>Update</h1>
-//             <form onSubmit={formSubmitHandler}>
-//               <fieldset>
-//                 <div className='form-group'>
-//                   <select
-//                     value={category}
-//                     onChange={e => setCategory(e.target.value)}
-//                     className='custom-select'>
-//                     <option Value='programming'>programming</option>
-//                     <option value='religion'>Religion</option>
-//                     <option value='life'>life</option>
-//                     <option value='culture'>culture</option>
-//                     <option Value='journal'>Journal</option>
-//                   </select>
-//                 </div>
+  const [productId] = useState(product.productId)
 
-//                 <div className='form-group'>
-//                   <label htmlFor='exampleInputEmail1'>Author </label>
-//                   <input
-//                     value={author}
-//                     onChange={e => setAuthor(e.target.value)}
-//                     type='text'
-//                     className='form-control'
-//                     id='exampleInputEmail1'
-//                     aria-describedby='emailHelp'
-//                     placeholder='Author name'
-//                   />
-//                 </div>
+  const dispatch = useDispatch();
+  //dispatch action
+  const formSubmitHandler = e => {
+    const data = {
+        productname,
+        productnote,
+        price
+    };
+    e.preventDefault();
+      dispatch(updateProduct(productId, data));
+      toast("Updated Products In Products Page!!");
+    history('/products');
+  };
+  return (
+    <div className='row container-height'>
+      <div className='col-lg-6 col-md-6 m-auto'>
+        <div className='container'>
+          <>
+            <h1 className='text-center'>Update</h1>
+           <form onSubmit={formSubmitHandler}>
+            <fieldset>
+              <div className='form-group'>
+                <label htmlFor='exampleInputEmail1'>Product Name</label>
+                <input
+                  value={productname}
+                  onChange={e => setProductname(e.target.value)}
+                  type='text'
+                  className='form-control'
+                  id='exampleInputEmail1'
+                  aria-describedby='emailHelp'
+                  placeholder='Product Name'
+                />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='exampleInputEmail1'>Product Note</label>
+                <input
+                  value={productnote}
+                  onChange={e =>setProductnote(e.target.value)}
+                  type='test'
+                  className='form-control'
+                  id='exampleInputEmail1'
+                  aria-describedby='emailHelp'
+                  placeholder='Product Note'
+                />
+              </div>
+              <div className='form-group'>
+                <label htmlFor='exampleInputPassword1'>Price</label>
+                <input
+                  value={price}
+                  onChange={e => setPrice(e.target.value)}
+                  type='number'
+                  className='form-control'
+                  id='exampleInputPassword1'
+                  placeholder='Price'
+                />
+              </div>
+              <button type='submit'className='btn btn-primary m-auto'>
+                Update your Products
+              </button>
+              <ToastContainer/>
+            </fieldset>
+          </form>
+          </>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-//                 <div className='form-group'>
-//                   <label htmlFor='exampleInputPassword1'>title</label>
-//                   <input
-//                     value={title}
-//                     onChange={e => setTitle(e.target.value)}
-//                     type='text'
-//                     className='form-control'
-//                     id='exampleInputPassword1'
-//                     placeholder='Book title'
-//                   />
-//                 </div>
-
-//                 <div className='form-group'>
-//                   <label htmlFor='exampleInputPassword1'>UserName</label>
-//                   <input
-//                     value={createdby}
-//                     onChange={e => setCreatedby(e.target.value)}
-//                     type='text'
-//                     className='form-control'
-//                     id='exampleInputPassword1'
-//                     placeholder='User Name'
-//                   />
-//                 </div>
-
-//                 <button type='submit' className='btn btn-dark m-auto'>
-//                   Update Book
-//                 </button>
-//               </fieldset>
-//             </form>
-//           </>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductUpdate;
+export default ProductUpdate;
