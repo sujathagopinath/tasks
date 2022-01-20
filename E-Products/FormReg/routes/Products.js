@@ -12,7 +12,7 @@ async function getpool() {
   return result;
 }
 
-productRoute.post('/create',  authenticate, async (req, res, next) => {
+productRoute.post('/create', productvalidation, authenticate, async (req, res, next) => {
     const {productname,productnote, price } = req.body
     console.log("body", req.body)
     console.log("decode", req.decoded)
@@ -96,7 +96,7 @@ productRoute.put('/update/:productId',authenticate, async (req, res) => {
     var productnote = req.body.productnote
     var price = req.body.price
     var productId = req.params.productId
-    var discount;
+    var discount = req.body.discount;
     console.log("prodId",productId)
    
     if (productname!=null && productnote!=null && price!=null) {
@@ -107,7 +107,7 @@ productRoute.put('/update/:productId',authenticate, async (req, res) => {
             .input('discount',sql.Int,discount)
             .input('productId',sql.Int,productId)
             .output('responseMessage', sql.VarChar(50))
-            .execute('spupdateproducts', function (err, data) {
+            .execute('spupdateproduct', function (err, data) {
                 if (err) {
                     res.status(400).json({
                         error: {
@@ -119,8 +119,8 @@ productRoute.put('/update/:productId',authenticate, async (req, res) => {
                 else {
                      console.log("data", data)
                     if (price >= 1000) {
-                        discount = req.body.price-500
-                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "' , discount= '" + discount + "' where productId= " + productId)
+                        discount = price-discount
+                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "' , discount= '" + discount + "' where productId= '" + productId)
                         console.log("discount value", discount);
                         console.log("data", data)
                         res.status(200).json({
@@ -135,7 +135,7 @@ productRoute.put('/update/:productId',authenticate, async (req, res) => {
                     }
                     else {
                         discount = 0
-                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "'  where productId= " + productId)
+                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "', discount= '" + discount + "' where productId= " + productId)
                         res.status(200).json({
                             data: {
                                 message:  'Products got updated'

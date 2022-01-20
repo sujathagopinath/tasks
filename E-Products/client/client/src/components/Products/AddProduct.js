@@ -66,8 +66,10 @@ const AddProduct = () => {
         />
 
           {errors.number && <p className="error">{errors.number.message}</p>}
-        
-          <button type="submit">Create Product</button>
+          <div>
+            <button type="submit">Create Product</button>
+          </div>
+          
           
        
         </form>

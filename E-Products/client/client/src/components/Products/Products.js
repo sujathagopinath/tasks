@@ -46,7 +46,7 @@ const Products = () => {
                         <td>{product.productname}</td>
                         <td>{product.productnote}</td>
                         <td>{product.price}</td>
-                        <td>{product.Discount}</td>
+                        <td>{product.discount}</td>
                         <td>{product.custId}</td>
                         
                       </tr>

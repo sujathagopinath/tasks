@@ -70,10 +70,10 @@ const SignIn = () => {
           onChange={e => setpassword(e.target.value)}
         />
         {errors.password && <p className="error">{errors.password.message}</p>}
-        
-        <button type="submit">{t("signin.signin")}</button>
-        <ToastContainer/>
-        
+        <div>
+          <button type="submit">{t("signin.signin")}</button>
+          <ToastContainer/>
+        </div>
         <a href="signup" className="hyperlink">
           {t("signin.dont_account")}
         </a>

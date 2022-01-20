@@ -59,7 +59,7 @@ const Profile = () => {
                   <th scope='row'>{product.productname}</th>
                   <td>{product.productnote}</td>
                   <td>{product.price}</td>
-                      <td>{product.Discount}</td>
+                      <td>{product.discount}</td>
                   <td>{product.userId}</td>
                   <td><img src={home} alt="Product pic" style={image} /></td>
                   <td><Button onClick={() => updatefunc(product)} variant="contained">Update</Button></td>

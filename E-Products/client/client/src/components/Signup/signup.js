@@ -22,12 +22,12 @@ const SignUp = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   
-  useEffect(() => {
-    dispatch(registerUser());  
-  },[dispatch])
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo,error} = userLogin;
   
+   useEffect(() => {
+    dispatch(registerUser());  
+  },[dispatch])
 
   function onSubmit(data) { 
   console.log('datas',data)
@@ -82,8 +82,10 @@ const SignUp = () => {
         />
 
         {errors.password && <p className="error">{errors.password.message}</p>}
-        <button type="submit">{t("signup.signup")}</button>
-        <ToastContainer/>
+        <div>
+          <button type="submit">{t("signup.signup")}</button>
+          <ToastContainer />
+        </div>
         <a href="signin">
           {t("signup.do_account")}
         </a>

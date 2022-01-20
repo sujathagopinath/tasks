@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
@@ -17,8 +19,15 @@ router.post('/signup', middleware, (req, res, next) => {
     var userName = req.body.userName
     var userEmail = req.body.userEmail
     var userPassword = req.body.userPassword
-    if (userName!=null && userEmail != null && userPassword != null) {
-        bcrypt.hash(userPassword, 10,async (err, hash) => {
+    var roles
+    if (userName != null && userEmail != null && userPassword != null) {
+         if (userEmail==process.env.MAIL) {
+            roles = process.env.Role2
+        }
+        else{
+            roles = process.env.Role1
+        }
+        bcrypt.hash(userPassword, 10, async (err, hash) => {
             if (err) {
                 return res.status(500).json({
                     error: {
@@ -26,11 +35,13 @@ router.post('/signup', middleware, (req, res, next) => {
                     }
                 });
             }
+       
             else {
                 const result = await getpool();
-                result.input('userName',sql.VarChar(50),userName)
+                result.input('userName', sql.VarChar(50), userName)
                     .input('userEmail', sql.NVarChar(50), userEmail)
                     .input('userPassword', sql.NVarChar(sql.MAX), hash)
+                    .input('roles', sql.NVarChar(50), roles)
                     .output('responseMessage', sql.VarChar(50))
                     .execute('spSignupUser', function (err, data) {
                         if (err) {
@@ -53,18 +64,14 @@ router.post('/signup', middleware, (req, res, next) => {
                                 res.status(201).json({
                                     message: 'Success',
                                     
-                                        userdata: data['recordset'],
-                                        // Name: userName,
-                                        // email: userEmail,
-                                        // password: hash,
-                                        // userId: data['recordset'][0]['userId']
-                                    
+                                    userdata: data['recordset'],
+            
                                 });
                             }
                         }
                     });
             }
-        });
+        })
     }
     else {
         return res.status(404).json({
