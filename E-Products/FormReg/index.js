@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require('express');
 const app = express();
 const routes = require('./routes/User')
@@ -24,15 +26,9 @@ app.use((req, res, next) => {
 
 app.use('/api/users', routes.router)
 app.use('/api/products', products.productRoute)
-app.use('api/admin',IsAdmin,admin.Adminrouter)
+app.use('/api/admin',admin.Adminrouter)
 
-function IsAdmin(req, res, next) {
-  if (!userEmail === process.env.mail) {
-    next();
-  } else {
-    return 'warning', 'you are not authorised to access'
-  }
-}
+
 
 app.listen('5000', (req, res) => {
     console.log('Server started at 5000')

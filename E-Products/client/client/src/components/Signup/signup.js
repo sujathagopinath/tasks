@@ -19,25 +19,28 @@ const SignUp = () => {
   const [userName, setusername] = useState('');
   const [userEmail, setemail] = useState('');
   const [userPassword, setpassword] = useState('');
+  const [isAdmin, setIsadmin] = useState(false); 
   const history = useNavigate();
   const dispatch = useDispatch();
   
   const userLogin = useSelector(state => state.userLogin);
-  const { userInfo,error} = userLogin;
+  const { userInfo} = userLogin;
   
    useEffect(() => {
     dispatch(registerUser());  
-  },[dispatch])
-
+   }, [dispatch])
+  
+  
   function onSubmit(data) { 
   console.log('datas',data)
-    dispatch(registerUser(userName, userEmail,userPassword));
+    dispatch(registerUser(userName, userEmail,userPassword,isAdmin));
     console.log(userInfo);
     toast("User Created!")
-    if (userInfo !== null && error === undefined) {
+  }
+   
+   if (userInfo != null) {
        history('/signin');
     }  
-  } 
   
   return ( 
     <div className="signup-form">
@@ -73,7 +76,7 @@ const SignUp = () => {
           {...register('password', {
             required: 'Password is required',
             pattern: {
-              value: /^[A-Za-z0-9]{5,10}$/,
+              value: /^[A-Za-z0-9]{5,20}$/,
               message: "Enter the valid Password with strings and numbers",
             }
           })}
@@ -82,6 +85,16 @@ const SignUp = () => {
         />
 
         {errors.password && <p className="error">{errors.password.message}</p>}
+
+        <label htmlFor="inputIsadmin">IsAdmin</label>
+          <input type="checkbox"
+          checked={isAdmin}
+          onChange={e => { setIsadmin(e.target.checked); console.log('check', e) }} />
+        
+           <p>
+        {isAdmin ? 'Checked' : 'Not checked'}
+      </p> 
+        
         <div>
           <button type="submit">{t("signup.signup")}</button>
           <ToastContainer />

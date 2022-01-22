@@ -18,7 +18,7 @@ import {
   USER_LOGOUT,
 } from './actionTypes';
 
-export const registerUser = (userName, userEmail, userPassword) => {
+export const registerUser = (userName, userEmail, userPassword,isAdmin) => {
   return async dispatch => {
     try {
       dispatch({
@@ -28,13 +28,15 @@ export const registerUser = (userName, userEmail, userPassword) => {
       const config = {
         headers: { 'Content-Type': 'application/json' },
       };
-
+      console.log('isad',isAdmin)
       const { data } = await axios.post(
         '/api/users/signup',
         {
           userName,
           userEmail,
-          userPassword
+          userPassword,
+          isAdmin
+          
         },
         config
       );
@@ -81,8 +83,10 @@ console.log('logindata',data)
         type: USER_LOGIN_SUCCESS,
         payload: data
       });
-
+     
       sessionStorage.setItem('userAuthData', JSON.stringify(data));
+      sessionStorage.setItem('access_token', JSON.stringify(data.access_token));
+       sessionStorage.setItem('isAdmin', JSON.parse(data.userdata[0].isAdmin))
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,
@@ -196,7 +200,7 @@ export const updateUser = (userName, userEmail, userPassword) => {
 
 export const logoutUser = () => {
   return async dispatch => {
-    sessionStorage.removeItem('userAuthData');
+    sessionStorage.clear()
     try {
       dispatch({
         type: USER_LOGOUT,

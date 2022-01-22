@@ -1,5 +1,3 @@
-const dotenv = require("dotenv");
-dotenv.config();
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
@@ -7,7 +5,7 @@ const sql = require('mssql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const middleware = require('../Validation/uservalidation');
-const tokenValidation = require('../tokenValidation/token')
+const {  authMiddlware }  = require('../Middlewares/token')
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -16,75 +14,63 @@ async function getpool() {
 }
 
 router.post('/signup', middleware, (req, res, next) => {
-    var userName = req.body.userName
-    var userEmail = req.body.userEmail
-    var userPassword = req.body.userPassword
-    var roles
-    if (userName != null && userEmail != null && userPassword != null) {
-         if (userEmail==process.env.MAIL) {
-            roles = process.env.Role2
-        }
-        else{
-            roles = process.env.Role1
-        }
-        bcrypt.hash(userPassword, 10, async (err, hash) => {
-            if (err) {
-                return res.status(500).json({
-                    error: {
-                        message: err
-                    }
-                });
-            }
-       
-            else {
-                const result = await getpool();
-                result.input('userName', sql.VarChar(50), userName)
-                    .input('userEmail', sql.NVarChar(50), userEmail)
-                    .input('userPassword', sql.NVarChar(sql.MAX), hash)
-                    .input('roles', sql.NVarChar(50), roles)
-                    .output('responseMessage', sql.VarChar(50))
-                    .execute('spSignupUser', function (err, data) {
-                        if (err) {
-                            res.status(500).json({
-                                error: {
-                                    message: err
-                                }
-                            });
+    try {
+        var userName = req.body.userName
+        var userEmail = req.body.userEmail
+        var userPassword = req.body.userPassword
+        var isAdmin = req.body.isAdmin
+        if (userName != null && userEmail != null && userPassword != null && isAdmin != null) {
+            bcrypt.hash(userPassword, 10, async (err, hash) => {
+                if (err) {
+                    return res.status(500).json({
+                        error: {
+                            message: err
                         }
-                        else {
-                            console.log(data);
-                            if (data['output']['responseMessage'] == 'Failed') {
-                                res.status(404).json({
+                    });
+                }
+       
+                else {
+                    const result = await getpool();
+                    result.input('userName', sql.VarChar(50), userName)
+                        .input('userEmail', sql.NVarChar(50), userEmail)
+                        .input('userPassword', sql.NVarChar(sql.MAX), hash)
+                        .input('isAdmin', sql.Int, isAdmin)
+                        .output('responseMessage', sql.VarChar(50))
+                        .execute('spSignupUser', function (err, data) {
+                            if (err) {
+                                res.status(500).json({
                                     error: {
-                                        message: 'User Exist'
+                                        message: err
                                     }
                                 });
                             }
                             else {
-                                res.status(201).json({
-                                    message: 'Success',
-                                    
-                                    userdata: data['recordset'],
-            
-                                });
+                                console.log(data);
+                                if (data['output']['responseMessage'] == 'Failed') {
+                                    res.status(404).json({
+                                        error: {
+                                            message: 'User Exist'
+                                        }
+                                    });
+                                }
+                                else {
+                                    res.status(201)
+                                }
                             }
-                        }
-                    });
-            }
-        })
+                        });
+                }
+            })
+        }
+    } catch (error) {
+      res.status(500).send('Server Error')
     }
-    else {
-        return res.status(404).json({
-            error: {
-                message: 'not found'
-            }
-        });
-    }
+       
 });
 
 router.post('/signin', async (req, res, next) => {
      var userEmail = req.body.userEmail
     var userPassword = req.body.userPassword
+   
     if (userEmail != null && userPassword != null) {
         const result = await getpool();
         result.input('userEmail', sql.NVarChar(50), userEmail)
@@ -111,10 +97,14 @@ router.post('/signin', async (req, res, next) => {
                                             message: err
                                         }
                                     });
-                                } if (results) {
+                                }
+                               
+                                if (results) {
                                     const token = jwt.sign({
-                                        email: datas['recordset'][0]['userEmail'],
                                         userId: datas['recordset'][0]['userId'],
+                                        isAdmin: datas['recordset'][0]['isAdmin'],
+                                        email: datas['recordset'][0]['userEmail'],
+                                        
                                     },
                                         process.env.JWT_KEY,
                                         {
@@ -156,7 +146,7 @@ router.post('/signin', async (req, res, next) => {
     }
 });
 
-router.get('/getuserdata',tokenValidation, async (req, res) => {
+router.get('/getuserdata', authMiddlware, async (req, res) => {
     var userId = req.decoded
     var userName = req.body.userName
     var userEmail = req.body.userEmail
@@ -203,7 +193,7 @@ router.get('/allusers', async (req, res) => {
 })
 
 
-router.put('/update', tokenValidation, async (req, res) => {
+router.put('/update',  authMiddlware, async (req, res) => {
     var userId =req.decoded
     var userName = req.body.userName
     var userEmail = req.body.userEmail
@@ -251,8 +241,6 @@ router.put('/update', tokenValidation, async (req, res) => {
             })
     }
 })
-
-
 
 
 module.exports = { router }

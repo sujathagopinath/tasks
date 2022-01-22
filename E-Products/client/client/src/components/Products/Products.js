@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../Redux/Actions/Products/productaction';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
+import Button from '@mui/material/Button';
 
 const Products = () => {
- 
+ const history = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
@@ -15,7 +17,11 @@ const Products = () => {
   console.log("productslist", Productslist);
   console.log("products", (products));
   
-
+ function buyprod(buyproduct) {
+    sessionStorage.setItem('buyproduct', JSON.stringify(buyproduct))
+    console.log("buyprod", buyproduct)
+    history('/checkout')
+  }
   return (
     <div>
       {loading && <Loading />}
@@ -32,7 +38,7 @@ const Products = () => {
                   <th scope='col'>Product Note</th>
                   <th scope='col'>Price</th>
                   <th scope='col'>Offer Price</th>
-                  <th scope='col'>Cust Id</th>
+                 <th scope='col'>Take your's</th>
                 </tr>
               </thead>
 
@@ -47,8 +53,10 @@ const Products = () => {
                         <td>{product.productnote}</td>
                         <td>{product.price}</td>
                         <td>{product.discount}</td>
-                        <td>{product.custId}</td>
-                        
+                       
+                        <td> <Button onClick={() => buyprod(product)} style={{backgroundColor:"red"}}>
+                     Buy
+                    </Button></td>
                       </tr>
                     );
                   })}

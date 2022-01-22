@@ -1,7 +1,9 @@
 const schema = require('./userpattern')
 const middleware = (req, res, next) => {
-    const {userName, userEmail, userPassword } = req.body;
-    const { error } = schema.validate({ userName,userEmail, userPassword});
+    console.log('req',req.body)
+    const { userName, userEmail, userPassword, isAdmin } = req.body;
+    
+    const { error } = schema.validate({ userName,userEmail, userPassword,isAdmin});
     if (error) {
         switch (error.details[0].context.key) {
             case "userName":
@@ -11,6 +13,9 @@ const middleware = (req, res, next) => {
                 res.status(400).json({ message: error.details[0].message });
                 break;
             case "userPassword":
+                res.status(400).json({ message: error.details[0].message });
+                break;
+            case "isAdmin":
                 res.status(400).json({ message: error.details[0].message });
                 break;
             default:

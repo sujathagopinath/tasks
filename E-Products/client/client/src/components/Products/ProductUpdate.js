@@ -13,6 +13,7 @@ const ProductUpdate = () => {
   const [productname, setProductname] = useState(product.productname);
   const [productnote, setProductnote] = useState(product.productnote);
   const [price, setPrice] = useState(product.price);
+  const [discount, setDiscount] = useState(product.discount);
 
   const [productId] = useState(product.productId)
 
@@ -20,9 +21,10 @@ const ProductUpdate = () => {
   //dispatch action
   const formSubmitHandler = e => {
     const data = {
-        productname,
-        productnote,
-        price
+      productname,
+      productnote,
+      price,
+      discount
     };
     e.preventDefault();
       dispatch(updateProduct(productId, data));
@@ -70,6 +72,17 @@ const ProductUpdate = () => {
                   className='form-control'
                   id='exampleInputPassword1'
                   placeholder='Price'
+                />
+                </div>
+                <div className='form-group'>
+                <label htmlFor='exampleInputPassword1'>Discount(Only Price Greater than 1000)</label>
+                <input
+                  value={discount}
+                  onChange={e => setDiscount(e.target.value)}
+                  type='number'
+                  className='form-control'
+                  id='exampleInputPassword1'
+                  placeholder='Discount'
                 />
               </div>
               <button type='submit'className='btn btn-primary m-auto'>

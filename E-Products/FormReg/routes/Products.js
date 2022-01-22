@@ -3,7 +3,7 @@ const productRoute = express.Router();
 const db = require('../config/db');
 const sql = require('mssql');
 const jwt = require('jsonwebtoken');
-const authenticate = require('../tokenValidation/token');
+const {  authMiddlware }  = require('../Middlewares/token');
 const productvalidation = require('../Validation/productvalidation');
 
 async function getpool() {
@@ -12,7 +12,7 @@ async function getpool() {
   return result;
 }
 
-productRoute.post('/create', productvalidation, authenticate, async (req, res, next) => {
+productRoute.post('/create',  authMiddlware, async (req, res, next) => {
     const {productname,productnote, price } = req.body
     console.log("body", req.body)
     console.log("decode", req.decoded)
@@ -91,7 +91,7 @@ productRoute.get('/allproducts', async (req, res) => {
         })
 })
 
-productRoute.put('/update/:productId',authenticate, async (req, res) => {
+productRoute.put('/update/:productId', authMiddlware, async (req, res) => {
     var productname = req.body.productname
     var productnote = req.body.productnote
     var price = req.body.price
@@ -152,15 +152,13 @@ productRoute.put('/update/:productId',authenticate, async (req, res) => {
     }
 })
 
-productRoute.get('/deleteproduct/:productId',authenticate, async (req, res) => {
-    var userId = req.decoded
+productRoute.delete('/deleteproduct/:productId', async (req, res) => {
     var productId = req.params.productId
-    console.log('productId', userId)
     console.log('productId', productId)
     const result = await getpool();
-    result.input("userId", sql.Int, userId)
+    result
         .input("params", sql.Int, productId)
-        .execute('spdeleted', function (err, data) {
+        .execute('spdel', function (err, data) {
             if (err) {
                 res.status(404).json(err)
             }

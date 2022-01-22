@@ -1,14 +1,17 @@
 import axios from 'axios';
 import {
-    CREATE_PRODUCT_FAIL,
+  CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
-    PRODUCT_UPDATE_SUCCESS,
+  PRODUCT_UPDATE_SUCCESS,
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_FAIL,
   FETCH_PRODUCT_REQUEST,
-FETCH_PRODUCT_SUCCESS,
-FETCH_PRODUCT_FAIL
+  FETCH_PRODUCT_SUCCESS,
+  FETCH_PRODUCT_FAIL,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAIL,
 
 } from './actionTypes.js'
 
@@ -105,6 +108,35 @@ export const fetchProducts = () => {
   };
 };
 
+export const deleteProduct = productId => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
+    try {
+      dispatch({
+        type: DELETE_PRODUCT_REQUEST,
+        loading: true,
+      });
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.access_token}`
+        },
+      };
+      const { data } = await axios.delete(`/api/products/deleteproduct/${productId}`, config);
+      dispatch({
+        type: DELETE_PRODUCT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_PRODUCT_FAIL,
+        loading: false,
+        error: error.response && error.response.data.message,
+      });
+    }
+  };
+};
 
 
 

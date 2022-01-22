@@ -4,6 +4,8 @@ use Backend
 -------------------------------------------
 select * from Users
 select * from Products
+
+Drop table Users
 --------------------------------------------
 
 Create table Users(
@@ -11,7 +13,7 @@ userId int primary key identity(1,1),
 userName varchar(50),
 userEmail nvarchar(50),
 userPassword nvarchar(max),
-roles nvarchar(50) DEFAULT 'User'
+isAdmin BIT
 );
 
 ----------------------------------------------
@@ -20,16 +22,14 @@ Create proc spSignupUser
 @userName varchar(50),
 @userEmail nvarchar(50),
 @userPassword nvarchar(max),
-@roles nvarchar(50),
+@isAdmin int,
 @responseMessage varchar(50) output
 
 as
 begin
 set nocount on;
-
 begin try
-IF @userEmail ='admin@gm.com'
-set @roles = 'Admin' 
+
 
 IF EXISTS (Select userEmail from Users where userEmail = @userEmail)
 BEGIN
@@ -38,8 +38,8 @@ END
 ELSE
 BEGIN
 Insert into Users
-Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password, @roles as Roles
-values(@username, @userEmail,@userPassword,@roles);
+Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin
+values(@username, @userEmail,@userPassword,@isAdmin);
 
 set @responseMessage = 'Success';
 END
@@ -162,14 +162,13 @@ end catch
 end
 ----------------------------------------------------------
 
-create procedure spdeleted    ---product and user will also delete
-@userId int,
+create procedure spdel    ---product and user will also delete
 @params int
 AS
 BEGIN
 set nocount on;
-delete from Products where custId = @userId;
-delete from users where userId = @userId
+delete from Products where productId = @params;
+
 END
 
 ------------------------------------------------------------

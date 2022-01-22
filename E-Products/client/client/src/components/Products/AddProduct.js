@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AddProduct.css'
+import '../../assests/AddProduct.css'
 import { useForm } from "react-hook-form"; 
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';

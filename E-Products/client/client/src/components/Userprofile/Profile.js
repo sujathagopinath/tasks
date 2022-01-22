@@ -5,9 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading'
 import home from '../../assests/home.jpg'
 import Button from '@mui/material/Button';
+import { deleteProduct } from '../../Redux/Actions/Products/productaction';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
-const Profile = () => {
+const Profile = (props) => {
+  console.log('pro',props)
   const dispatch = useDispatch();
   const history = useNavigate();
   useEffect(() => {
@@ -19,6 +23,13 @@ const Profile = () => {
     console.log("updatefunc", product)
     history('/updateproduct');
   }
+
+  
+  const handlerDeleteProduct = productId => {
+    dispatch(deleteProduct(productId));
+     toast(`Product got deleted with Id  ${productId} reload the page!!`)
+    history('/products');
+  };
 
   //Get user Profile
   const userProfile = useSelector(state => state.userProfile);
@@ -34,7 +45,6 @@ const Profile = () => {
 
   }
 
-  // const users = userProfile.user && userProfile.user.products;
   const users = userProfile.user 
   const renderTable = () => {
     if (users) {
@@ -42,12 +52,13 @@ const Profile = () => {
         <table className='table table-hover'>
           <thead>
             <tr>
+              <th scope='col'>Product Id</th>
               <th scope='col'>Product Name</th>
               <th scope='col'>Product Note</th>
               <th scope='col'>Price</th>
               <th scope='col'>Discount </th>
-              <th scope='col'>CustId</th>
               <th scope='col'>Image</th>
+              <th scope='col'>Delete</th>
               <th scope='col'>Update</th>
               
             </tr>
@@ -56,13 +67,22 @@ const Profile = () => {
             {users.recordset.map(product => {
               return (
                 <tr className='table-dark' key={product.productId}>
+                  <th scope='row'>{ product.productId}</th>
                   <th scope='row'>{product.productname}</th>
                   <td>{product.productnote}</td>
                   <td>{product.price}</td>
-                      <td>{product.discount}</td>
-                  <td>{product.userId}</td>
+                  <td>{product.discount}</td>
                   <td><img src={home} alt="Product pic" style={image} /></td>
-                  <td><Button onClick={() => updatefunc(product)} variant="contained">Update</Button></td>
+                  <td>
+                    <Button onClick={() => handlerDeleteProduct(product.productId)}
+                      variant="contained">Delete</Button>
+                    <ToastContainer/>
+                  </td>
+                  <td>
+                    <Button onClick={() => updatefunc(product)} variant="contained">
+                      Update
+                    </Button>
+                  </td>
                 </tr>
               );
             })}

@@ -31,9 +31,9 @@ const UpdateProfile = () => {
     backgroundColor: "lightgrey",
     color: "black",
     width: "30%",
-    border: "2px solid green",
-    padding: " 3px",
-    margin:"0px"
+    border: "1px solid green",
+    padding: "1px",
+    
   };
 
   return (
@@ -45,7 +45,7 @@ const UpdateProfile = () => {
             <Loading />
           ) : (
               <div className='card m-auto ' style={mystyle}>
-                <h2 className='text-center'>User Details to Update</h2>
+                <h2 className='text-center'>Update Profile</h2>
             </div>
           )}
         </div>
