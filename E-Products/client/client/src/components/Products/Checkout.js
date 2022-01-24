@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../../assests/Checkout.css'
+import '../../assests/CSS/Checkout.css'
 import emailjs from 'emailjs-com';
 import  PaymentInputsContainer  from '../Products/Payment';
 

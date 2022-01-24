@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
     const multirole = children[1].props.role
     // return auth && isAdmin ? children : <Navigate to="/forbidden" />;
      if (auth) {
-         if ((multirole === role.admin || multirole === role.user) && isAdmin) {
+         if (multirole === role.admin && isAdmin) {
              return children
          }
          else if (multirole === role.user && !isAdmin) {
@@ -20,7 +20,7 @@ const PrivateRoute = ({ children }) => {
         }
     }
     else {
-        return  <Navigate to="/forbidden" />
+        return  <Navigate to="/signin" />
          
     }
 }

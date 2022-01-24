@@ -6,7 +6,7 @@ import Loading from '../Loading/Loading';
 import { useNavigate } from 'react-router-dom';
 
 const Users = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = useNavigate();
   
   useEffect(() => {
@@ -17,35 +17,53 @@ const Users = () => {
   const usersList = useSelector(state => state.usersList);
   console.log("userlist:", usersList);
   const { loading, users } = usersList;
-  // console.log('users',users.recordset)
+  
+ const renderTable = () => {
+    if (users) {
+      return (
+        <table className='table table-hover'>
+          <thead>
+            <tr>
+              <th scope='col'>UserName</th>
+              <th scope='col'>UserEmail</th> 
+            </tr>
+          </thead>
+          <tbody>
+            {users.recordset.map(user => {
+              return (
+                <tr className='table-dark' key={user.userId}>
+                  <th scope='row'>{ user.userName}</th>
+                  <th scope='row'>{user.userEmail}</th> 
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      );
+    }
+  }
 
   return (
-    <div className='container-fluid'>
-      <h1 className='text-center m-5'>List of users {users && users.length}</h1>
-      < hr className='text-white' />
-      <div className='row text-center justify-content-center'>
-        {loading ? (
-          <Loading />
-        ) : (
-          <>
-            {users &&
-              users.recordset.map(user => (
-                <div className='col-lg-3' key={user.userId}>
-                  <div className='card'>
-                    <div className='card-body'>
-                      <h5 className='card-title'>{user.userName}</h5>
-                      <p className='ptext'style={{ color: "red" }}>{user.userEmail}</p>
-                      <i className='far fa-address-card h2 text-info'></i>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </>
-        )}
+    <div className='container'>
+      <div className='row'>
+        <div className='col mt-5'>
+          {loading ? (
+            <Loading/>
+          ) : (
+              <div className='card m-auto ' style={{ height: '40px' }}>
+                <h3 className='card-title'>List of Users </h3>
+              </div>
+          )}
+        </div>
       </div>
 
+      <div className='row'>
+        <div className='col'>{renderTable()}</div>
+      </div>
     </div>
   );
+
+  
 };
 
 export default Users;

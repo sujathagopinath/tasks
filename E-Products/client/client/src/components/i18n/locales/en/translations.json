@@ -2,8 +2,7 @@
   "product": {
     "name": "E-Products",
     "register":"SignUp",
-    "login":"SignIn",
-    "logout":"Logout"
+    "login":"SignIn"
   },
   "signin": {
     "signin": "Sign In",
@@ -27,7 +26,7 @@
     "profile":"Profile",
     "users":"Users",
     "products":"Products",
-    "userproducts":"UserProducts",
+    "items":"Items",
     "addproducts":"Add Product"
   }
 }

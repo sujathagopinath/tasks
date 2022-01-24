@@ -3,7 +3,7 @@ const productRoute = express.Router();
 const db = require('../config/db');
 const sql = require('mssql');
 const jwt = require('jsonwebtoken');
-const {  authMiddlware }  = require('../Middlewares/token');
+const {  authMiddlware,isAdmin  }  = require('../Middlewares/token');
 const productvalidation = require('../Validation/productvalidation');
 
 async function getpool() {
@@ -12,15 +12,15 @@ async function getpool() {
   return result;
 }
 
-productRoute.post('/create',  authMiddlware, async (req, res, next) => {
-    const {productname,productnote, price } = req.body
+productRoute.post('/create',  authMiddlware, isAdmin, async (req, res, next) => {
+    const {productname,productnote,price } = req.body
     console.log("body", req.body)
     console.log("decode", req.decoded)
     const custId = req.decoded
     if (productnote!=null && productname != null && price != null) {
         const result = await getpool();
         result.input('productname', sql.NVarChar(50), productname)
-            .input('productnote',sql.NVarChar(50),productnote)
+            .input('productnote', sql.NVarChar(50), productnote)
             .input('price', sql.Int, price)
             .input('custId', sql.Int, custId)
             .output('responseMessage', sql.VarChar(50))
@@ -102,7 +102,7 @@ productRoute.put('/update/:productId', authMiddlware, async (req, res) => {
     if (productname!=null && productnote!=null && price!=null) {
         const result = await getpool();
         result.input('productname',sql.NVarChar(50),productname)
-            .input('productnote', sql.NVarChar(50),productnote)
+            .input('productnote', sql.NVarChar(50), productnote)
             .input('price', sql.Int, price)
             .input('discount',sql.Int,discount)
             .input('productId',sql.Int,productId)
@@ -120,7 +120,7 @@ productRoute.put('/update/:productId', authMiddlware, async (req, res) => {
                      console.log("data", data)
                     if (price >= 1000) {
                         discount = price-discount
-                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "' , discount= '" + discount + "' where productId= '" + productId)
+                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' ,  price= '" + price + "' , discount= '" + discount + "' where productId= '" + productId)
                         console.log("discount value", discount);
                         console.log("data", data)
                         res.status(200).json({

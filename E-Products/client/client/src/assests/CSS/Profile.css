@@ -1,0 +1,16 @@
+.image {
+    width: 50px;
+    height: 50px;
+    border-radius: 20%;
+    margin: 5px auto;
+    border: #f1f1f1 1px solid
+
+}
+
+.ptext{
+    color:red;
+}
+
+.small{
+    color:rgb(34, 34, 143)
+}

@@ -22,51 +22,68 @@ const Products = () => {
     console.log("buyprod", buyproduct)
     history('/checkout')
   }
+
+  function cartproduct(cartproduct) {
+    sessionStorage.setItem('cartproduct', JSON.stringify(cartproduct))
+    console.log("cartprod",cartproduct)
+    history('/cart')
+  }
+
   return (
-    <div>
+    
+    <div className = 'container-fluid'>
       {loading && <Loading />}
       {products !== undefined && products.length === 0 ? (
         'No Product has been added yet'
       ) : (
-        <div className='row'>
-          <div className='col'>
-            <table className='table table-hover'>
-              <thead>
-                  <tr>
-                  <th scope='col'>Product Id</th>
-                  <th scope='col'>Product Name</th>
-                  <th scope='col'>Product Note</th>
-                  <th scope='col'>Price</th>
-                  <th scope='col'>Offer Price</th>
-                 <th scope='col'>Take your's</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {products &&
-                  products.recordset.map(product => {
-                  
-                    return (
-                      <tr className='table-dark' key={product.productId}>
-                        <td>{ product.productId}</td>
-                        <td>{product.productname}</td>
-                        <td>{product.productnote}</td>
-                        <td>{product.price}</td>
-                        <td>{product.discount}</td>
-                       
-                        <td> <Button onClick={() => buyprod(product)} style={{backgroundColor:"red"}}>
-                     Buy
-                    </Button></td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+        
+        <div className='container-fluid' >
+          <h1 className='text-center m-2'>Take Your Items</h1>
+          <div className='row text-center justify-content-center'>
+            {loading ? (
+              <Loading />
+            ) : (
+              <>
+                        
+                {products && products.recordset.map(product  => (
+                    <div className='col-lg-3' key={product.productId}>
+                      <div className='card'>
+                        <div className='card-body'>
+                          <h5 className='card-title'>
+                            {product.productname}
+                          </h5>
+                          <p className='ptext'>
+                            {product.productnote}
+                          </p>
+                          <p className='ptext'>
+                            <small className='small'>Price: </small>
+                            {product.price}
+                        </p>
+                        
+                        <p className='ptext'>
+                            <small className='small'>Discount: </small>
+                            {product.discount}
+                        </p>
+                        
+                        <Button onClick={() => buyprod(product)} style={{ backgroundColor: "darkgray" }}>
+                          Buy
+                        </Button>
+                        
+                        <Button onClick={() => cartproduct(product)} style={{ backgroundColor: "darkgray" }}>
+                            Add Cart
+                        </Button>
+                        
+                        </div>
+                    </div>
+                  </div>
+                ))}
+                  </>
+            )}
           </div>
-        </div> 
-       )}
-    </div>
-  );
+        </div>
+      )}
+      </div>   
+      )
 };
 
 export default Products;

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import '../../assests/CSS/Profile.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserProfile } from '../../Redux/Actions/Users/useraction';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const Profile = (props) => {
-  console.log('pro',props)
+  console.log('pro', props)
+  
   const dispatch = useDispatch();
   const history = useNavigate();
   useEffect(() => {
@@ -27,96 +29,64 @@ const Profile = (props) => {
   
   const handlerDeleteProduct = productId => {
     dispatch(deleteProduct(productId));
-     toast(`Product got deleted with Id  ${productId} reload the page!!`)
+    toast(`Product got deleted with Id  ${productId} reload the page!!`)
     history('/products');
   };
 
   //Get user Profile
   const userProfile = useSelector(state => state.userProfile);
-  const { user,loading } = userProfile;
+  const { user, loading } = userProfile;
   console.log("user:", user);
   
-  const image = {
-  width: "50px",
-  height: "50px",
-  borderRadius: "20%",
-  margin: "5px auto",
-  border: "#f1f1f1 1px solid"
+  
 
-  }
+  const users = userProfile.user
+     return (
+    <div className = 'container-fluid' >
+      <h1 className='text-center m-2'> Product of users</h1>
+      <div className='row text-center justify-content-center'>
+         {loading ? (
+           <Loading/>
+         ) : (
+            <> 
+             {users && users.recordset.map(product  => (
+                 <div className='col-lg-3' key={product.productId}>
+                 <div className='card'>
+                   <img src={home} alt="Product pic" className='image' />
+                   <div className='card-body'>
+                     <h5 className='card-title'>{product.productname}</h5>
 
-  const users = userProfile.user 
-  const renderTable = () => {
-    if (users) {
-      return (
-        <table className='table table-hover'>
-          <thead>
-            <tr>
-              <th scope='col'>Product Id</th>
-              <th scope='col'>Product Name</th>
-              <th scope='col'>Product Note</th>
-              <th scope='col'>Price</th>
-              <th scope='col'>Discount </th>
-              <th scope='col'>Image</th>
-              <th scope='col'>Delete</th>
-              <th scope='col'>Update</th>
-              
-            </tr>
-          </thead>
-          <tbody>
-            {users.recordset.map(product => {
-              return (
-                <tr className='table-dark' key={product.productId}>
-                  <th scope='row'>{ product.productId}</th>
-                  <th scope='row'>{product.productname}</th>
-                  <td>{product.productnote}</td>
-                  <td>{product.price}</td>
-                  <td>{product.discount}</td>
-                  <td><img src={home} alt="Product pic" style={image} /></td>
-                  <td>
-                    <Button onClick={() => handlerDeleteProduct(product.productId)}
-                      variant="contained">Delete</Button>
-                    <ToastContainer/>
-                  </td>
-                  <td>
-                    <Button onClick={() => updatefunc(product)} variant="contained">
-                      Update
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      );
-    } else {
-      return (
-        <>
-          <h1>You don't have any profile yet</h1>
-        </>
-      );
-    }
-  };
+                     <p className='ptext'>
+                       {product.productnote}
+                     </p>
 
-  return (
-    <div className='container'>
-      <div className='row'>
-        <div className='col mt-5'>
-          {loading && !user ? (
-            <Loading/>
-          ) : (
-              <div className='card m-auto ' style={{ height: '40px' }}>
-                <h3 className='card-title'>Products of Users </h3>
-              </div>
-          )}
-        </div>
-      </div>
+                     <p className='ptext'>
+                       <small className='small'>Price: </small>
+                       {product.price}
+                     </p>
 
-      <div className='row'>
-        <div className='col'>{renderTable()}</div>
-      </div>
-    </div>
-  );
-};
+                     <p className='ptext'>
+                       <small className='small'>Discount: </small>
+                       {product.discount}
+                     </p>
+
+                     <Button onClick={() => handlerDeleteProduct(product.productId)}
+                       variant="contained">Delete</Button>
+                     <ToastContainer />
+                     <br/>
+                       <Button onClick={() => updatefunc(product)} variant="contained">
+                         Update
+                      </Button>
+                    
+                   </div>
+                 </div>
+               </div>
+             ))}
+             </>
+           )}
+         </div>
+       </div>  
+  )
+}
 
 export default Profile;

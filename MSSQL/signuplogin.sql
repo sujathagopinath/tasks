@@ -5,7 +5,7 @@ use Backend
 select * from Users
 select * from Products
 
-Drop table Users
+Drop table Products
 --------------------------------------------
 
 Create table Users(
@@ -125,6 +125,7 @@ CREATE TABLE Products (
     productId int primary key identity(1,1),
     productname nvarchar(50),
 	productnote nvarchar(50),
+	quantity int Default '1',
 	price int,
 	discount int Default '0',
     custId int FOREIGN KEY REFERENCES users(userId)
@@ -135,6 +136,7 @@ CREATE TABLE Products (
 create procedure spProductcreate
 @productname nvarchar(50),
 @productnote nvarchar(50),
+@quantity int ='1',
 @price int,
 @discount int ='0',
 @custId int,
@@ -145,8 +147,8 @@ set nocount on;
 begin try
 Insert into Products
 Output Inserted.productId,@productname as productname,@productnote as productnote,
-@price as price,@discount as discount, @custId as custId
-values(@productname,@productnote,@price,@discount,@custId);
+@quantity as quantity,@price as price,@discount as discount, @custId as custId
+values(@productname,@productnote,@quantity,@price,@discount,@custId);
 
 SELECT Products.productname, Products.price
 FROM Products
@@ -190,7 +192,7 @@ update Products set productname = @productname, productnote = @productnote,price
 if(@@ROWCOUNT>0)
 begin
 set @responseMessage = 'Updated Products';
-end
+end 
 End 
 
 ELSE 

@@ -14,6 +14,7 @@ import ProductUpdate from './components/Products/ProductUpdate';
 import Products from './components/Products/Products';
 import Checkout from './components/Products/Checkout'
 import Forbidden from './Constants/Forbidden';
+import Cart from './components/cart/cart';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           <Route path='/signin' element={<SignIn />} />
           <Route path='/forbidden' element={<Forbidden />} />
         
-          <Route path='products'  element=
+          <Route path='/products'  element=
             {<PrivateRoute > <Profile role={role.admin} /> </PrivateRoute>} />
           <Route path='/allusers' element=
             {<PrivateRoute>  <ListUsers role={role.admin} /> </PrivateRoute>}  />  
@@ -36,9 +37,11 @@ function App() {
             {<PrivateRoute> <ProductUpdate role={role.admin} /> </PrivateRoute>} />
           
           <Route path='/update' element=
-             {<PrivateRoute> <UpdateProfile role={role.user} />  </PrivateRoute>} /> 
+            {<PrivateRoute> <UpdateProfile role={role.user} />  </PrivateRoute>} /> 
          <Route path='/allproducts' element=
-            {<PrivateRoute> <Products role={role.user}/> </PrivateRoute>}  /> 
+            {<PrivateRoute> <Products role={role.user} /> </PrivateRoute>} /> 
+          <Route path='/cart' element=
+             {<PrivateRoute> <Cart role={role.user} />  </PrivateRoute>} /> 
           <Route path='/checkout' element=
             {<PrivateRoute> <Checkout role={role.user}/> </PrivateRoute>}  />  
           
