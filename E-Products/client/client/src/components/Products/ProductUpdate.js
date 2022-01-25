@@ -66,12 +66,13 @@ const ProductUpdate = () => {
               <div className='form-group'>
                 <label htmlFor='exampleInputPassword1'>Price</label>
                 <input
-                  value={price}
+                 value={price}
                   onChange={e => setPrice(e.target.value)}
                   type='number'
                   className='form-control'
                   id='exampleInputPassword1'
                   placeholder='Price'
+                  
                 />
                 </div>
                 <div className='form-group'>

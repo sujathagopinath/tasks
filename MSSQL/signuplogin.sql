@@ -4,8 +4,9 @@ use Backend
 -------------------------------------------
 select * from Users
 select * from Products
+select * from addcart
 
-Drop table Products
+Drop table addcart
 --------------------------------------------
 
 Create table Users(
@@ -125,7 +126,7 @@ CREATE TABLE Products (
     productId int primary key identity(1,1),
     productname nvarchar(50),
 	productnote nvarchar(50),
-	quantity int Default '1',
+	quantity int Default '0',
 	price int,
 	discount int Default '0',
     custId int FOREIGN KEY REFERENCES users(userId)
@@ -136,7 +137,7 @@ CREATE TABLE Products (
 create procedure spProductcreate
 @productname nvarchar(50),
 @productnote nvarchar(50),
-@quantity int ='1',
+@quantity int ='0',
 @price int,
 @discount int ='0',
 @custId int,
@@ -203,17 +204,44 @@ set @responseMessage = 'Product Not Updated'
 END
 END
 ----------------------------------------------------------------------
-create Table Roles(
-roleId int primary key identity(1,1),
-rolename VARCHAR(20) DEFAULT 'CLIENT',
+create table addcart(
+productId int,
+productname nvarchar(50),
+discount int,
+quantity int,
+price int
 )
------------------------------------------------------------------------
-create table user_roles(
-user_id  int FOREIGN KEY REFERENCES Users(userId),
-role_id  int FOREIGN KEY REFERENCES Roles(roleId)
-)
-------------------------------------------------------------------------
 
+---------------------------------------------------------------------
+CREATE PROCEDURE spcart
+@productId int,
+@productname nvarchar(50),
+@discount int,
+@quantity int,
+@price int
+    
+AS BEGIN
+SET NOCOUNT ON;
+  select productname,discount from Products where productname =@productname and discount =@discount
+  set @price = @quantity *@discount
+   UPDATE Products
+    SET  price = @price, quantity = @quantity, discount=@discount
+    WHERE productId = @productId
+        
+INSERT INTO addcart(productId,productname,discount,quantity,price) 
+VALUES (@productId,@productname,@discount,@quantity, @price)
+END
+
+-------------------------------------------------------------------
+create procedure spcartdelete    
+@params int
+AS
+BEGIN
+set nocount on;
+delete from addcart where productId = @params;
+
+END
+---------------------------------------------------------------------
 
 
 

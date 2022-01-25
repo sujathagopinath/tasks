@@ -14,7 +14,7 @@ import ProductUpdate from './components/Products/ProductUpdate';
 import Products from './components/Products/Products';
 import Checkout from './components/Products/Checkout'
 import Forbidden from './Constants/Forbidden';
-import Cart from './components/cart/cart';
+import Cart from './components/Products/cart';
 
 function App() {
   return (

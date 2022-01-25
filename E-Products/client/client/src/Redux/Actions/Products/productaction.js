@@ -12,6 +12,9 @@ import {
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
+  ADDCART_PRODUCT_REQUEST,
+  ADDCART_PRODUCT_SUCCESS,
+  ADDCART_PRODUCT_FAIL,
 
 } from './actionTypes.js'
 
@@ -131,6 +134,43 @@ export const deleteProduct = productId => {
     } catch (error) {
       dispatch({
         type: DELETE_PRODUCT_FAIL,
+        loading: false,
+        error: error.response && error.response.data.message,
+      });
+    }
+  };
+};
+
+export const addCart = (productId,productname,quantity,discount,price) => {
+  return async (dispatch, getState) => {
+    
+    try {
+      dispatch({
+        type: ADDCART_PRODUCT_REQUEST,
+        loading: true,
+      });
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
+      };
+      const { data } = await axios.get(`/api/products/cart/${productId}`, {
+        productname,
+        quantity,
+        discount,
+        price
+      },
+        config);
+      console.log('carts',data)
+      dispatch({
+        type: ADDCART_PRODUCT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ADDCART_PRODUCT_FAIL,
         loading: false,
         error: error.response && error.response.data.message,
       });

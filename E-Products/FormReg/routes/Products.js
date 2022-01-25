@@ -134,8 +134,8 @@ productRoute.put('/update/:productId', authMiddlware, async (req, res) => {
                         })
                     }
                     else {
-                        discount = 0
-                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "', discount= '" + discount + "' where productId= " + productId)
+                        discount = price
+                        result.query("UPDATE Products set productname= '" + productname + "', productnote= '" + productnote + "' , price= '" + price + "', discount= '" + discount + "' where productId= '" + productId)
                         res.status(200).json({
                             data: {
                                 message:  'Products got updated'
@@ -152,7 +152,7 @@ productRoute.put('/update/:productId', authMiddlware, async (req, res) => {
     }
 })
 
-productRoute.delete('/deleteproduct/:productId', async (req, res) => {
+productRoute.delete('/deleteproduct/:productId', isAdmin,async (req, res) => {
     var productId = req.params.productId
     console.log('productId', productId)
     const result = await getpool();
@@ -167,6 +167,55 @@ productRoute.delete('/deleteproduct/:productId', async (req, res) => {
                 if (data) {
                     res.status(200).json({
                         message:"User and product has been deleted successfully"
+                    })
+                }
+            }
+            
+        })
+})
+
+productRoute.get('/cart/:productId', async (req, res) => {
+    var productId =req.params.productId
+    var productname = req.body.productname
+    var discount =req.body.discount;
+    var quantity = req.body.quantity;
+    var price
+    const result = await getpool();
+    result
+        .input("productId", sql.Int, productId)
+        .input("productname", sql.NVarChar(50), productname)
+        .input("discount", sql.Int, discount)
+        .input("quantity", sql.Int, quantity)
+        .input("price", sql.Int, price)
+        .execute('spcart', function (err, data) {
+            if (err) {
+                res.status(404).json(err)
+            }
+            else {
+                console.log("data", data)
+                if (data) {
+                    price = quantity * discount;
+                    // result.query("UPDATE Products set  quantity= '" + quantity + "' ,  price= '" + price + "' , discount= '" + discount + "' where productId= '" + productId)
+                }
+            }     
+        })
+})
+
+productRoute.delete('/removeitem/:productId', async (req, res) => {
+    var productId = req.params.productId
+    console.log('productId', productId)
+    const result = await getpool();
+    result
+        .input("params", sql.Int, productId)
+        .execute('spcartdelete', function (err, data) {
+            if (err) {
+                res.status(404).json(err)
+            }
+            else {
+                console.log("data", data)
+                if (data) {
+                    res.status(200).json({
+                        message:"Cart product has been deleted successfully"
                     })
                 }
             }
