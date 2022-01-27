@@ -6,7 +6,7 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
-} from '../../Actions/Users/actionTypes';
+} from "../../Actions/Users/actionTypes";
 
 const userReducer = (state = {}, action) => {
   switch (action.type) {

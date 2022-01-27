@@ -1,85 +1,63 @@
-.signup-form { 
+.signup-form {
+  background: #f0f0f0;
 
-  background: #f0f0f0; 
+  border-radius: 10px;
 
-  border-radius: 10px; 
+  padding: 20px;
 
-  padding: 20px; 
+  margin: 20px auto;
 
-  margin: 20px auto; 
+  width: 100%;
 
-  width: 100%; 
+  max-width: 320px;
+}
 
-  max-width: 320px; 
+.signup-form form {
+  text-align: left;
+}
 
-} 
+.signup-form label {
+  display: block;
+}
 
- 
+.signup-form input {
+  display: block;
 
-.signup-form form { 
+  margin: 5px 0 10px;
 
-  text-align: left; 
+  padding: 5px;
 
-} 
+  border: 1px solid #c0c0c0;
 
- 
+  border-radius: 5px;
 
-.signup-form label { 
+  font-size: 16px;
 
-  display: block; 
+  line-height: 20px;
 
-} 
+  width: 100%;
+}
 
- 
+.signup-form button {
+  background: #0d718d;
 
-.signup-form input { 
+  color: #fff;
 
-  display: block; 
+  padding: 5px 20px;
 
-  margin: 5px 0 10px; 
+  border: 1px solid #064758;
 
-  padding: 5px; 
+  border-radius: 5px;
 
-  border: 1px solid #c0c0c0; 
+  font-size: 16px;
 
-  border-radius: 5px; 
+  line-height: 20px;
 
-  font-size: 16px; 
+  cursor: pointer;
+}
 
-  line-height: 20px; 
+.signup-form .error {
+  color: red;
 
-  width: 100%; 
-
-} 
-
- 
-
-.signup-form button { 
-
-  background: #0d718d; 
-
-  color: #fff; 
-
-  padding: 5px 20px; 
-
-  border: 1px solid #064758; 
-
-  border-radius: 5px; 
-
-  font-size: 16px; 
-
-  line-height: 20px; 
-
-  cursor: pointer; 
-
-} 
-
- 
-
-.signup-form .error { 
-
-  color: red; 
-
-  margin: -5px 0 10px; 
-
-} 
+  margin: -5px 0 10px;
+}

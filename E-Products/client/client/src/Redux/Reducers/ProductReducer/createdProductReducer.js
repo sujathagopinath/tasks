@@ -2,7 +2,7 @@ import {
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
-} from '../../Actions/Products/actionTypes';
+} from "../../Actions/Products/actionTypes";
 
 const createdProductReducer = (state = {}, action) => {
   switch (action.type) {

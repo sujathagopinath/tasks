@@ -2,7 +2,7 @@ import {
   FETCH_PRODUCT_REQUEST,
   FETCH_PRODUCT_SUCCESS,
   FETCH_PRODUCT_FAIL,
-} from '../../Actions/Products/actionTypes';
+} from "../../Actions/Products/actionTypes";
 
 const productListReducer = (state = [], action) => {
   switch (action.type) {
@@ -13,7 +13,7 @@ const productListReducer = (state = [], action) => {
     case FETCH_PRODUCT_SUCCESS:
       return {
         products: action.payload,
-        
+
         loading: false,
       };
     case FETCH_PRODUCT_FAIL:

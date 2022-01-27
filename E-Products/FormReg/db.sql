@@ -4,17 +4,15 @@ use Eproducts
 -------------------------------------------
 select * from Users
 select * from Products
-select * from cart
-
-Drop table Users
+select * from carts
 --------------------------------------------
 
 Create table Users(
-userId int primary key identity(1,1),
-userName varchar(50),
-userEmail nvarchar(50),
-userPassword nvarchar(max),
-isAdmin BIT
+    userId int primary key identity(1,1),
+    userName varchar(50),
+    userEmail nvarchar(50),
+    userPassword nvarchar(max),
+    isAdmin BIT
 );
 
 ----------------------------------------------
@@ -165,7 +163,7 @@ end catch
 end
 ----------------------------------------------------------
 
-create procedure spdel    ---product and user will also delete
+create procedure spdel    
 @params int
 AS
 BEGIN
@@ -263,9 +261,8 @@ Where Users.userId = @userId
 END
 
 --------------------------------------------------------------------
-select * from carts
-select * from Users
-select * from Products
+
+
 
 
 

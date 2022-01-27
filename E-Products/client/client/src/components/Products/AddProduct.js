@@ -17,8 +17,6 @@ const AddProduct = () => {
   const [productnote, setProductnote] = useState('');
   const [price, setPrice] = useState('');
   
-
-  //dispatch action
   const dispatch = useDispatch();
   const onSubmit = () => {
     const data = {
@@ -70,13 +68,9 @@ const AddProduct = () => {
             <button type="submit">Create Product</button>
           </div>
           
-          
-       
         </form>
-        
-          
       </div>
-      </div>
+    </div>
   );
 };
 

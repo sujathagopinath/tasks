@@ -2,7 +2,7 @@ import {
   USER_PROFILE_SUCCESS,
   USER_PROFILE_REQUEST,
   USER_PROFILE_FAIL,
-} from '../../Actions/Users/actionTypes';
+} from "../../Actions/Users/actionTypes";
 
 const userProfileReducer = (state = {}, action) => {
   switch (action.type) {
@@ -20,7 +20,6 @@ const userProfileReducer = (state = {}, action) => {
       return {
         loading: false,
         payload: action.payload,
-
       };
     default:
       return state;

@@ -2,7 +2,7 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
-} from '../../Actions/Users/actionTypes';
+} from "../../Actions/Users/actionTypes";
 
 const userUpdateReducer = (state = {}, action) => {
   switch (action.type) {

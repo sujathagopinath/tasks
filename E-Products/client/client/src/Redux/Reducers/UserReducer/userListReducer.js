@@ -2,11 +2,10 @@ import {
   FETCH_USERS_REQUEST,
   FETCH_USERS_FAIL,
   FETCH_USERS_SUCCESS,
-} from '../../Actions/Users/actionTypes';
+} from "../../Actions/Users/actionTypes";
 
 const usersListReducer = (state = [], action) => {
   switch (action.type) {
-    
     case FETCH_USERS_REQUEST:
       return { loading: true };
     case FETCH_USERS_SUCCESS:
