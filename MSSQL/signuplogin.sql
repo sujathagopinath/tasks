@@ -4,9 +4,8 @@ use Eproducts
 -------------------------------------------
 select * from Users
 select * from Products
-select * from cart
+select * from carts
 
-Drop table Users
 --------------------------------------------
 
 Create table Users(
@@ -244,28 +243,29 @@ END
 ---------------------------------------------------------------------
 create table orders(
 orderId int  primary key identity(1,1),
-userId int FOREIGN KEY REFERENCES users(userId),
-productId int FOREIGN KEY REFERENCES Products(productId),
-price int
+usersId int FOREIGN KEY REFERENCES users(userId),
+productsId int FOREIGN KEY REFERENCES Products(productId),
+item nvarchar(50)
 )
+
+drop table orders
 ------------------------------------------------------------------------
 create procedure sporder
-@userId int,
-@orderId int,
+@usersId int,
 @productId int,
-@price int
+@productname nvarchar(50)
 AS
 BEGIN
 set nocount on
-SELECT Products.productname,Products.price,Products.productId
+SELECT Products.productname,Products.productId
 FROM Products RIGHT JOIN Users On Users.userId = Products.custId
-Where Users.userId = @userId
+Where Products.ProductId = @productId
+
+INSERT INTO orders(usersId,productsId,item) 
+VALUES (@usersId,@productId,@productname)
 END
 
 --------------------------------------------------------------------
-select * from carts
-select * from Users
-select * from Products
 
 
 

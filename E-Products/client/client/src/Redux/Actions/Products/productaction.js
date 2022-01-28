@@ -18,6 +18,12 @@ import {
   DELETE_ITEM_REQUEST,
   DELETE_ITEM_SUCCESS,
   DELETE_ITEM_FAIL,
+  ORDER_PRODUCT_REQUEST,
+  ORDER_PRODUCT_SUCCESS,
+  ORDER_PRODUCT_FAIL,
+  FETCH_ORDER_REQUEST,
+  FETCH_ORDER_SUCCESS,
+  FETCH_ORDER_FAIL,
 } from "./actionTypes.js";
 
 export const createProduct = (productData) => {
@@ -222,6 +228,69 @@ export const deleteItem = (productId) => {
       dispatch({
         type: DELETE_ITEM_FAIL,
         loading: false,
+        error: error.response && error.response.data.message,
+      });
+    }
+  };
+};
+
+export const order = (orders) => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
+
+    try {
+      dispatch({
+        type: ORDER_PRODUCT_REQUEST,
+        loading: true,
+      });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userInfo.access_token}`,
+        },
+      };
+      console.log("ord", orders);
+      const { data } = await axios.post("/api/products/order", orders, config);
+
+      dispatch({
+        type: ORDER_PRODUCT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ORDER_PRODUCT_FAIL,
+        loading: false,
+        error: error.response && error.response.data.message,
+      });
+    }
+  };
+};
+
+export const fetchorders = () => {
+  return async (dispatch, getState) => {
+    const { userInfo } = getState().userLogin;
+    try {
+      dispatch({
+        type: FETCH_ORDER_REQUEST,
+        loading: true,
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userInfo.access_token}`,
+        },
+      };
+      const { data } = await axios.get("/api/products/allorders", config);
+
+      dispatch({
+        type: FETCH_ORDER_SUCCESS,
+        payload: data,
+      });
+      console.log("products", data);
+    } catch (error) {
+      dispatch({
+        type: FETCH_ORDER_FAIL,
         error: error.response && error.response.data.message,
       });
     }

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import "../../assests/CSS/Checkout.css";
-import emailjs from "emailjs-com";
 import PaymentInputsContainer from "../Products/Payment";
+import { useDispatch } from "react-redux";
+import { order } from "../../Redux/Actions/Products/productaction";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import emailjs from "emailjs-com";
 
 const Checkout = () => {
+  const dispatch = useDispatch();
   const buyproduct = JSON.parse(sessionStorage.getItem("buyproduct"));
   console.log("buy", buyproduct);
 
   const [checkoutInfo, setCheckoutInfo] = useState("");
+  const [productId] = useState(buyproduct.productId);
   const [productname, setProductname] = useState(buyproduct.productname);
   const [price, setPrice] = useState(buyproduct.price);
   const [discount, setDiscount] = useState(buyproduct.discount);
@@ -17,7 +22,9 @@ const Checkout = () => {
       productname,
       price,
       discount,
+      productId,
     };
+    dispatch(order(data));
     e.preventDefault();
     emailjs
       .sendForm(
@@ -46,9 +53,9 @@ const Checkout = () => {
             <div className="field">
               <label>ProductName</label>
               <input
-                placeholder="ProductName"
+                placeholder="productname"
                 type="text"
-                name="product"
+                name="message"
                 value={productname}
                 onChange={(e) => setProductname(e.target.value)}
                 disabled
@@ -86,11 +93,14 @@ const Checkout = () => {
             </div>
             <div className="field">
               <label>Email Id(To receive mail)</label>
-              <input placeholder="Email" name="email" type="email" />
+              <input placeholder="Email" name="email" type="email" required />
             </div>
           </div>
           <button className="submit">Submit</button>
         </div>
+        <a href="/allproducts">
+          <KeyboardBackspaceIcon />
+        </a>
       </form>
       <pre>{JSON.stringify(checkoutInfo, undefined, 2)}</pre>
     </div>

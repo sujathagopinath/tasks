@@ -16,6 +16,7 @@ import Checkout from "./components/Products/Checkout";
 import Forbidden from "./Constants/Forbidden";
 import Cart from "./components/Products/cart";
 import Carts from "./components/Products/carts";
+import Order from "./components/Products/Order";
 
 function App() {
   return (
@@ -61,6 +62,16 @@ function App() {
               <PrivateRoute>
                 {" "}
                 <ProductUpdate role={role.admin} />{" "}
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/allorders"
+            element={
+              <PrivateRoute>
+                {" "}
+                <Order role={role.admin} />{" "}
               </PrivateRoute>
             }
           />

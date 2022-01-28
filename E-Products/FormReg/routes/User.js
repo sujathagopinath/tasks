@@ -254,4 +254,26 @@ router.put("/update", authMiddlware, async (req, res) => {
   }
 });
 
+router.post("/imageupload", async (req, res) => {
+  try {
+    let upload = multer({ storage: storage }).single("avatar");
+    upload(req, res, (err) => {
+      const user = new Image({
+        imageName: req.file.filename,
+      });
+      // user.save();
+      user.save((err) => {
+        if (err) {
+          res.json({ message: "error" });
+        } else {
+          res.json({ message: "success" });
+        }
+      });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
 module.exports = { router };

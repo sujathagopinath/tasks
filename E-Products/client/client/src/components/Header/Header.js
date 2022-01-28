@@ -4,6 +4,7 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../Redux/Actions/Users/useraction";
@@ -84,6 +85,18 @@ const Header = () => {
               </li>
 
               <li className="items">
+                <a className="links" href="allorders">
+                  <Tooltip
+                    title="Orders"
+                    style={{ cursor: "pointer" }}
+                    variant="contained"
+                  >
+                    <LocalShippingIcon />
+                  </Tooltip>
+                </a>
+              </li>
+
+              <li className="items">
                 <a className="links" href="update">
                   {t("header.profile")}
                 </a>
@@ -113,7 +126,13 @@ const Header = () => {
               </li>
               <li className="items">
                 <a className="links" href="cart">
-                  <AddShoppingCartIcon />
+                  <Tooltip
+                    title="Cart"
+                    style={{ cursor: "pointer" }}
+                    variant="contained"
+                  >
+                    <AddShoppingCartIcon />
+                  </Tooltip>
                 </a>
               </li>
               <li className="items">

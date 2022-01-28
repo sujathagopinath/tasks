@@ -242,22 +242,38 @@ productRoute.delete("/removeitem/:productId", async (req, res) => {
     });
 });
 
-productRoute.get("/order", authMiddlware, async (req, res) => {
-  var userId = req.decoded;
+productRoute.post("/order", authMiddlware, async (req, res) => {
+  var usersId = req.decoded;
   var productId = req.body.productId;
-  var price = req.body.price;
+  var productname = req.body.productname;
 
   const result = await getpool();
   result
-    .input("userId", sql.Int, userId)
+    .input("usersId", sql.Int, usersId)
     .input("productId", sql.Int, productId)
-    .input("price", sql.Int, price)
+    .input("productname", sql.NVarChar(50), productname)
     .execute("sporder", function (err, data) {
       if (err) {
         res.status(404).send(err);
       } else {
         console.log(data);
       }
+    });
+});
+
+productRoute.get("/allorders", async (req, res) => {
+  const result = await getpool();
+  result
+    .query("select * from orders")
+    .then(function (data) {
+      console.log("data", data);
+      if (data) {
+        res.status(200);
+        res.send(data);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
     });
 });
 

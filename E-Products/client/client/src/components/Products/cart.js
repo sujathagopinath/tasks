@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { deleteItem } from "../../Redux/Actions/Products/productaction";
 import { Button } from "@mui/material";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
 const Cart = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
@@ -77,6 +79,9 @@ const Cart = () => {
               </td>
             </tr>
           </tbody>
+          <a href="/allproducts">
+            <KeyboardBackspaceIcon />
+          </a>
         </table>
       );
     } else {

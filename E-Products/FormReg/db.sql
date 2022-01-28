@@ -5,14 +5,16 @@ use Eproducts
 select * from Users
 select * from Products
 select * from carts
+select * from orders
+
 --------------------------------------------
 
 Create table Users(
-    userId int primary key identity(1,1),
-    userName varchar(50),
-    userEmail nvarchar(50),
-    userPassword nvarchar(max),
-    isAdmin BIT
+userId int primary key identity(1,1),
+userName varchar(50),
+userEmail nvarchar(50),
+userPassword nvarchar(max),
+isAdmin BIT
 );
 
 ----------------------------------------------
@@ -163,7 +165,7 @@ end catch
 end
 ----------------------------------------------------------
 
-create procedure spdel    
+create procedure spdel    ---product and user will also delete
 @params int
 AS
 BEGIN
@@ -237,32 +239,30 @@ AS
 BEGIN
 set nocount on;
 delete from carts where productId = @params;
-
 END
 ---------------------------------------------------------------------
 create table orders(
 orderId int  primary key identity(1,1),
-userId int FOREIGN KEY REFERENCES users(userId),
-productId int FOREIGN KEY REFERENCES Products(productId),
-price int
+usersId int FOREIGN KEY REFERENCES users(userId),
+productsId int FOREIGN KEY REFERENCES Products(productId),
+item nvarchar(50)
 )
 ------------------------------------------------------------------------
 create procedure sporder
-@userId int,
-@orderId int,
+@usersId int,
 @productId int,
-@price int
+@productname nvarchar(50)
 AS
 BEGIN
 set nocount on
-SELECT Products.productname,Products.price,Products.productId
+SELECT Products.productname,Products.productId
 FROM Products RIGHT JOIN Users On Users.userId = Products.custId
-Where Users.userId = @userId
+Where Products.ProductId = @productId
+
+INSERT INTO orders(usersId,productsId,item) 
+VALUES (@usersId,@productId,@productname)
 END
-
 --------------------------------------------------------------------
-
-
 
 
 
