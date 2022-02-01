@@ -28,7 +28,6 @@ export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
       const config = {
         headers: { "Content-Type": "application/json" },
       };
-      console.log("isad", isAdmin);
       const { data } = await axios.post(
         "/api/users/signup",
         {

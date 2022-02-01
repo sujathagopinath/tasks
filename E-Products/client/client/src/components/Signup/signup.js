@@ -17,12 +17,17 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log("reg", register);
 
   const [userName, setusername] = useState("");
   const [userEmail, setemail] = useState("");
   const [userPassword, setpassword] = useState("");
   const [isAdmin, setIsadmin] = useState(false);
+  // const [picture, setuserimage] = useState("");
+
+  // const handleInputChange = (e) => {
+  //   setuserimage(e.target.files[0]);
+  // };
+
   const history = useNavigate();
   const dispatch = useDispatch();
 
@@ -34,7 +39,11 @@ const SignUp = () => {
   }, [dispatch]);
 
   function onSubmit(data) {
+    // const formdata = new FormData();
+    // formdata.append("images", picture.name);
+
     console.log("datas", data);
+
     dispatch(registerUser(userName, userEmail, userPassword, isAdmin));
     console.log(userInfo);
     toast("User Created!& Login");
@@ -46,7 +55,7 @@ const SignUp = () => {
 
   return (
     <div className="signup-form">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <label htmlFor="inputUsername">{t("signup.username")}</label>
         <input
           type="text"
@@ -97,11 +106,19 @@ const SignUp = () => {
           checked={isAdmin}
           onChange={(e) => {
             setIsadmin(e.target.checked);
-            console.log("check", e);
           }}
         />
 
         <p>{isAdmin ? "Checked" : "Not checked"}</p>
+
+        {/* <label htmlFor="profilepic">Choose Your Picture</label>
+        <input
+          type="file"
+          id="images"
+          name="images"
+          className="form-control"
+          onChange={handleInputChange}
+        /> */}
 
         <div>
           <button type="submit">{t("signup.signup")}</button>

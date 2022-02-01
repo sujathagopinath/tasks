@@ -18,7 +18,7 @@ const productvalidation = (req, res, next) => {
         break;
     }
   }
-  return next();
+  next();
 };
 
 module.exports = productvalidation;

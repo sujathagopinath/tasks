@@ -129,6 +129,7 @@ CREATE TABLE Products (
 	quantity int Default '1',
 	price int,
 	discount int Default '0',
+	productimage nvarchar(50),
     custId int FOREIGN KEY REFERENCES users(userId)
 );
 

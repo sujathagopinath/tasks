@@ -1,11 +1,24 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
 const db = require("../config/db");
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const middleware = require("../Validation/uservalidation");
+const userValidation = require("../Validation/uservalidation");
 const { authMiddlware } = require("../Middlewares/token");
+
+// var multerStorage = multer.diskStorage({
+//   destination: function (req, file, callback) {
+//     callback(null, path.join(__dirname, "../uploads"));
+//   },
+//   filename: function (req, file, callback) {
+//     callback(null, file.originalname);
+//   },
+// });
+
+// var multersigleUpload = multer({ storage: multerStorage });
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -13,17 +26,20 @@ async function getpool() {
   return result;
 }
 
-router.post("/signup", middleware, (req, res, next) => {
+router.post("/signup", userValidation, async (req, res, next) => {
   try {
     var userName = req.body.userName;
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var isAdmin = req.body.isAdmin;
+    // var picture = req.file.filename;
+    console.log("reqs", req.file);
     if (
       userName != null &&
       userEmail != null &&
       userPassword != null &&
       isAdmin != null
+      // && picture != null
     ) {
       bcrypt.hash(userPassword, 10, async (err, hash) => {
         if (err) {
@@ -39,6 +55,7 @@ router.post("/signup", middleware, (req, res, next) => {
             .input("userEmail", sql.NVarChar(50), userEmail)
             .input("userPassword", sql.NVarChar(sql.MAX), hash)
             .input("isAdmin", sql.Int, isAdmin)
+            // .input("picture", sql.VarChar(50), picture)
             .output("responseMessage", sql.VarChar(50))
             .execute("spSignupUser", function (err, data) {
               if (err) {
@@ -64,7 +81,7 @@ router.post("/signup", middleware, (req, res, next) => {
       });
     }
   } catch (error) {
-    res.status(500).send("Server Error");
+    res.status(500).send(error);
   }
 });
 
@@ -254,26 +271,7 @@ router.put("/update", authMiddlware, async (req, res) => {
   }
 });
 
-router.post("/imageupload", async (req, res) => {
-  try {
-    let upload = multer({ storage: storage }).single("avatar");
-    upload(req, res, (err) => {
-      const user = new Image({
-        imageName: req.file.filename,
-      });
-      // user.save();
-      user.save((err) => {
-        if (err) {
-          res.json({ message: "error" });
-        } else {
-          res.json({ message: "success" });
-        }
-      });
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+
 
 
 module.exports = { router };

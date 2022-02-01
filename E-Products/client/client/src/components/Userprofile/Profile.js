@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUserProfile } from "../../Redux/Actions/Users/useraction";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
-import home from "../../assests/home.jpg";
+import { backendUrl } from "../../utils/Config";
 import Button from "@mui/material/Button";
 import { deleteProduct } from "../../Redux/Actions/Products/productaction";
 import { ToastContainer, toast } from "react-toastify";
@@ -39,7 +39,7 @@ const Profile = (props) => {
   const users = userProfile.user;
   return (
     <div className="container-fluid">
-      <h1 className="text-center m-2"> Product of users</h1>
+      {/* <h1 className="text-center m-2"> Product of users</h1>
       <div className="row text-center justify-content-center">
         {loading ? (
           <Loading />
@@ -49,7 +49,11 @@ const Profile = (props) => {
               users.recordset.map((product) => (
                 <div className="col-lg-3" key={product.productId}>
                   <div className="card">
-                    <img src={home} alt="Product pic" className="image" />
+                    <img
+                      src={`${backendUrl}/static/${product.productimage}`}
+                      alt="Product pic"
+                      className="image"
+                    />
                     <div className="card-body">
                       <h5 className="card-title">{product.productname}</h5>
 
@@ -84,6 +88,68 @@ const Profile = (props) => {
                 </div>
               ))}
           </>
+        )} */}
+      {/* </div> */}
+      <div>
+        {loading && <Loading />}
+        {users !== undefined && users.length === 0 ? (
+          "No Product has been added yet"
+        ) : (
+          <div className="row">
+            <div className="col">
+              <table className="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Product Image</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product Note</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {users &&
+                    users.recordset.map((product) => {
+                      return (
+                        <tr className="table-dark" key={product.productId}>
+                          <td>
+                            <img
+                              src={`${backendUrl}/static/${product.productimage}`}
+                              alt="Product pic"
+                              className="image"
+                            />
+                          </td>
+                          <td>{product.productname}</td>
+                          <td>{product.productnote}</td>
+                          <td>{product.price}</td>
+                          <td>{product.discount}</td>
+                          <td>
+                            <Button
+                              onClick={() =>
+                                handlerDeleteProduct(product.productId)
+                              }
+                              variant="contained"
+                            >
+                              Delete
+                            </Button>
+                            <ToastContainer />
+                            <br />
+                            <Button
+                              onClick={() => updatefunc(product)}
+                              variant="contained"
+                            >
+                              Update
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         )}
       </div>
     </div>

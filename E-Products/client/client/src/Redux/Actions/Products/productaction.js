@@ -27,7 +27,6 @@ import {
 } from "./actionTypes.js";
 
 export const createProduct = (productData) => {
-  console.log("pro", productData);
   return async (dispatch, getState) => {
     const { userInfo } = getState().userLogin;
     try {
@@ -37,13 +36,22 @@ export const createProduct = (productData) => {
       });
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
           authorization: `Bearer ${userInfo.access_token}`,
         },
       };
+      const formData = new FormData();
+
+      // Append all properties of the `product` object to the form
+      for (const [key, value] of Object.entries(productData)) {
+        formData.append(key, value);
+      }
+
       const { data } = await axios.post(
         "/api/products/create",
-        productData,
+        formData,
         config
       );
       dispatch({

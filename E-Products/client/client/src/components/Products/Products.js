@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../Redux/Actions/Products/productaction";
 import { useNavigate } from "react-router-dom";
+import { backendUrl } from "../../utils/Config";
 import Loading from "../Loading/Loading";
 import Button from "@mui/material/Button";
 
@@ -46,6 +47,11 @@ const Products = () => {
                   products.recordset.map((product) => (
                     <div className="col-lg-3" key={product.productId}>
                       <div className="card">
+                        <img
+                          src={`${backendUrl}/static/${product.productimage}`}
+                          alt="Product pic"
+                          className="image"
+                        />
                         <div className="card-body">
                           <h5 className="card-title">{product.productname}</h5>
                           <p className="ptext">{product.productnote}</p>

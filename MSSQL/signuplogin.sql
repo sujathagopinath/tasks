@@ -6,6 +6,7 @@ select * from Users
 select * from Products
 select * from carts
 
+Drop table Products
 --------------------------------------------
 
 Create table Users(
@@ -15,6 +16,7 @@ userEmail nvarchar(50),
 userPassword nvarchar(max),
 isAdmin BIT
 );
+
 
 ----------------------------------------------
 
@@ -128,6 +130,7 @@ CREATE TABLE Products (
 	quantity int Default '1',
 	price int,
 	discount int Default '0',
+	productimage nvarchar(50),
     custId int FOREIGN KEY REFERENCES users(userId)
 );
 
@@ -139,6 +142,7 @@ create procedure spProductcreate
 @quantity int ='1',
 @price int,
 @discount int ='0',
+@productimage nvarchar(50),
 @custId int,
 @responseMessage varchar(50) output
 AS
@@ -147,8 +151,9 @@ set nocount on;
 begin try
 Insert into Products
 Output Inserted.productId,@productname as productname,@productnote as productnote,
-@quantity as quantity,@price as price,@discount as discount, @custId as custId
-values(@productname,@productnote,@quantity,@price,@discount,@custId);
+@quantity as quantity,@price as price,@discount as discount, @productimage as productname,
+@custId as custId
+values(@productname,@productnote,@quantity,@price,@discount,@productimage,@custId);
 
 SELECT Products.productname, Products.price
 FROM Products

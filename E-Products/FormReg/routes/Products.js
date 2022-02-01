@@ -3,8 +3,22 @@ const productRoute = express.Router();
 const db = require("../config/db");
 const sql = require("mssql");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
 const { authMiddlware, isAdmin } = require("../Middlewares/token");
 const productvalidation = require("../Validation/productvalidation");
+
+var multerStorage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, path.join(__dirname, "../uploads"));
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+    console.log("request", req);
+  },
+});
+
+var multersigleUpload = multer({ storage: multerStorage });
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -12,50 +26,62 @@ async function getpool() {
   return result;
 }
 
-productRoute.post("/create", authMiddlware, isAdmin, async (req, res, next) => {
-  const { productname, productnote, price } = req.body;
-  console.log("body", req.body);
-  console.log("decode", req.decoded);
-  const custId = req.decoded;
-  if (productnote != null && productname != null && price != null) {
-    const result = await getpool();
-    result
-      .input("productname", sql.NVarChar(50), productname)
-      .input("productnote", sql.NVarChar(50), productnote)
-      .input("price", sql.Int, price)
-      .input("custId", sql.Int, custId)
-      .output("responseMessage", sql.VarChar(50))
-      .execute("spProductcreate", function (err, data) {
-        if (err) {
-          res.status(400).json({
-            error: {
-              message: err,
-            },
-          });
-        } else {
-          console.log("productdata", data);
-          if (data["output"]["responseMessage"] == "success") {
-            res.status(201).json({
-              message: "Product has been created",
-              data: {
-                ProductName: productname,
-                ProductNote: productnote,
-                Price: price,
-                productId: data["recordset"][0]["productId"],
-                UserId: custId,
+productRoute.post(
+  "/create",
+  authMiddlware,
+  multersigleUpload.single("productimage"),
+  async (req, res, next) => {
+    const productname = req.body.productname;
+    const productnote = req.body.productnote;
+    const price = req.body.price;
+    const productimage = req.file.filename;
+    console.log("request", req);
+
+    console.log("productimg", req.file.filename);
+    console.log("decode", req.decoded);
+    const custId = req.decoded;
+    if (productnote != null && productname != null && price != null) {
+      const result = await getpool();
+      result
+        .input("productname", sql.NVarChar(50), productname)
+        .input("productnote", sql.NVarChar(50), productnote)
+        .input("price", sql.Int, price)
+        .input("productimage", sql.VarChar(50), productimage)
+        .input("custId", sql.Int, custId)
+        .output("responseMessage", sql.VarChar(50))
+        .execute("spProductcreate", function (err, data) {
+          if (err) {
+            res.status(400).json({
+              error: {
+                message: err,
               },
             });
           } else {
-            res.status(404).json({
-              error: {
-                message: "Product creation failed",
-              },
-            });
+            console.log("productdata", data);
+            if (data["output"]["responseMessage"] == "success") {
+              res.status(201).json({
+                message: "Product has been created",
+                data: {
+                  ProductName: productname,
+                  ProductNote: productnote,
+                  Price: price,
+                  Productimage: productimage,
+                  productId: data["recordset"][0]["productId"],
+                  UserId: custId,
+                },
+              });
+            } else {
+              res.status(404).json({
+                error: {
+                  message: "Product creation failed",
+                },
+              });
+            }
           }
-        }
-      });
+        });
+    }
   }
-});
+);
 
 productRoute.get("/getproduct/:productId", async (req, res) => {
   var productId = req.params.productId;
@@ -172,7 +198,7 @@ productRoute.put("/update/:productId", authMiddlware, async (req, res) => {
   }
 });
 
-productRoute.delete("/deleteproduct/:productId", isAdmin, async (req, res) => {
+productRoute.delete("/deleteproduct/:productId", async (req, res) => {
   var productId = req.params.productId;
   console.log("productId", productId);
   const result = await getpool();
