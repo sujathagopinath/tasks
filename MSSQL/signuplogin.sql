@@ -6,25 +6,26 @@ select * from Users
 select * from Products
 select * from carts
 
-Drop table Products
+Drop table Users
 --------------------------------------------
-
 Create table Users(
 userId int primary key identity(1,1),
 userName varchar(50),
 userEmail nvarchar(50),
 userPassword nvarchar(max),
-isAdmin BIT
+isAdmin BIT,
+status varchar(10) NOT NULL CHECK (status IN('Active', 'Inactive')) Default 'Inactive',
+confirmationcode varchar(10) unique
 );
-
-
 ----------------------------------------------
 
-Create proc spSignupUser
+Create proc spSignupUsers
 @userName varchar(50),
 @userEmail nvarchar(50),
 @userPassword nvarchar(max),
 @isAdmin int,
+@status varchar(10) = 'Inactive',
+@confirmationCode varchar(10),
 @responseMessage varchar(50) output
 
 as
@@ -40,11 +41,13 @@ END
 ELSE
 BEGIN
 Insert into Users
-Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin
-values(@username, @userEmail,@userPassword,@isAdmin);
+Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin,
+@status as status, @confirmationCode as confirmationCode
+values(@username, @userEmail,@userPassword,@isAdmin,@status,@confirmationCode);
 
 set @responseMessage = 'Success';
 END
+
 end try
 begin catch
 set @responseMessage = ERROR_MESSAGE();

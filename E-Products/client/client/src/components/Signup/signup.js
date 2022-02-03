@@ -22,11 +22,7 @@ const SignUp = () => {
   const [userEmail, setemail] = useState("");
   const [userPassword, setpassword] = useState("");
   const [isAdmin, setIsadmin] = useState(false);
-  // const [picture, setuserimage] = useState("");
-
-  // const handleInputChange = (e) => {
-  //   setuserimage(e.target.files[0]);
-  // };
+  const [confirmationcode, setOtp] = useState();
 
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -39,12 +35,11 @@ const SignUp = () => {
   }, [dispatch]);
 
   function onSubmit(data) {
-    // const formdata = new FormData();
-    // formdata.append("images", picture.name);
-
     console.log("datas", data);
 
-    dispatch(registerUser(userName, userEmail, userPassword, isAdmin));
+    dispatch(
+      registerUser(userName, userEmail, userPassword, isAdmin, confirmationcode)
+    );
     console.log(userInfo);
     toast("User Created!& Login");
   }
@@ -111,14 +106,14 @@ const SignUp = () => {
 
         <p>{isAdmin ? "Checked" : "Not checked"}</p>
 
-        {/* <label htmlFor="profilepic">Choose Your Picture</label>
+        <label htmlFor="inputcode">OTP</label>
         <input
-          type="file"
-          id="images"
-          name="images"
-          className="form-control"
-          onChange={handleInputChange}
-        /> */}
+          type="number"
+          value={confirmationcode}
+          onChange={(e) => {
+            setOtp(e.target.value);
+          }}
+        />
 
         <div>
           <button type="submit">{t("signup.signup")}</button>

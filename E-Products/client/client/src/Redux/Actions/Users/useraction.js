@@ -18,7 +18,13 @@ import {
   USER_LOGOUT,
 } from "./actionTypes";
 
-export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
+export const registerUser = (
+  userName,
+  userEmail,
+  userPassword,
+  isAdmin,
+  confirmationcode
+) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -35,6 +41,7 @@ export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
           userEmail,
           userPassword,
           isAdmin,
+          confirmationcode,
         },
         config
       );

@@ -1,24 +1,29 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const path = require("path");
-const db = require("../config/db");
+const db = require("../Config/db");
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
+// const otp = require("../Middlewares/confirmationCode");
 const jwt = require("jsonwebtoken");
 const userValidation = require("../Validation/uservalidation");
 const { authMiddlware } = require("../Middlewares/token");
+const nodemailer = require("nodemailer");
 
-// var multerStorage = multer.diskStorage({
-//   destination: function (req, file, callback) {
-//     callback(null, path.join(__dirname, "../uploads"));
-//   },
-//   filename: function (req, file, callback) {
-//     callback(null, file.originalname);
-//   },
-// });
+var otp = Math.random();
+otp = otp * 1000000;
+otp = parseInt(otp);
 
-// var multersigleUpload = multer({ storage: multerStorage });
+const transport = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  service: "gmail",
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASS,
+  },
+});
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -32,54 +37,72 @@ router.post("/signup", userValidation, async (req, res, next) => {
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var isAdmin = req.body.isAdmin;
-    // var picture = req.file.filename;
-    console.log("reqs", req.file);
-    if (
-      userName != null &&
-      userEmail != null &&
-      userPassword != null &&
-      isAdmin != null
-      // && picture != null
-    ) {
-      bcrypt.hash(userPassword, 10, async (err, hash) => {
-        if (err) {
-          return res.status(500).json({
-            error: {
-              message: err,
-            },
-          });
-        } else {
-          const result = await getpool();
-          result
-            .input("userName", sql.VarChar(50), userName)
-            .input("userEmail", sql.NVarChar(50), userEmail)
-            .input("userPassword", sql.NVarChar(sql.MAX), hash)
-            .input("isAdmin", sql.Int, isAdmin)
-            // .input("picture", sql.VarChar(50), picture)
-            .output("responseMessage", sql.VarChar(50))
-            .execute("spSignupUser", function (err, data) {
-              if (err) {
-                res.status(500).json({
+    var confirmationcode = otp;
+
+    // if (
+    //   userName != null &&
+    //   userEmail != null &&
+    //   userPassword != null &&
+    //   isAdmin != null
+    // ) {
+    console.log("confirmation", confirmationcode);
+    var mailOptions = {
+      from: process.env.USER,
+      to: req.body.userEmail,
+      subject: "Otp for signup: ",
+      html:
+        "<h3>OTP for Account verification is </h3>" +
+        "<h4>" +
+        confirmationCode +
+        "</h4>",
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Message sent", info.messageId);
+      console.log("preview url", nodemailer.getTestMessageUrl(info));
+      res.send(otp);
+    });
+    bcrypt.hash(userPassword, 10, async (err, hash) => {
+      if (err) {
+        return res.status(500).json({
+          error: {
+            message: err,
+          },
+        });
+      } else {
+        const result = await getpool();
+        result
+          .input("userName", sql.VarChar(50), userName)
+          .input("userEmail", sql.NVarChar(50), userEmail)
+          .input("userPassword", sql.NVarChar(sql.MAX), hash)
+          .input("isAdmin", sql.Int, isAdmin)
+          .input("confirmationcode", sql.Int, confirmationCode)
+          .output("responseMessage", sql.VarChar(50))
+          .execute("spSignupUserss", function (err, data) {
+            if (err) {
+              res.status(500).json({
+                error: {
+                  message: err,
+                },
+              });
+            } else {
+              console.log(data);
+              if (data["output"]["responseMessage"] == "Failed") {
+                res.status(404).json({
                   error: {
-                    message: err,
+                    message: "User Exist",
                   },
                 });
               } else {
-                console.log(data);
-                if (data["output"]["responseMessage"] == "Failed") {
-                  res.status(404).json({
-                    error: {
-                      message: "User Exist",
-                    },
-                  });
-                } else {
-                  res.status(201);
-                }
+                res.status(201);
               }
-            });
-        }
-      });
-    }
+            }
+          });
+      }
+    });
+    // }
   } catch (error) {
     res.status(500).send(error);
   }
@@ -270,8 +293,5 @@ router.put("/update", authMiddlware, async (req, res) => {
       });
   }
 });
-
-
-
 
 module.exports = { router };

@@ -1,6 +1,6 @@
 const express = require("express");
 const Adminrouter = express.Router();
-const db = require("../config/db");
+const db = require("../Config/db");
 const { authMiddlware, isAdmin } = require("../Middlewares/token");
 
 async function getpool() {

@@ -1,9 +1,8 @@
 const express = require("express");
 const app = express();
-const routes = require("./routes/User");
-const products = require("./routes/Products");
-const admin = require("./routes/Admin");
-const bodyParser = require("body-parser");
+const routes = require("./Routes/User");
+const products = require("./Routes/Products");
+const admin = require("./Routes/Admin");
 const bunyan = require("bunyan");
 const uuid = require("uuid");
 
@@ -13,13 +12,10 @@ const log = bunyan.createLogger({
 });
 
 app.use(express.json());
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("uploads"));
 
 app.use((req, res, next) => {
-  console.log("backend", req);
   req.log = log.child({ req_id: uuid.v4() }, true);
   req.log.info({ req });
   res.on("finish", () => req.log.info({ res }));

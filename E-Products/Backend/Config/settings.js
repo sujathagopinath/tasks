@@ -6,7 +6,7 @@ exports.dbConfig = {
   password: process.env.PASSWORD,
   server: process.env.SERVER,
   database: process.env.DATABASE,
-  driver: "tedious",
+  driver: process.env.DRIVER,
   options: {
     encrypt: true,
     trustServerCertificate: true,

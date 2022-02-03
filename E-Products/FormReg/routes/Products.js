@@ -1,6 +1,6 @@
 const express = require("express");
 const productRoute = express.Router();
-const db = require("../config/db");
+const db = require("../Config/db");
 const sql = require("mssql");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
