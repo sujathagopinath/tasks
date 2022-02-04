@@ -22,7 +22,6 @@ const SignUp = () => {
   const [userEmail, setemail] = useState("");
   const [userPassword, setpassword] = useState("");
   const [isAdmin, setIsadmin] = useState(false);
-  const [confirmationcode, setOtp] = useState();
 
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -34,23 +33,23 @@ const SignUp = () => {
     dispatch(registerUser());
   }, [dispatch]);
 
-  function onSubmit(data) {
-    console.log("datas", data);
-
-    dispatch(
-      registerUser(userName, userEmail, userPassword, isAdmin, confirmationcode)
-    );
+  function onSubmit() {
+    dispatch(registerUser(userName, userEmail, userPassword, isAdmin));
     console.log(userInfo);
     toast("User Created!& Login");
   }
 
-  if (userInfo != null) {
-    history("/signin");
+  if (userInfo) {
+    history("/verify");
   }
 
   return (
     <div className="signup-form">
-      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        encType="multipart/form-data"
+      >
         <label htmlFor="inputUsername">{t("signup.username")}</label>
         <input
           type="text"
@@ -70,7 +69,7 @@ const SignUp = () => {
             required: "Email is required",
             pattern: {
               value: /^\S+@\S+$/i,
-              message: "Enter the valid Email",
+              message: "user Exists",
             },
           })}
           value={userEmail}
@@ -86,7 +85,8 @@ const SignUp = () => {
             required: "Password is required",
             pattern: {
               value: /^[A-Za-z0-9]{5,20}$/,
-              message: "Enter the valid Password with strings and numbers",
+              message:
+                "Enter the valid Password with strings and 5 to 20 numbers",
             },
           })}
           value={userPassword}
@@ -105,15 +105,6 @@ const SignUp = () => {
         />
 
         <p>{isAdmin ? "Checked" : "Not checked"}</p>
-
-        <label htmlFor="inputcode">OTP</label>
-        <input
-          type="number"
-          value={confirmationcode}
-          onChange={(e) => {
-            setOtp(e.target.value);
-          }}
-        />
 
         <div>
           <button type="submit">{t("signup.signup")}</button>

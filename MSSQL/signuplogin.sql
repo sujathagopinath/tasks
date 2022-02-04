@@ -14,18 +14,37 @@ userName varchar(50),
 userEmail nvarchar(50),
 userPassword nvarchar(max),
 isAdmin BIT,
-status varchar(10) NOT NULL CHECK (status IN('Active', 'Inactive')) Default 'Inactive',
-confirmationcode varchar(10) unique
+verified BIT,
 );
 ----------------------------------------------
+create table Verification(
+vid int FOREIGN KEY REFERENCES users(userId),
+uniqueId nvarchar(50),
+createdAt date,
+expiresIn date
+)
+----------------------------------------------
+create procedure spverify
+@vid int,
+@uniqueId nvarchar(50),
+@createdAt date,
+@expiresIn date,
+@userEmail nvarchar(50),
+@responseMessage nvarchar(50) output
 
+as 
+BEGIN
+set nocount on;
+
+END
+
+----------------------------------------------
 Create proc spSignupUsers
 @userName varchar(50),
 @userEmail nvarchar(50),
 @userPassword nvarchar(max),
 @isAdmin int,
-@status varchar(10) = 'Inactive',
-@confirmationCode varchar(10),
+@verified int,
 @responseMessage varchar(50) output
 
 as
@@ -41,9 +60,8 @@ END
 ELSE
 BEGIN
 Insert into Users
-Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin,
-@status as status, @confirmationCode as confirmationCode
-values(@username, @userEmail,@userPassword,@isAdmin,@status,@confirmationCode);
+Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin,@verified as verified
+values(@username, @userEmail,@userPassword,@isAdmin,@verified);
 
 set @responseMessage = 'Success';
 END

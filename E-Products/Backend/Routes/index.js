@@ -9,4 +9,12 @@ module.exports = [
       auth: false,
     },
   },
+  {
+    method: "POST",
+    path: "/verify",
+    handler: signup,
+    options: {
+      auth: false,
+    },
+  },
 ];
