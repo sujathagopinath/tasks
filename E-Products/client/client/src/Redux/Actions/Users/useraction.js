@@ -15,16 +15,13 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  VERIFY_USERS_REQUEST,
+  VERIFY_USERS_SUCCESS,
+  VERIFY_USERS_FAIL,
   USER_LOGOUT,
 } from "./actionTypes";
 
-export const registerUser = (
-  userName,
-  userEmail,
-  userPassword,
-  isAdmin,
-  confirmationcode
-) => {
+export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -41,7 +38,6 @@ export const registerUser = (
           userEmail,
           userPassword,
           isAdmin,
-          confirmationcode,
         },
         config
       );
@@ -57,6 +53,37 @@ export const registerUser = (
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message,
+      });
+    }
+  };
+};
+
+export const verify = (emailToken) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: VERIFY_USERS_REQUEST,
+        loading: true,
+      });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.get(
+        `/api/users/verify/${emailToken}`,
+        config
+      );
+      dispatch({
+        type: VERIFY_USERS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: VERIFY_USERS_FAIL,
+        loading: false,
+        error: error.response && error.response.data.message,
       });
     }
   };
@@ -88,7 +115,7 @@ export const loginUser = (userEmail, userPassword) => {
 
       sessionStorage.setItem("userAuthData", JSON.stringify(data));
       sessionStorage.setItem("access_token", JSON.stringify(data.access_token));
-      sessionStorage.setItem("isAdmin", JSON.parse(data.userdata[0].isAdmin));
+      // sessionStorage.setItem("isAdmin", JSON.parse(data.userdata[0].isAdmin));
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,

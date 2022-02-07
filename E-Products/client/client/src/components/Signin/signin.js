@@ -38,7 +38,7 @@ const SignIn = () => {
     console.log("datas", data);
     dispatch(loginUser(userEmail, userPassword));
     console.log(userEmail, userPassword);
-    toast("Logged In Successfully!!");
+    toast("once verified your mail and Log In occurs!!");
   }
 
   return (

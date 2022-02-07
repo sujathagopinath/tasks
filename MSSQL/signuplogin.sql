@@ -15,6 +15,7 @@ userEmail nvarchar(50),
 userPassword nvarchar(max),
 isAdmin BIT,
 verified BIT,
+emailToken nvarchar(max)
 );
 ----------------------------------------------
 create table Verification(
@@ -24,18 +25,52 @@ createdAt date,
 expiresIn date
 )
 ----------------------------------------------
-create procedure spverify
-@vid int,
-@uniqueId nvarchar(50),
-@createdAt date,
-@expiresIn date,
-@userEmail nvarchar(50),
+create procedure spverifys
+@emailToken nvarchar(max),
+@verified int = '1',
 @responseMessage nvarchar(50) output
 
 as 
 BEGIN
 set nocount on;
+begin try
+IF EXISTS (Select emailToken from Users where emailToken = @emailToken)
+begin
+update Users set verified = @verified where emailToken = @emailToken
+end
+else
+begin
+set @responseMessage = 'Auth Failed';
+end
+end try
+begin catch
+set @responseMessage = ERROR_MESSAGE();
+end catch
+END
+----------------------------------------------
+create procedure spverified
+@userEmail nvarchar(50),
+@verified INT = '0',
+@responseMessage nvarchar(50) output
+as 
+BEGIN
+set nocount on;
+begin try
 
+IF (@verified = 0)
+begin
+
+set @responseMessage ='verify your email';
+end
+else
+begin
+set @responseMessage = 'success';
+
+end
+end try
+begin catch
+set @responseMessage = ERROR_MESSAGE();
+end catch
 END
 
 ----------------------------------------------
@@ -45,6 +80,7 @@ Create proc spSignupUsers
 @userPassword nvarchar(max),
 @isAdmin int,
 @verified int,
+@emailToken nvarchar(max),
 @responseMessage varchar(50) output
 
 as
@@ -60,8 +96,9 @@ END
 ELSE
 BEGIN
 Insert into Users
-Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin,@verified as verified
-values(@username, @userEmail,@userPassword,@isAdmin,@verified);
+Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin,
+@verified as verified,@emailToken as emailToken
+values(@username, @userEmail,@userPassword,@isAdmin,@verified,@emailToken);
 
 set @responseMessage = 'Success';
 END

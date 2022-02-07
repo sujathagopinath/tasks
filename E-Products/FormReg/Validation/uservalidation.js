@@ -1,6 +1,6 @@
 const schema = require("./userpattern");
 const userValidation = (req, res, next) => {
-  console.log("req", req);
+  // console.log("req", req);
   const { userName, userEmail, userPassword } = req.body;
   // console.log("users", req.body);
   const { error } = schema.validate({

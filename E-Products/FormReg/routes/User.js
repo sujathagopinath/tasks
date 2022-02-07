@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 const userValidation = require("../Validation/uservalidation");
 const { authMiddlware } = require("../Middlewares/token");
 const nodemailer = require("nodemailer");
-const { v4: uuidv4 } = require("uuid");
+const crypto = require("crypto");
 
 const transport = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -39,32 +39,43 @@ async function getpool() {
   return result;
 }
 
+const verifyEmail = async (req, res, next) => {
+  const userEmail = req.body.userEmail;
+  var verified;
+  const result = await getpool();
+  result
+    .input("userEmail", sql.NVarChar(50), userEmail)
+    .input("verified", sql.Int, verified)
+    .output("responseMessage", sql.VarChar(50))
+    .execute("spverified", function (err, data) {
+      if (err) {
+        res.status(500).json({
+          error: {
+            message: err,
+          },
+        });
+      } else {
+        console.log(data);
+        // console.log(userEmail);
+        console.log(verified);
+        if (verified) {
+          next();
+        } else {
+          res.send("verify your email");
+        }
+      }
+    });
+};
+
 router.post("/signup", userValidation, async (req, res, next) => {
-  // rand = Math.floor(Math.random() * 100 + 54);
   try {
     var userName = req.body.userName;
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var isAdmin = req.body.isAdmin;
     var verified = false;
-    // var confirmationcode = rand;
-    // var mailOptions = {
-    //   from: "tu78599@gmail.com",
-    //   to: req.body.userEmail,
-    //   subject: "Otp for signup: ",
-    //   html:
-    //     "<h3>OTP for Account verification is </h3>" +
-    //     "<h4>" +
-    //     confirmationcode +
-    //     "</h4>",
-    // };
-    // transport.sendMail(mailOptions, (error, info) => {
-    //   if (error) {
-    //     return console.log(error);
-    //   }
-    //   console.log("Message sent", info.messageId);
-    //   console.log("preview url", nodemailer.getTestMessageUrl(info));
-    // });
+    var emailToken = crypto.randomBytes(54).toString("hex");
+    var currenturl = "localhost:5000";
     bcrypt.hash(userPassword, 10, async (err, hash) => {
       if (err) {
         return res.status(500).json({
@@ -80,77 +91,75 @@ router.post("/signup", userValidation, async (req, res, next) => {
           .input("userPassword", sql.NVarChar(sql.MAX), hash)
           .input("isAdmin", sql.Int, isAdmin)
           .input("verified", sql.Int, verified)
+          .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
           .output("responseMessage", sql.VarChar(50))
-          .execute("spSignupUsers")
-          .then((data) => {
-            console.log(data);
-            sendVerificationEmail(data, res);
-          })
-          .catch((err) => {
-            console.log(err);
+          .execute("spSignupUsers", function (err, data) {
+            if (err) {
+              res.status(500).json({
+                error: {
+                  message: err,
+                },
+              });
+            } else {
+              console.log(data);
+              if (data["output"]["responseMessage"] == "Failed") {
+                res.status(404).json({
+                  error: {
+                    message: "User Exist",
+                  },
+                });
+              } else {
+                res.status(201);
+              }
+            }
           });
-        //   function (err, data) {
-        //       if (err) {
-        //         res.status(500).json({
-        //           error: {
-        //             message: err,
-        //           },
-        //         });
-        //       } else {
-        //         console.log(data);
-        //         if (data["output"]["responseMessage"] == "Failed") {
-        //           res.status(404).json({
-        //             error: {
-        //               message: "User Exist",
-        //             },
-        //           });
-        //         } else {
-        //           res.status(201);
-        //         }
-        //       }
-        //     });
       }
+    });
+    var mailOptions = {
+      from: "tu78599@gmail.com",
+      to: req.body.userEmail,
+      subject: "Verify for signup: ",
+      html: `<h2>${userName}</h2>
+      <h4>Verify the email</h4>
+      <a href="http://${currenturl}/api/users/verify/${emailToken}">verify</a>`,
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Message sent", info.messageId);
+      console.log("preview url", nodemailer.getTestMessageUrl(info));
     });
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-const sendVerificationEmail = async ({ userId, userEmail }, res) => {
-  const currenturl = "http://localhost:5000/";
-  const uniqueId = uuidv4() + userId;
-
-  const mailOptions = {
-    from: "tu78599@gmail.com",
-    to: req.body.userEmail,
-    subject: "Otp for signup: ",
-    html: `<p>Verify your email to signup and login</p> 
-     <p>Press <a href= ${
-       currenturl + "users/verify/" + userId + "/" + uniqueId
-     }>here</a> to proceed</p>`,
-  };
-
-  const saltRounds = 10;
-  bcrypt
-    .hash(uniqueId, saltRounds)
-    .then((hasheduniqueid) => {})
-    .catch(() => {
-      res.json({
-        status: "Failed",
-        message: "an error occurred while hashing unique id",
+router.get("/verify/:emailToken", async (req, res) => {
+  try {
+    const emailToken = req.params.emailToken;
+    const result = await getpool();
+    result
+      .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
+      .output("responseMessage", sql.VarChar(50))
+      .execute("spverifys", function (err, data) {
+        if (err) {
+          res.status(500).json({
+            error: {
+              message: err,
+            },
+          });
+        } else {
+          console.log(data);
+          res.send("login");
+        }
       });
-    });
-};
-
-router.post("/verify", async (req, res) => {
-  if (req.body.rand) {
-    res.send("you has been registered successfully");
-  } else {
-    res.send("otp is incorrect");
+  } catch (error) {
+    console.log(error);
   }
 });
 
-router.post("/signin", async (req, res, next) => {
+router.post("/signin", verifyEmail, async (req, res, next) => {
   var userEmail = req.body.userEmail;
   var userPassword = req.body.userPassword;
 
