@@ -18,10 +18,19 @@ import {
   VERIFY_USERS_REQUEST,
   VERIFY_USERS_SUCCESS,
   VERIFY_USERS_FAIL,
+  RESEND_USERS_REQUEST,
+  RESEND_USERS_SUCCESS,
+  RESEND_USERS_FAIL,
   USER_LOGOUT,
 } from "./actionTypes";
 
-export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
+export const registerUser = (
+  userName,
+  userEmail,
+  userPassword,
+  isAdmin,
+  verified
+) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -38,6 +47,7 @@ export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
           userEmail,
           userPassword,
           isAdmin,
+          verified,
         },
         config
       );
@@ -45,6 +55,10 @@ export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
         type: USER_REGISTER_SUCCESS,
       });
       sessionStorage.setItem("userAuthData", JSON.stringify(data));
+      sessionStorage.setItem(
+        "isverified",
+        JSON.parse(data.userdata[0].verified)
+      );
     } catch (error) {
       console.log("dberror", error);
       dispatch({
@@ -79,9 +93,42 @@ export const verify = (emailToken) => {
         type: VERIFY_USERS_SUCCESS,
         payload: data,
       });
+      console.log(data);
     } catch (error) {
       dispatch({
         type: VERIFY_USERS_FAIL,
+        loading: false,
+        error: error.response && error.response.data.message,
+      });
+    }
+  };
+};
+
+export const resend = (userEmail) => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: RESEND_USERS_REQUEST,
+        loading: true,
+      });
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/users/resendlink",
+        { userEmail },
+        config
+      );
+      dispatch({
+        type: RESEND_USERS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: RESEND_USERS_FAIL,
         loading: false,
         error: error.response && error.response.data.message,
       });
@@ -97,7 +144,7 @@ export const loginUser = (userEmail, userPassword) => {
       });
 
       const config = {
-        // credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -107,7 +154,6 @@ export const loginUser = (userEmail, userPassword) => {
         { userEmail, userPassword },
         config
       );
-      console.log("logindata", data);
       dispatch({
         type: USER_LOGIN_SUCCESS,
         payload: data,
@@ -115,7 +161,7 @@ export const loginUser = (userEmail, userPassword) => {
 
       sessionStorage.setItem("userAuthData", JSON.stringify(data));
       sessionStorage.setItem("access_token", JSON.stringify(data.access_token));
-      // sessionStorage.setItem("isAdmin", JSON.parse(data.userdata[0].isAdmin));
+      sessionStorage.setItem("isAdmin", JSON.parse(data.userdata[0].isAdmin));
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,

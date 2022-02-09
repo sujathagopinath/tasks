@@ -22,6 +22,7 @@ const SignUp = () => {
   const [userEmail, setemail] = useState("");
   const [userPassword, setpassword] = useState("");
   const [isAdmin, setIsadmin] = useState(false);
+  const [verified] = useState(false);
 
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -34,66 +35,76 @@ const SignUp = () => {
   }, [dispatch]);
 
   function onSubmit() {
-    dispatch(registerUser(userName, userEmail, userPassword, isAdmin));
+    dispatch(
+      registerUser(userName, userEmail, userPassword, isAdmin, verified)
+    );
     console.log(userInfo);
-    toast("User Created!& Login");
-  }
-
-  if (userInfo) {
+    toast("User Created and Verify your email");
     history("/verify");
   }
 
   return (
     <div className="signup-form">
+      <h3 className="heading">Sign Up</h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
         encType="multipart/form-data"
       >
-        <label htmlFor="inputUsername">{t("signup.username")}</label>
-        <input
-          type="text"
-          {...register("text", {
-            required: "Username is required",
-          })}
-          value={userName}
-          onChange={(e) => setusername(e.target.value)}
-        />
+        <div>
+          <label htmlFor="inputUsername">{t("signup.username")}</label>
+          <input
+            type="text"
+            {...register("text", {
+              required: "Username is required",
+            })}
+            value={userName}
+            onChange={(e) => setusername(e.target.value)}
+          />
+          {errors.text && (
+            <small className="error">{errors.text.message}</small>
+          )}
+        </div>
+        <div>
+          <label htmlFor="inputEmail">{t("signin.email_address")}</label>
+          <input
+            type="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "user Exists",
+              },
+            })}
+            value={userEmail}
+            onChange={(e) => setemail(e.target.value)}
+          />
 
-        {errors.text && <p className="error">{errors.text.message}</p>}
+          {errors.email && (
+            <small className="error">{errors.email.message}</small>
+          )}
+        </div>
 
-        <label htmlFor="inputEmail">{t("signin.email_address")}</label>
-        <input
-          type="email"
-          {...register("email", {
-            required: "Email is required",
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: "user Exists",
-            },
-          })}
-          value={userEmail}
-          onChange={(e) => setemail(e.target.value)}
-        />
+        <div>
+          <label htmlFor="inputPassword">{t("signin.password")}</label>
+          <input
+            type="password"
+            {...register("password", {
+              required: "Password is required",
+              pattern: {
+                value: /^[A-Za-z0-9]{5,20}$/,
+                message:
+                  "Enter the valid Password with strings and 5 to 20 numbers",
+              },
+            })}
+            value={userPassword}
+            onChange={(e) => setpassword(e.target.value)}
+          />
 
-        {errors.email && <p className="error">{errors.email.message}</p>}
-
-        <label htmlFor="inputPassword">{t("signin.password")}</label>
-        <input
-          type="password"
-          {...register("password", {
-            required: "Password is required",
-            pattern: {
-              value: /^[A-Za-z0-9]{5,20}$/,
-              message:
-                "Enter the valid Password with strings and 5 to 20 numbers",
-            },
-          })}
-          value={userPassword}
-          onChange={(e) => setpassword(e.target.value)}
-        />
-
-        {errors.password && <p className="error">{errors.password.message}</p>}
+          {errors.password && (
+            <small className="error">{errors.password.message}</small>
+          )}
+        </div>
 
         <label htmlFor="inputIsadmin">IsAdmin</label>
         <input
@@ -108,6 +119,9 @@ const SignUp = () => {
 
         <div>
           <button type="submit">{t("signup.signup")}</button>
+          <a href="resend" className="resend">
+            Resend
+          </a>
           <ToastContainer />
         </div>
         <a href="signin">{t("signup.do_account")}</a>

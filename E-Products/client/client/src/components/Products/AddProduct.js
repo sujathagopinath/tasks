@@ -61,14 +61,20 @@ const AddProduct = () => {
             <option value="Select a Note" required>
               Product Note
             </option>
-            <option value="Groceries">Weight Loss and healthy Eating</option>
-            <option value="lifestyle">Do What's makes you happy:)</option>
-            <option value="Clothes">Wear with New styles!!</option>
-            <option value="Furnitures">
+            <option value="Weight Loss and healthy Eating">
+              Weight Loss and healthy Eating
+            </option>
+            <option value="Do What's makes you happy:)">
+              Do What's makes you happy:)
+            </option>
+            <option value="Wear with New styles">Wear with New styles!!</option>
+            <option value="The key to Life is rearranging things">
               The key to Life is rearranging things
             </option>
-            <option value="Veggies">Do not to Fight disease</option>
-            <option value="Electronics">
+            <option value="Do not to Fight disease">
+              Do not to Fight disease
+            </option>
+            <option value="To connect the seemingly unconnected">
               To connect the seemingly unconnected
             </option>
           </select>

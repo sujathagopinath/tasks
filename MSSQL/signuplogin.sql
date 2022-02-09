@@ -18,13 +18,6 @@ verified BIT,
 emailToken nvarchar(max)
 );
 ----------------------------------------------
-create table Verification(
-vid int FOREIGN KEY REFERENCES users(userId),
-uniqueId nvarchar(50),
-createdAt date,
-expiresIn date
-)
-----------------------------------------------
 create procedure spverifys
 @emailToken nvarchar(max),
 @verified int = '1',
@@ -48,29 +41,46 @@ set @responseMessage = ERROR_MESSAGE();
 end catch
 END
 ----------------------------------------------
-create procedure spverified
+create procedure spresend
 @userEmail nvarchar(50),
-@verified INT = '0',
+@emailToken nvarchar(max),
+@verified int,
 @responseMessage nvarchar(50) output
 as 
 BEGIN
 set nocount on;
-begin try
-
-IF (@verified = 0)
+IF EXISTS (Select userEmail from Users where userEmail = @userEmail)
 begin
-
-set @responseMessage ='verify your email';
+if(@@ROWCOUNT =0)
+begin
+update Users set emailToken = @emailToken,verified=@verified where userEmail = @userEmail
+set @responseMessage ='sent';
 end
+END
 else
-begin
-set @responseMessage = 'success';
+set @responseMessage = 'Invalid Email';
+END
 
-end
-end try
-begin catch
+
+-----------------------------------------------
+create procedure spverified
+@userEmail nvarchar(50),
+@verified BIT,
+@responseMessage nvarchar(50) output
+as 
+BEGIN
+set nocount on;
+IF EXISTS (Select userEmail from Users where userEmail = @userEmail)
+begin
+SELECT verified =  
+CASE
+    WHEN @verified = 1  THEN 'success'
+	WHEN @verified = 0  THEN 'Verify the email'
+    ELSE 'check email and login'
+END
+FROM Users
+END
 set @responseMessage = ERROR_MESSAGE();
-end catch
 END
 
 ----------------------------------------------

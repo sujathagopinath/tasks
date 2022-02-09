@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 import SignUp from "./components/Signup/signup";
 import SignIn from "./components/Signin/signin";
 import Verify from "./components/Signup/verify";
+import Resend from "./components/Signup/resend";
 import Profile from "./components/Userprofile/Profile";
 import ListUsers from "./components/Userprofile/ListUsers";
 import UpdateProfile from "./components/Updateuser/UpdateProfile";
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/verify" element={<Verify />} />
+          <Route path="/resend" element={<Resend />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/forbidden" element={<Forbidden />} />
 

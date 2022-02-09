@@ -4,10 +4,7 @@ const db = require("../../Config/db");
 const sql = require("mssql");
 const { schema } = require("../../Validationschema/index");
 const nodemailer = require("nodemailer");
-
-var otp = Math.random();
-otp = otp * 1000000;
-otp = parseInt(otp);
+const crypto = require("crypto");
 
 const transport = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -23,6 +20,15 @@ const transport = nodemailer.createTransport({
   },
 });
 
+transport.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Ready for message");
+    console.log(success);
+  }
+});
+
 async function getpool() {
   const pool = await db.poolPromise;
   const result = await pool.request();
@@ -34,28 +40,9 @@ const signup = async (req, h) => {
   const userEmail = req.payload.userEmail;
   const userPassword = req.payload.userPassword;
   const isAdmin = req.payload.isAdmin;
-  const confirmationcode = otp;
-  console.log("req", req);
-
-  var mailOptions = {
-    from: "tu78599@gmail.com",
-    to: req.payload.userEmail,
-    subject: "Otp for signup: ",
-    html:
-      "<h3>OTP for Account verification is </h3>" +
-      "<h4>" +
-      confirmationcode +
-      "</h4>",
-  };
-  transport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    console.log("Message sent", info.messageId);
-    console.log("preview url", nodemailer.getTestMessageUrl(info));
-    res.send(otp);
-  });
-
+  var verified = false;
+  var emailToken = crypto.randomBytes(54).toString("hex");
+  var currenturl = "localhost:4000";
   try {
     const { value, error } = schema.validate(req.payload, {
       abortEarly: false,
@@ -73,9 +60,10 @@ const signup = async (req, h) => {
         .input("userEmail", sql.NVarChar(50), userEmail)
         .input("userPassword", sql.NVarChar(sql.MAX), hashPassword)
         .input("isAdmin", sql.Int, isAdmin)
-        .input("confirmationcode", sql.Int, confirmationcode)
+        .input("verified", sql.Int, verified)
+        .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
         .output("responseMessage", sql.VarChar(50))
-        .execute("spSignupUserss", (err, data) => {
+        .execute("spSignupUsers", (err, data) => {
           if (err) {
             reject(err);
           } else {
@@ -84,18 +72,25 @@ const signup = async (req, h) => {
           }
         });
     });
+    var mailOptions = {
+      from: "tu78599@gmail.com",
+      to: req.payload.userEmail,
+      subject: "Verify for signup: ",
+      html: `<h2>${userName}</h2>
+      <h4>Verify the email</h4>
+      <a href="http://${currenturl}/verify/${emailToken}">verify</a>`,
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Message sent", info.messageId);
+      console.log("preview url", nodemailer.getTestMessageUrl(info));
+    });
     return somevar;
   } catch (error) {
     throw Boom.serverUnavailable(error);
   }
 };
 
-const verify = async (req, h) => {
-  if (otp) {
-    return h.response("user registered successfully");
-  } else {
-    return h.response("Incorrect OTP");
-  }
-};
-
-module.exports = { signup, verify };
+module.exports = { signup };

@@ -41,11 +41,11 @@ async function getpool() {
 
 const verifyEmail = async (req, res, next) => {
   const userEmail = req.body.userEmail;
-  var verified;
+  var verified = req.body.verified;
   const result = await getpool();
   result
     .input("userEmail", sql.NVarChar(50), userEmail)
-    .input("verified", sql.Int, verified)
+    .input("verified", sql.Bit, verified)
     .output("responseMessage", sql.VarChar(50))
     .execute("spverified", function (err, data) {
       if (err) {
@@ -56,13 +56,11 @@ const verifyEmail = async (req, res, next) => {
         });
       } else {
         console.log(data);
-        // console.log(userEmail);
-        console.log(verified);
-        if (verified) {
-          next();
-        } else {
-          res.send("verify your email");
-        }
+        // if (verified == 1) {
+        next();
+        // } else {
+        //   res.send("verify your email");
+        // }
       }
     });
 };
@@ -119,9 +117,9 @@ router.post("/signup", userValidation, async (req, res, next) => {
       from: "tu78599@gmail.com",
       to: req.body.userEmail,
       subject: "Verify for signup: ",
-      html: `<h2>${userName}</h2>
-      <h4>Verify the email</h4>
-      <a href="http://${currenturl}/api/users/verify/${emailToken}">verify</a>`,
+      html: `<h2>Hi ${userName}!!</h2>
+      <h4>Verify the email to login your account :)</h4>
+      <a href="http://${currenturl}/api/users/verify/${emailToken}">Click here to verify</a>`,
     };
     transport.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -151,7 +149,7 @@ router.get("/verify/:emailToken", async (req, res) => {
           });
         } else {
           console.log(data);
-          res.send("login");
+          res.send("You have successfully verified proceed with login page");
         }
       });
   } catch (error) {
@@ -159,87 +157,123 @@ router.get("/verify/:emailToken", async (req, res) => {
   }
 });
 
-router.post("/signin", verifyEmail, async (req, res, next) => {
-  var userEmail = req.body.userEmail;
-  var userPassword = req.body.userPassword;
-
-  if (userEmail != null && userPassword != null) {
+router.post("/resendlink", async (req, res, next) => {
+  try {
+    var currenturl = "localhost:3000";
+    const userEmail = req.body.userEmail;
+    const verified = false;
+    const emailToken = crypto.randomBytes(54).toString("hex");
     const result = await getpool();
     result
       .input("userEmail", sql.NVarChar(50), userEmail)
-      .input("userPassword", sql.NVarChar(sql.MAX), userPassword)
+      .input("verified", sql.Int, verified)
+      .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
       .output("responseMessage", sql.VarChar(50))
-      .execute("spSignInUser", function (err, data) {
+      .execute("spresend", function (err, data) {
         if (err) {
-          res.status(500).json({
-            error: {
-              message: err,
-            },
-          });
+          console.log(err);
         } else {
-          result
-            .query(
-              "Select * from Users where userEmail=" +
-                "'" +
-                req.body.userEmail +
-                "'"
-            )
-            .then(function (datas) {
-              console.log(datas["recordset"][0]["userEmail"] + "RESULTS");
-              bcrypt.compare(
-                req.body.userPassword,
-                datas["recordset"][0]["userPassword"],
-                (err, results) => {
-                  if (err) {
-                    return res.status(500).json({
-                      error: {
-                        message: err,
-                      },
-                    });
-                  }
-
-                  if (results) {
-                    const token = jwt.sign(
-                      {
-                        userId: datas["recordset"][0]["userId"],
-                        isAdmin: datas["recordset"][0]["isAdmin"],
-                        email: datas["recordset"][0]["userEmail"],
-                      },
-                      process.env.JWT_KEY,
-                      {
-                        expiresIn: "1h",
-                      }
-                    );
-                    console.log(results);
-                    return res.status(200).json({
-                      message: "success",
-                      userdata: datas["recordset"],
-                      access_token: token,
-                    });
-                  }
-                  return res.status(404).json({
-                    error: {
-                      message: "Incorrect Password",
-                    },
-                  });
-                }
-              );
-            })
-            .catch(function (err) {
-              return res.status(404).json({
-                error: {
-                  message: "User Does not Exists",
-                },
-              });
-            });
+          console.log(data);
         }
       });
-  } else {
-    return res.status(404).json({
-      error: {
-        message: "Not found ",
-      },
+    var mailOptions = {
+      from: "tu78599@gmail.com",
+      to: req.body.userEmail,
+      subject: "Verify for signup: ",
+      html: `<h2>${userEmail} </h2>
+      <h4>Verify the email</h4>
+      <a href="http://${currenturl}/api/users/verify/${emailToken}">verify</a>`,
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Message sent", info.messageId);
+      console.log("preview url", nodemailer.getTestMessageUrl(info));
     });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+router.post("/signin", verifyEmail, async (req, res, next) => {
+  try {
+    var userEmail = req.body.userEmail;
+    var userPassword = req.body.userPassword;
+    if (userEmail != null && userPassword != null) {
+      const result = await getpool();
+      result
+        .input("userEmail", sql.NVarChar(50), userEmail)
+        .input("userPassword", sql.NVarChar(sql.MAX), userPassword)
+        .output("responseMessage", sql.VarChar(50))
+        .execute("spSignInUser", function (err, data) {
+          if (err) {
+            res.status(500).json({
+              error: {
+                message: err,
+              },
+            });
+          } else {
+            result
+              .query(
+                "Select * from Users where userEmail=" +
+                  "'" +
+                  req.body.userEmail +
+                  "'"
+              )
+              .then(function (datas) {
+                console.log(datas["recordset"][0]["userEmail"] + "RESULTS");
+                bcrypt.compare(
+                  req.body.userPassword,
+                  datas["recordset"][0]["userPassword"],
+                  (err, results) => {
+                    if (err) {
+                      return res.status(500).json({
+                        error: {
+                          message: err,
+                        },
+                      });
+                    }
+
+                    if (results) {
+                      const token = jwt.sign(
+                        {
+                          userId: datas["recordset"][0]["userId"],
+                          isAdmin: datas["recordset"][0]["isAdmin"],
+                          email: datas["recordset"][0]["userEmail"],
+                        },
+                        process.env.JWT_KEY,
+                        {
+                          expiresIn: "1h",
+                        }
+                      );
+                      console.log(results);
+                      return res.status(200).json({
+                        message: "success",
+                        userdata: datas["recordset"],
+                        access_token: token,
+                      });
+                    }
+                    return res.status(404).json({
+                      error: {
+                        message: "Incorrect Password",
+                      },
+                    });
+                  }
+                );
+              })
+              .catch(function (err) {
+                return res.status(404).json({
+                  error: {
+                    message: "User Does not Exists",
+                  },
+                });
+              });
+          }
+        });
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 

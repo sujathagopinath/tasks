@@ -25,7 +25,7 @@
 
   margin: 5px 0 10px;
 
-  padding: 5px;
+  padding:5px;
 
   border: 1px solid #c0c0c0;
 
@@ -60,13 +60,4 @@
   font-size: 30px;
  }
 
- .resend{
-   text-decoration: none;
-   background-color: #0d718d;
-   color: #fff;
-   font-size: 16px;
-   border-radius: 5px;
-   padding: 6px 20px;
-   line-height: 20px;
-   margin-left: 100px;
- }
+ 

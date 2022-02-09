@@ -17,12 +17,12 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log("reg", register);
 
   const [userEmail, setemail] = useState("");
   const [userPassword, setpassword] = useState("");
   const history = useNavigate();
   const dispatch = useDispatch();
+  const isverified = JSON.parse(sessionStorage.getItem("verified"));
 
   const userLoginDetails = useSelector((state) => state.userLogin);
   const { userInfo } = userLoginDetails;
@@ -43,45 +43,52 @@ const SignIn = () => {
 
   return (
     <div className="signin-form">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <label htmlFor="inputEmail">{t("signin.email_address")}</label>
-        <input
-          type="email"
-          {...register("email", {
-            required: "Email is required",
-            pattern: {
-              value: /^\S+@\S+$/i,
-              message: "Enter the valid Email",
-            },
-          })}
-          value={userEmail}
-          onChange={(e) => setemail(e.target.value)}
-        />
-        {errors.email && <p className="error">{errors.email.message}</p>}
+      <h3 className="heading">Sign In</h3>
+      {isverified === false ? (
+        <h4>Verify Your Email</h4>
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <label htmlFor="inputEmail">{t("signin.email_address")}</label>
+          <input
+            type="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: "Enter the valid Email",
+              },
+            })}
+            value={userEmail}
+            onChange={(e) => setemail(e.target.value)}
+          />
+          {errors.email && <p className="error">{errors.email.message}</p>}
 
-        <label htmlFor="inputPassword">{t("signin.password")}</label>
-        <input
-          type="password"
-          {...register("password", {
-            required: "Password is required",
-            pattern: {
-              value: /^[A-Za-z0-9]{5,10}$/,
-              message: "Enter the valid Password with strings and numbers",
-            },
-          })}
-          value={userPassword}
-          onChange={(e) => setpassword(e.target.value)}
-        />
-        {errors.password && <p className="error">{errors.password.message}</p>}
+          <label htmlFor="inputPassword">{t("signin.password")}</label>
+          <input
+            type="password"
+            {...register("password", {
+              required: "Password is required",
+              pattern: {
+                value: /^[A-Za-z0-9]{5,10}$/,
+                message: "Enter the valid Password with strings and numbers",
+              },
+            })}
+            value={userPassword}
+            onChange={(e) => setpassword(e.target.value)}
+          />
+          {errors.password && (
+            <p className="error">{errors.password.message}</p>
+          )}
 
-        <div>
-          <button type="submit">{t("signin.signin")}</button>
-          <ToastContainer />
-        </div>
-        <a href="signup" className="hyperlink">
-          {t("signin.dont_account")}
-        </a>
-      </form>
+          <div>
+            <button type="submit">{t("signin.signin")}</button>
+            <ToastContainer />
+          </div>
+          <a href="signup" className="hyperlink">
+            {t("signin.dont_account")}
+          </a>
+        </form>
+      )}
     </div>
   );
 };
