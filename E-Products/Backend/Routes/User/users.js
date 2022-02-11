@@ -9,13 +9,15 @@ async function getpool() {
 }
 
 const getuserdata = async (req, h) => {
-  var userId = req.decoded;
-  const userName = req.payload.userName;
-  const userEmail = req.payload.userEmail;
-  console.log(userId);
   try {
+    const { userId } = req.state;
+    const userName = req.query.userName;
+    const userEmail = req.query.userEmail;
+    console.log(req.state);
+    // console.log('req',req);
+    // console.log(req.state);
     const result = await getpool();
-    const somevar = new Promise(async (resolve, reject) => {
+    const getusers = new Promise(async (resolve, reject) => {
       await result
         .input("userId", sql.Int, userId)
         .input("userName", sql.NVarChar(50), userName)
@@ -30,7 +32,7 @@ const getuserdata = async (req, h) => {
           }
         });
     });
-    return somevar;
+    return getusers;
   } catch (error) {
     throw Boom.serverUnavailable(error);
   }

@@ -5,7 +5,7 @@ const Verify = () => {
       <div className="container">
         <h4>Verify your Email before login!!</h4>
         <a
-          href="signin"
+          href="signnin"
           type="button"
           className="btn btn-primary"
           data-toggle="modal"

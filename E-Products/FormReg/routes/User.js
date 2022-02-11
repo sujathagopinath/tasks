@@ -65,7 +65,7 @@ const verifyEmail = async (req, res, next) => {
     });
 };
 
-router.post("/signup", userValidation, async (req, res, next) => {
+router.post("/signup", async (req, res, next) => {
   try {
     var userName = req.body.userName;
     var userEmail = req.body.userEmail;
@@ -74,60 +74,43 @@ router.post("/signup", userValidation, async (req, res, next) => {
     var verified = false;
     var emailToken = crypto.randomBytes(54).toString("hex");
     var currenturl = "localhost:5000";
-    bcrypt.hash(userPassword, 10, async (err, hash) => {
-      if (err) {
-        return res.status(500).json({
-          error: {
-            message: err,
-          },
-        });
-      } else {
-        const result = await getpool();
-        result
-          .input("userName", sql.VarChar(50), userName)
-          .input("userEmail", sql.NVarChar(50), userEmail)
-          .input("userPassword", sql.NVarChar(sql.MAX), hash)
-          .input("isAdmin", sql.Int, isAdmin)
-          .input("verified", sql.Int, verified)
-          .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
-          .output("responseMessage", sql.VarChar(50))
-          .execute("spSignupUsers", function (err, data) {
-            if (err) {
-              res.status(500).json({
-                error: {
-                  message: err,
-                },
-              });
-            } else {
-              console.log(data);
-              if (data["output"]["responseMessage"] == "Failed") {
-                res.status(404).json({
-                  error: {
-                    message: "User Exist",
-                  },
-                });
-              } else {
-                res.status(201);
-              }
-            }
+    const hash = await bcrypt.hash(userPassword, 10);
+    const result = await getpool();
+    await result
+      .input("userName", sql.VarChar(50), userName)
+      .input("userEmail", sql.NVarChar(50), userEmail)
+      .input("userPassword", sql.NVarChar(sql.MAX), hash)
+      .input("isAdmin", sql.Int, isAdmin)
+      .input("verified", sql.Int, verified)
+      .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
+      .output("responseMessage", sql.VarChar(50))
+      .execute("spSignupUsers", function (err, data) {
+        if (err) {
+          res.status(500).json({
+            error: {
+              message: err,
+            },
           });
-      }
-    });
-    var mailOptions = {
-      from: "tu78599@gmail.com",
-      to: req.body.userEmail,
-      subject: "Verify for signup: ",
-      html: `<h2>Hi ${userName}!!</h2>
-      <h4>Verify the email to login your account :)</h4>
-      <a href="http://${currenturl}/api/users/verify/${emailToken}">Click here to verify</a>`,
-    };
-    transport.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.log(error);
-      }
-      console.log("Message sent", info.messageId);
-      console.log("preview url", nodemailer.getTestMessageUrl(info));
-    });
+        } else {
+          var mailOptions = {
+            from: "tu78599@gmail.com",
+            to: req.body.userEmail,
+            subject: "Verify for signup: ",
+            html: `<h2>Hi ${userName}!!</h2>
+           <h4>Verify the email to login your account :)</h4>
+           <a href="http://${currenturl}/api/users/verify/${emailToken}">Click here to verify</a>`,
+          };
+          transport.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              return console.log(error);
+            }
+            console.log("Message sent", info.messageId);
+            console.log("preview url", nodemailer.getTestMessageUrl(info));
+          });
+        }
+        // res.status(201).send(data["recordset"]);
+        res.status(201).send("User created");
+      });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -175,22 +158,22 @@ router.post("/resendlink", async (req, res, next) => {
         } else {
           console.log(data);
         }
-      });
-    var mailOptions = {
-      from: "tu78599@gmail.com",
-      to: req.body.userEmail,
-      subject: "Verify for signup: ",
-      html: `<h2>${userEmail} </h2>
+        var mailOptions = {
+          from: "tu78599@gmail.com",
+          to: req.body.userEmail,
+          subject: "Verify for signup: ",
+          html: `<h2>${userEmail} </h2>
       <h4>Verify the email</h4>
       <a href="http://${currenturl}/api/users/verify/${emailToken}">verify</a>`,
-    };
-    transport.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.log(error);
-      }
-      console.log("Message sent", info.messageId);
-      console.log("preview url", nodemailer.getTestMessageUrl(info));
-    });
+        };
+        transport.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            return console.log(error);
+          }
+          console.log("Message sent", info.messageId);
+          console.log("preview url", nodemailer.getTestMessageUrl(info));
+        });
+      });
   } catch (error) {
     res.status(500).send(error);
   }

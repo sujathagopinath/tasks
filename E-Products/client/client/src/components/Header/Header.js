@@ -21,6 +21,7 @@ const Header = () => {
   const history = useNavigate();
 
   const isAuth = JSON.parse(sessionStorage.getItem("isAdmin"));
+  const userName = JSON.stringify(sessionStorage.getItem("userName"));
 
   const logoutHandler = () => {
     dispatch(logoutUser());
@@ -41,7 +42,7 @@ const Header = () => {
               </li>
               <li className="items">
                 <Tooltip
-                  title={userInfo.userdata[0].userName}
+                  title={userName}
                   style={{ cursor: "pointer" }}
                   variant="contained"
                 >

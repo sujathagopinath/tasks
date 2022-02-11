@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import "./signup.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import crypto from "crypto-browserify";
 
 const SignUp = () => {
   const { t, i18n } = useTranslation();
@@ -22,7 +23,6 @@ const SignUp = () => {
   const [userEmail, setemail] = useState("");
   const [userPassword, setpassword] = useState("");
   const [isAdmin, setIsadmin] = useState(false);
-  const [verified] = useState(false);
 
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -36,7 +36,12 @@ const SignUp = () => {
 
   function onSubmit() {
     dispatch(
-      registerUser(userName, userEmail, userPassword, isAdmin, verified)
+      registerUser(
+        userName,
+        userEmail,
+        userPassword,
+        isAdmin
+      )
     );
     console.log(userInfo);
     toast("User Created and Verify your email");

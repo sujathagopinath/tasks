@@ -31,8 +31,8 @@ module.exports = [
     method: "GET",
     path: "/getuserdata",
     handler: getuserdata,
-    config: {
-      auth: "simple",
-    },
+    // config: {
+    //   auth: "simple",
+    // },
   },
 ];
