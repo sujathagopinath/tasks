@@ -2,7 +2,7 @@ const Boom = require("@hapi/boom");
 const bcrypt = require("bcryptjs");
 const db = require("../../Config/db");
 const sql = require("mssql");
-const { schema } = require("../../Validationschema/index");
+const { schema } = require("../../Validationschema/userpattern");
 const createToken = require("../../utils/token");
 
 async function getpool() {
@@ -64,4 +64,29 @@ const signin = async (req, h) => {
   }
 };
 
-module.exports = { signin };
+const verifymail = async (req, h, next) => {
+  var userEmail = req.payload.userEmail;
+  var verified = req.payload.verified;
+  try {
+    const result = await getpool();
+    const somevar = new Promise(async (resolve, reject) => {
+      await result
+        .input("userEmail", sql.NVarChar(50), userEmail)
+        .input("verified", sql.Bit, verified)
+        .output("responseMessage", sql.VarChar(50))
+        .execute("spverified", function (err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            const response = h.response(data);
+            resolve(response);
+          }
+        });
+    });
+    return somevar;
+  } catch (error) {
+    throw Boom.serverUnavailable(error);
+  }
+};
+
+module.exports = { signin, verifymail };

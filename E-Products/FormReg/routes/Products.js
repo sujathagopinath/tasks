@@ -2,7 +2,6 @@ const express = require("express");
 const productRoute = express.Router();
 const db = require("../Config/db");
 const sql = require("mssql");
-const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const { authMiddlware, isAdmin } = require("../Middlewares/token");
@@ -35,10 +34,6 @@ productRoute.post(
     const productnote = req.body.productnote;
     const price = req.body.price;
     const productimage = req.file.filename;
-    console.log("request", req);
-
-    console.log("productimg", req.file.filename);
-    console.log("decode", req.decoded);
     const custId = req.decoded;
     if (productnote != null && productname != null && price != null) {
       const result = await getpool();
@@ -188,11 +183,6 @@ productRoute.put("/update/:productId", authMiddlware, async (req, res) => {
               },
             });
           }
-          // res.status(404).json({
-          //     error: {
-          //         message:'No products got updated'
-          //     }
-          // })
         }
       });
   }
@@ -225,8 +215,6 @@ productRoute.post("/cart", authMiddlware, async (req, res) => {
   var quantity = req.body.quantity;
   var userId = req.decoded;
   var total;
-  console.log("req", req.query);
-  console.log("reqs", req.body);
   const result = await getpool();
   result
     .input("productId", sql.Int, productId)

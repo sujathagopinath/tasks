@@ -39,32 +39,6 @@ async function getpool() {
   return result;
 }
 
-const verifyEmail = async (req, res, next) => {
-  const userEmail = req.body.userEmail;
-  var verified = req.body.verified;
-  const result = await getpool();
-  result
-    .input("userEmail", sql.NVarChar(50), userEmail)
-    .input("verified", sql.Bit, verified)
-    .output("responseMessage", sql.VarChar(50))
-    .execute("spverified", function (err, data) {
-      if (err) {
-        res.status(500).json({
-          error: {
-            message: err,
-          },
-        });
-      } else {
-        console.log(data);
-        // if (verified == 1) {
-        next();
-        // } else {
-        //   res.send("verify your email");
-        // }
-      }
-    });
-};
-
 router.post("/signup", async (req, res, next) => {
   try {
     var userName = req.body.userName;
@@ -142,7 +116,7 @@ router.get("/verify/:emailToken", async (req, res) => {
 
 router.post("/resendlink", async (req, res, next) => {
   try {
-    var currenturl = "localhost:3000";
+    var currenturl = "localhost:5000";
     const userEmail = req.body.userEmail;
     const verified = false;
     const emailToken = crypto.randomBytes(54).toString("hex");
@@ -178,6 +152,28 @@ router.post("/resendlink", async (req, res, next) => {
     res.status(500).send(error);
   }
 });
+
+const verifyEmail = async (req, res, next) => {
+  const userEmail = req.body.userEmail;
+  var verified = req.body.verified;
+  const result = await getpool();
+  result
+    .input("userEmail", sql.NVarChar(50), userEmail)
+    .input("verified", sql.Bit, verified)
+    .output("responseMessage", sql.VarChar(50))
+    .execute("spverified", function (err, data) {
+      if (err) {
+        res.status(500).json({
+          error: {
+            message: err,
+          },
+        });
+      } else {
+        console.log(data);
+        next();
+      }
+    });
+};
 
 router.post("/signin", verifyEmail, async (req, res, next) => {
   try {

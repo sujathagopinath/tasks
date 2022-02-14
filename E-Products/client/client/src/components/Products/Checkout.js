@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../assests/CSS/Checkout.css";
 import PaymentInputsContainer from "../Products/Payment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { order } from "../../Redux/Actions/Products/productaction";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import emailjs from "emailjs-com";
@@ -11,6 +11,12 @@ const Checkout = () => {
   const buyproduct = JSON.parse(sessionStorage.getItem("buyproduct"));
   console.log("buy", buyproduct);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  console.log("info", userInfo);
+
+  const [userName] = useState(userInfo.userdata[0].userName);
+  const [userEmail] = useState(userInfo.userdata[0].userEmail);
   const [checkoutInfo, setCheckoutInfo] = useState("");
   const [productId] = useState(buyproduct.productId);
   const [productname, setProductname] = useState(buyproduct.productname);
@@ -28,10 +34,10 @@ const Checkout = () => {
     e.preventDefault();
     emailjs
       .sendForm(
-        "service_9wl817o",
-        "template_xdydqxr",
+        "service_mas4wmn",
+        "template_4fzek53",
         e.target,
-        "user_XEQe8W3cyQm0TlEnECvfW"
+        "user_bQnfuO3R35Tjv0cwZ2biO"
       )
       .then(
         (result) => {
@@ -89,11 +95,23 @@ const Checkout = () => {
 
             <div className="field">
               <label>UserName</label>
-              <input placeholder="Name" name="name" type="text" required />
+              <input
+                placeholder="Name"
+                name="name"
+                type="text"
+                value={userName}
+                disabled
+              />
             </div>
             <div className="field">
-              <label>Email Id(To receive mail)</label>
-              <input placeholder="Email" name="email" type="email" required />
+              <label>Email Id</label>
+              <input
+                placeholder="Email"
+                name="email"
+                type="email"
+                value={userEmail}
+                disabled
+              />
             </div>
           </div>
           <button className="submit">Submit</button>

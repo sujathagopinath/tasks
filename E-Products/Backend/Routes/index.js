@@ -1,6 +1,15 @@
-const { signup } = require("./User/signup");
-const { signin } = require("./User/signin");
-const { getuserdata } = require("./User/users");
+const { signup, verify, resend } = require("./User/signup");
+const { signin, verifymail } = require("./User/signin");
+const { getuserdata, allusers, updateuser } = require("./User/users");
+const { cart, removeitem } = require("./Products/cart");
+const { order, allorders } = require("./Products/order");
+const {
+  createproduct,
+  getproduct,
+  allproducts,
+  updateproduct,
+  deleteproduct,
+} = require("./Products/product");
 
 module.exports = [
   {
@@ -13,8 +22,16 @@ module.exports = [
   },
   {
     method: "POST",
-    path: "/verify",
-    handler: signup,
+    path: "/verify/:emailToken",
+    handler: verify,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/resendlink",
+    handler: resend,
     options: {
       auth: false,
     },
@@ -23,16 +40,121 @@ module.exports = [
     method: "POST",
     path: "/signin",
     handler: signin,
-    options: {
-      auth: false,
+    config: {
+      pre: [{ method: verifymail }],
     },
   },
   {
     method: "GET",
     path: "/getuserdata",
     handler: getuserdata,
-    // config: {
-    //   auth: "simple",
-    // },
+    options: {
+      auth: false,
+    },
   },
+  {
+    method: "GET",
+    path: "/allusers",
+    handler: allusers,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/update",
+    handler: updateuser,
+    options: {
+      auth: false,
+    },
+  },
+  /*End of User Routes */
+
+  {
+    method: "POST",
+    path: "/create",
+    handler: createproduct,
+    options: {
+      payload: {
+        parse: true,
+        output: "stream",
+        multipart: true,
+      },
+      auth: false,
+    },
+  },
+  {
+    method: "GET",
+    path: "/getproduct",
+    handler: getproduct,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "GET",
+    path: "/allproducts",
+    handler: allproducts,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "POST",
+    path: "/updateproduct",
+    handler: updateproduct,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "DELETE",
+    path: "/delete",
+    handler: deleteproduct,
+    options: {
+      auth: false,
+    },
+  },
+
+  /*End of Product Routes */
+
+  {
+    method: "POST",
+    path: "/cart",
+    handler: cart,
+    options: {
+      auth: false,
+    },
+  },
+
+  {
+    method: "DELETE",
+    path: "/deletecart",
+    handler: removeitem,
+    options: {
+      auth: false,
+    },
+  },
+
+  /*End of Cart Routes */
+
+  {
+    method: "POST",
+    path: "/order",
+    handler: order,
+    options: {
+      auth: false,
+    },
+  },
+
+  {
+    method: "GET",
+    path: "/orders",
+    handler: allorders,
+    options: {
+      auth: false,
+    },
+  },
+
+  /*End of Order Routes */
 ];

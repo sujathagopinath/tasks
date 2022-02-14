@@ -1,11 +1,9 @@
 require("dotenv").config();
 const Hapi = require("@hapi/hapi");
 const Path = require("path");
-const jwt = require("jsonwebtoken");
 const poolPromise = require("./Config/db");
 const Routes = require("./Routes");
 const db = require("./Config/db");
-const sql = require("mssql");
 
 async function getpool() {
   const pool = await db.poolPromise;
@@ -32,19 +30,17 @@ const init = async () => {
 
   const validate = async (req, { userId }) => {
     console.log(userId);
-    // var Id = userId.toString();
     const result = await getpool();
     const userdata = await result.query(
-                `select * from Users where userId = ${userId}`
-    )
-    console.log("data",userdata)
-    //  return { valid: true };
+      `select * from Users where userId = ${userId}`
+    );
+    console.log("data", userdata);
     if (!userdata) {
-      return {valid:true}
+      return { valid: false };
     }
 
-    return {valid:true,credentials: userdata}
-  }
+    return { valid: true, credentials: userdata };
+  };
 
   await server.register([
     {
@@ -69,7 +65,7 @@ const init = async () => {
       password: "!wsYhFA*C2U6nz=Bu^%A@^F#SF3&kSR6",
       isSecure: false,
     },
-    validateFunc:validate
+    validateFunc: validate,
   });
   server.auth.default("session");
 
