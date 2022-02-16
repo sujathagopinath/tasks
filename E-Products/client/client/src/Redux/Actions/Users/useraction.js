@@ -24,7 +24,7 @@ import {
   USER_LOGOUT,
 } from "./actionTypes";
 
-export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
+export const registerUser = (userName, userEmail, userPassword) => {
   return async (dispatch) => {
     try {
       dispatch({
@@ -40,7 +40,7 @@ export const registerUser = (userName, userEmail, userPassword, isAdmin) => {
           userName,
           userEmail,
           userPassword,
-          isAdmin,
+          // isAdmin,
         },
         config
       );
@@ -147,14 +147,14 @@ export const loginUser = (userEmail, userPassword) => {
         type: USER_LOGIN_SUCCESS,
         payload: data,
       });
-
+      console.log(data.userdata[0].role);
       sessionStorage.setItem("userAuthData", JSON.stringify(data));
       sessionStorage.setItem("access_token", JSON.stringify(data.access_token));
-      sessionStorage.setItem("isAdmin", JSON.parse(data.userdata[0].isAdmin));
       sessionStorage.setItem(
         "userName",
         JSON.stringify(data.userdata[0].userName)
       );
+      sessionStorage.setItem("role", data.userdata[0].role);
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,

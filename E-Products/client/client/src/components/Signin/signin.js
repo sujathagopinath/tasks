@@ -25,7 +25,6 @@ const SignIn = () => {
 
   const userLoginDetails = useSelector((state) => state.userLogin);
   const { userInfo } = userLoginDetails;
-  console.log(userInfo);
 
   useEffect(() => {
     if (userInfo) {
@@ -66,7 +65,8 @@ const SignIn = () => {
           {...register("password", {
             required: "Password is required",
             pattern: {
-              value: /^[A-Za-z0-9]{5,10}$/,
+              value:
+                /^(?=.*[A-Z])(?=.*[a-z].*[a-z].*[a-z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9]).{8}$/,
               message: "Enter the valid Password with strings and numbers",
             },
           })}

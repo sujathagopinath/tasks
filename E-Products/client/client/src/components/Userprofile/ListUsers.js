@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../Redux/Actions/Users/useraction";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const Users = () => {
             <tr>
               <th scope="col">UserName</th>
               <th scope="col">UserEmail</th>
+              <th scope="col">UserType</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +36,12 @@ const Users = () => {
                 <tr className="table-dark" key={user.userId}>
                   <th scope="row">{user.userName}</th>
                   <th scope="row">{user.userEmail}</th>
+                  <th scope="row">{user.role}</th>
+                  <th scope="row">
+                    <Button style={{ backgroundColor: "# 69foae" }}>
+                      Promote
+                    </Button>
+                  </th>
                 </tr>
               );
             })}

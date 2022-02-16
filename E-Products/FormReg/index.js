@@ -5,6 +5,7 @@ const products = require("./Routes/Products");
 const admin = require("./Routes/Admin");
 const bunyan = require("bunyan");
 const uuid = require("uuid");
+const error = require("./Middlewares/error");
 
 const log = bunyan.createLogger({
   name: "my-app",
@@ -25,6 +26,8 @@ app.use((req, res, next) => {
 app.use("/api/users", routes.router);
 app.use("/api/products", products.productRoute);
 app.use("/api/admin", admin.Adminrouter);
+
+app.use(error.errorMiddlewareHandler);
 
 app.listen("5000", (req, res) => {
   console.log("Server started at 5000");

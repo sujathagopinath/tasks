@@ -100,4 +100,32 @@ const updateuser = async (req, h) => {
   }
 };
 
-module.exports = { getuserdata, allusers, updateuser };
+const promote = async (req, h) => {
+  try {
+    const userId = req.state.sid.userId;
+    const role = req.payload;
+    const result = await getpool();
+    const updateusers = new Promise(async (resolve, reject) => {
+      await result
+        .input("userId", sql.Int, userId)
+        .input("role", sql.VarChar(10), role)
+        .output("responseMessage", sql.VarChar(50))
+        .execute("sppromotes", (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            result.query(
+              "UPDATE Users set role= '" + role + "' where userId= " + userId
+            );
+            const response = h.response(data);
+            resolve(response);
+          }
+        });
+    });
+    return updateusers;
+  } catch (error) {
+    throw Boom.serverUnavailable(error);
+  }
+};
+
+module.exports = { getuserdata, allusers, updateuser, promote };

@@ -22,7 +22,7 @@ const SignUp = () => {
   const [userName, setusername] = useState("");
   const [userEmail, setemail] = useState("");
   const [userPassword, setpassword] = useState("");
-  const [isAdmin, setIsadmin] = useState(false);
+  // const [isAdmin, setIsadmin] = useState(false);
 
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -35,14 +35,7 @@ const SignUp = () => {
   }, [dispatch]);
 
   function onSubmit() {
-    dispatch(
-      registerUser(
-        userName,
-        userEmail,
-        userPassword,
-        isAdmin
-      )
-    );
+    dispatch(registerUser(userName, userEmail, userPassword));
     console.log(userInfo);
     toast("User Created and Verify your email");
     history("/verify");
@@ -97,9 +90,9 @@ const SignUp = () => {
             {...register("password", {
               required: "Password is required",
               pattern: {
-                value: /^[A-Za-z0-9]{5,20}$/,
-                message:
-                  "Enter the valid Password with strings and 5 to 20 numbers",
+                value:
+                  /^(?=.*[A-Z])(?=.*[a-z].*[a-z].*[a-z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9]).{8}$/,
+                message: "Enter the valid Password with strings and numbers",
               },
             })}
             value={userPassword}
@@ -111,7 +104,7 @@ const SignUp = () => {
           )}
         </div>
 
-        <label htmlFor="inputIsadmin">IsAdmin</label>
+        {/* <label htmlFor="inputIsadmin">IsAdmin</label>
         <input
           type="checkbox"
           checked={isAdmin}
@@ -120,7 +113,7 @@ const SignUp = () => {
           }}
         />
 
-        <p>{isAdmin ? "Checked" : "Not checked"}</p>
+        <p>{isAdmin ? "Checked" : "Not checked"}</p> */}
 
         <div>
           <button type="submit">{t("signup.signup")}</button>

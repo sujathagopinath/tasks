@@ -1,6 +1,6 @@
 const { signup, verify, resend } = require("./User/signup");
 const { signin, verifymail } = require("./User/signin");
-const { getuserdata, allusers, updateuser } = require("./User/users");
+const { getuserdata, allusers, updateuser, promote } = require("./User/users");
 const { cart, removeitem } = require("./Products/cart");
 const { order, allorders } = require("./Products/order");
 const {
@@ -61,9 +61,17 @@ module.exports = [
     },
   },
   {
-    method: "POST",
+    method: "PUT",
     path: "/update",
     handler: updateuser,
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "PUT",
+    path: "/promote",
+    handler: promote,
     options: {
       auth: false,
     },

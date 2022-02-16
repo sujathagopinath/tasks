@@ -1,6 +1,11 @@
 Create database Eproducts
 
 use Eproducts
+
+exec sp_changedbowner 'sa', 'true'
+select name, hasdbaccess from sys.sysusers where name = 'guest'
+
+grant connect to guest
 -------------------------------------------
 select * from Users
 select * from Products
@@ -8,15 +13,18 @@ select * from carts
 
 Drop table Users
 --------------------------------------------
+CREATE SERVER ROLE admins AUTHORIZATION serveradmin;
+--------------------------------------------
 Create table Users(
 userId int primary key identity(1,1),
 userName varchar(50),
 userEmail nvarchar(50),
 userPassword nvarchar(max),
-isAdmin BIT,
+role varchar(10),
 verified BIT,
 emailToken nvarchar(max)
 );
+
 ----------------------------------------------
 create procedure spverifys
 @emailToken nvarchar(max),
@@ -88,8 +96,8 @@ Create proc spSignupUsers
 @userName varchar(50),
 @userEmail nvarchar(50),
 @userPassword nvarchar(max),
-@isAdmin int,
 @verified int,
+@role varchar(10) ='USER',
 @emailToken nvarchar(max),
 @responseMessage varchar(50) output
 
@@ -106,9 +114,9 @@ END
 ELSE
 BEGIN
 Insert into Users
-Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@isAdmin as isAdmin,
+Output Inserted.userId,@userName as Name , @userEmail as Email,@userPassword as Password,@role as role,
 @verified as verified,@emailToken as emailToken
-values(@username, @userEmail,@userPassword,@isAdmin,@verified,@emailToken);
+values(@username, @userEmail,@userPassword,@role,@verified,@emailToken);
 
 set @responseMessage = 'Success';
 END
@@ -117,6 +125,7 @@ end try
 begin catch
 set @responseMessage = ERROR_MESSAGE();
 end catch
+EXEC sys.sp_addrolemember 'Admin', 'tu78599@gmail.com'
 end
 
 ------------------------------------------------------------
@@ -339,7 +348,21 @@ VALUES (@usersId,@productId,@productname)
 END
 
 --------------------------------------------------------------------
-
+create procedure sppromotes
+@userId int,
+@role varchar(10),
+@responseMessage varchar(50) output
+AS
+BEGIN
+set nocount on
+select userId from Users where userId = @userId
+set @responseMessage ='Admin cannot change their own type'
+if(@@ROWCOUNT>0)
+begin
+update Users set role = @role where userId = @userId
+set @responseMessage = 'User role updated'
+END
+END
 
 
 

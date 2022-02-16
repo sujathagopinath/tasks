@@ -20,7 +20,7 @@ const Header = () => {
   const { userInfo } = userLogin;
   const history = useNavigate();
 
-  const isAuth = JSON.parse(sessionStorage.getItem("isAdmin"));
+  const isAuth = sessionStorage.getItem("role");
   const userName = JSON.stringify(sessionStorage.getItem("userName"));
 
   const logoutHandler = () => {
@@ -65,7 +65,7 @@ const Header = () => {
             </>
           )}
 
-          {isAuth === true ? (
+          {isAuth === "ADMIN" ? (
             <>
               <li className="items">
                 <a className="links" href="create">

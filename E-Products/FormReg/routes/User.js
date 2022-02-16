@@ -10,6 +10,7 @@ const userValidation = require("../Validation/uservalidation");
 const { authMiddlware } = require("../Middlewares/token");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+// const { default: roles } = require("../Constants/roles");
 
 const transport = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -44,7 +45,6 @@ router.post("/signup", async (req, res, next) => {
     var userName = req.body.userName;
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
-    var isAdmin = req.body.isAdmin;
     var verified = false;
     var emailToken = crypto.randomBytes(54).toString("hex");
     var currenturl = "localhost:5000";
@@ -54,7 +54,6 @@ router.post("/signup", async (req, res, next) => {
       .input("userName", sql.VarChar(50), userName)
       .input("userEmail", sql.NVarChar(50), userEmail)
       .input("userPassword", sql.NVarChar(sql.MAX), hash)
-      .input("isAdmin", sql.Int, isAdmin)
       .input("verified", sql.Int, verified)
       .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
       .output("responseMessage", sql.VarChar(50))
@@ -218,7 +217,7 @@ router.post("/signin", verifyEmail, async (req, res, next) => {
                       const token = jwt.sign(
                         {
                           userId: datas["recordset"][0]["userId"],
-                          isAdmin: datas["recordset"][0]["isAdmin"],
+                          role: datas["recordset"][0]["role"],
                           email: datas["recordset"][0]["userEmail"],
                         },
                         process.env.JWT_KEY,
@@ -232,12 +231,10 @@ router.post("/signin", verifyEmail, async (req, res, next) => {
                         userdata: datas["recordset"],
                         access_token: token,
                       });
+                    } else {
+                      res.status(401);
+                      throw new Error("Invalid login credentials");
                     }
-                    return res.status(404).json({
-                      error: {
-                        message: "Incorrect Password",
-                      },
-                    });
                   }
                 );
               })
@@ -357,5 +354,40 @@ router.put("/update", authMiddlware, async (req, res) => {
       });
   }
 });
+
+router.put("/promote", authMiddlware, async (req, res) => {
+  try {
+    
+  var userId = req.decoded;
+  var role = req.body.role;
+  const result = await getpool();
+  await result
+    .input("userId", sql.Int, userId)
+    .input("role", sql.VarChar(10), role) 
+    .output("responseMessage", sql.VarChar(50))
+    .execute("sppromotes", function (err, data) {
+      if (err) {
+          res.status(404).send(err)
+      }
+      else {
+        if (req.userId === userId) {
+          res.status(200).send('Admin cannot change their role')
+        }
+        else {
+          result.query(
+            "UPDATE Users set role= '" +
+              role +
+              "' where userId= " +
+              userId
+          );
+        }
+      }
+    })
+  }
+  catch (error) {
+    console.log(error)
+}
+})
+
 
 module.exports = { router };

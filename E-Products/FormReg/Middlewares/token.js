@@ -17,7 +17,7 @@ const authMiddlware = async (req, res, next) => {
         req.decoded = decoded.userId;
         req.isAdmin = decoded.isAdmin;
         console.log("decoded", decoded.userId);
-        console.log("isAdmin", decoded.isAdmin);
+        console.log("role", decoded.role);
         next();
       });
     } catch (error) {
