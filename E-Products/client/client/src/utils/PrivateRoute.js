@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }) => {
   if (auth) {
     if (multirole === userRole.admin && role) {
       return children;
-    } else if (multirole === userRole.user && !role) {
+    } else if (multirole === userRole.user && role) {
       return children;
     } else {
       return <Navigate to="/forbidden" />;

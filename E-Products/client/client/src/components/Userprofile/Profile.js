@@ -21,7 +21,6 @@ const Profile = (props) => {
 
   function updatefunc(product) {
     sessionStorage.setItem("product", JSON.stringify(product));
-    console.log("updatefunc", product);
     history("/updateproduct");
   }
 
@@ -39,57 +38,6 @@ const Profile = (props) => {
   const users = userProfile.user;
   return (
     <div className="container-fluid">
-      {/* <h1 className="text-center m-2"> Product of users</h1>
-      <div className="row text-center justify-content-center">
-        {loading ? (
-          <Loading />
-        ) : (
-          <>
-            {users &&
-              users.recordset.map((product) => (
-                <div className="col-lg-3" key={product.productId}>
-                  <div className="card">
-                    <img
-                      src={`${backendUrl}/static/${product.productimage}`}
-                      alt="Product pic"
-                      className="image"
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{product.productname}</h5>
-
-                      <p className="ptext">{product.productnote}</p>
-
-                      <p className="ptext">
-                        <small className="small">Price: </small>
-                        {product.price}
-                      </p>
-
-                      <p className="ptext">
-                        <small className="small">Discount: </small>
-                        {product.discount}
-                      </p>
-
-                      <Button
-                        onClick={() => handlerDeleteProduct(product.productId)}
-                        variant="contained"
-                      >
-                        Delete
-                      </Button>
-                      <ToastContainer />
-                      <br />
-                      <Button
-                        onClick={() => updatefunc(product)}
-                        variant="contained"
-                      >
-                        Update
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </>
-        )} */}
-      {/* </div> */}
       <div>
         {loading && <Loading />}
         {users !== undefined && users.length === 0 ? (

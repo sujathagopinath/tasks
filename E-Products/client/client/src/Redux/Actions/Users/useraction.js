@@ -21,6 +21,9 @@ import {
   RESEND_USERS_REQUEST,
   RESEND_USERS_SUCCESS,
   RESEND_USERS_FAIL,
+  PROMOTE_USER_REQUEST,
+  PROMOTE_USER_SUCCESS,
+  PROMOTE_USER_FAIL,
   USER_LOGOUT,
 } from "./actionTypes";
 
@@ -40,7 +43,6 @@ export const registerUser = (userName, userEmail, userPassword) => {
           userName,
           userEmail,
           userPassword,
-          // isAdmin,
         },
         config
       );
@@ -236,16 +238,12 @@ export const updateUser = (userName, userEmail, userPassword) => {
         loading: true,
       });
       const { userInfo } = getState().userLogin;
-      console.log("token", userInfo.access_token);
-      console.log("data", userInfo.userdata);
       const config = {
         headers: {
           "Content-Type": "application/json",
           authorization: `Bearer ${userInfo.access_token}`,
         },
       };
-      // const id = JSON.parse(sessionStorage.getItem('userAuthData')).userdata[0].userId
-      // console.log('id',id)
       const { data } = await axios.put(
         "/api/users/update",
         { userName, userEmail, userPassword },
@@ -258,6 +256,41 @@ export const updateUser = (userName, userEmail, userPassword) => {
     } catch (error) {
       dispatch({
         type: USER_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+};
+
+export const promoteUser = (userId, role) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: PROMOTE_USER_REQUEST,
+        loading: true,
+      });
+      const { userInfo } = getState().userLogin;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${userInfo.access_token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `/api/users/promote/${userId}`,
+        role,
+        config
+      );
+      dispatch({
+        type: PROMOTE_USER_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: PROMOTE_USER_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

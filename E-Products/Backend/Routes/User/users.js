@@ -102,27 +102,31 @@ const updateuser = async (req, h) => {
 
 const promote = async (req, h) => {
   try {
-    const userId = req.state.sid.userId;
-    const role = req.payload;
+    const userId = req.payload.userId;
+    const role = req.payload.role;
     const result = await getpool();
-    const updateusers = new Promise(async (resolve, reject) => {
+    const promoteusers = new Promise(async (resolve, reject) => {
       await result
         .input("userId", sql.Int, userId)
         .input("role", sql.VarChar(10), role)
         .output("responseMessage", sql.VarChar(50))
-        .execute("sppromotes", (err, data) => {
+        .execute("sppromote", (err, data) => {
           if (err) {
             reject(err);
           } else {
-            result.query(
-              "UPDATE Users set role= '" + role + "' where userId= " + userId
-            );
-            const response = h.response(data);
-            resolve(response);
+            if (req.state.sid.userId == userId) {
+              res.status(200).send("Admin cannot change their role");
+            } else {
+              result.query(
+                "UPDATE Users set role= '" + role + "' where userId= " + userId
+              );
+              const response = h.response(data);
+              resolve(response);
+            }
           }
         });
     });
-    return updateusers;
+    return promoteusers;
   } catch (error) {
     throw Boom.serverUnavailable(error);
   }

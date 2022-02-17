@@ -5,6 +5,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../Redux/Actions/Users/useraction";
@@ -102,7 +103,13 @@ const Header = () => {
                   {t("header.profile")}
                 </a>
               </li>
-
+              <Tooltip
+                title="You're an Admin"
+                style={{ cursor: "pointer" }}
+                variant="contained"
+              >
+                <AccessibilityNewIcon />
+              </Tooltip>
               <li className="items">
                 <button className="press" onClick={() => handleclick("ta")}>
                   Ta
@@ -136,6 +143,13 @@ const Header = () => {
                   </Tooltip>
                 </a>
               </li>
+              <Tooltip
+                title="You're an User"
+                style={{ cursor: "pointer" }}
+                variant="contained"
+              >
+                <AccessibilityNewIcon />
+              </Tooltip>
               <li className="items">
                 <button className="press" onClick={() => handleclick("ta")}>
                   Ta

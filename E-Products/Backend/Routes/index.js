@@ -69,7 +69,7 @@ module.exports = [
     },
   },
   {
-    method: "PUT",
+    method: "POST",
     path: "/promote",
     handler: promote,
     options: {

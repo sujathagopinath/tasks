@@ -12,6 +12,7 @@ import Resend from "./components/Signup/resend";
 import Profile from "./components/Userprofile/Profile";
 import ListUsers from "./components/Userprofile/ListUsers";
 import UpdateProfile from "./components/Updateuser/UpdateProfile";
+import PromoteUser from "./components/Userprofile/Promoteuser";
 import AddProduct from "./components/Products/AddProduct";
 import ProductUpdate from "./components/Products/ProductUpdate";
 import Products from "./components/Products/Products";
@@ -78,6 +79,16 @@ function App() {
               <PrivateRoute>
                 {" "}
                 <Order role={role.admin} />{" "}
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/promote"
+            element={
+              <PrivateRoute>
+                {" "}
+                <PromoteUser role={role.admin} />{" "}
               </PrivateRoute>
             }
           />

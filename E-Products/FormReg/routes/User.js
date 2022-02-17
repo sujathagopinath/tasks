@@ -10,7 +10,6 @@ const userValidation = require("../Validation/uservalidation");
 const { authMiddlware } = require("../Middlewares/token");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-// const { default: roles } = require("../Constants/roles");
 
 const transport = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -40,7 +39,7 @@ async function getpool() {
   return result;
 }
 
-router.post("/signup", async (req, res, next) => {
+router.post("/signup", userValidation, async (req, res, next) => {
   try {
     var userName = req.body.userName;
     var userEmail = req.body.userEmail;
@@ -81,7 +80,6 @@ router.post("/signup", async (req, res, next) => {
             console.log("preview url", nodemailer.getTestMessageUrl(info));
           });
         }
-        // res.status(201).send(data["recordset"]);
         res.status(201).send("User created");
       });
   } catch (error) {
@@ -232,8 +230,7 @@ router.post("/signin", verifyEmail, async (req, res, next) => {
                         access_token: token,
                       });
                     } else {
-                      res.status(401);
-                      throw new Error("Invalid login credentials");
+                      res.status(401).send("Invalid login credentials");
                     }
                   }
                 );
@@ -355,39 +352,32 @@ router.put("/update", authMiddlware, async (req, res) => {
   }
 });
 
-router.put("/promote", authMiddlware, async (req, res) => {
+router.post("/promote/:userId", authMiddlware, async (req, res) => {
   try {
-    
-  var userId = req.decoded;
-  var role = req.body.role;
-  const result = await getpool();
-  await result
-    .input("userId", sql.Int, userId)
-    .input("role", sql.VarChar(10), role) 
-    .output("responseMessage", sql.VarChar(50))
-    .execute("sppromotes", function (err, data) {
-      if (err) {
-          res.status(404).send(err)
-      }
-      else {
-        if (req.userId === userId) {
-          res.status(200).send('Admin cannot change their role')
+    var userId = req.params.userId;
+    var role = req.body.role;
+    const result = await getpool();
+    result
+      .input("userId", sql.Int, userId)
+      .input("role", sql.VarChar(10), role)
+      .output("responseMessage", sql.VarChar(50))
+      .execute("sppromote", function (err, data) {
+        if (err) {
+          res.status(404).send(err);
+        } else {
+          if (req.decoded == userId) {
+            return res.status(200).send("Admin cannot change their role");
+          } else {
+            result.query(
+              "UPDATE Users set role= '" + role + "' where userId= " + userId
+            );
+          }
         }
-        else {
-          result.query(
-            "UPDATE Users set role= '" +
-              role +
-              "' where userId= " +
-              userId
-          );
-        }
-      }
-    })
+        res.status(200).send("updated");
+      });
+  } catch (error) {
+    console.log(error);
   }
-  catch (error) {
-    console.log(error)
-}
-})
-
+});
 
 module.exports = { router };

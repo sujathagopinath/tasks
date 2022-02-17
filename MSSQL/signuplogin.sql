@@ -10,6 +10,7 @@ grant connect to guest
 select * from Users
 select * from Products
 select * from carts
+select * from orders
 
 Drop table Users
 --------------------------------------------
@@ -329,8 +330,6 @@ usersId int FOREIGN KEY REFERENCES users(userId),
 productsId int FOREIGN KEY REFERENCES Products(productId),
 item nvarchar(50)
 )
-
-drop table orders
 ------------------------------------------------------------------------
 create procedure sporder
 @usersId int,
@@ -348,16 +347,16 @@ VALUES (@usersId,@productId,@productname)
 END
 
 --------------------------------------------------------------------
-create procedure sppromotes
+create procedure sppromote
 @userId int,
 @role varchar(10),
 @responseMessage varchar(50) output
 AS
 BEGIN
 set nocount on
-select userId from Users where userId = @userId
+if(@userId= @userId)
 set @responseMessage ='Admin cannot change their own type'
-if(@@ROWCOUNT>0)
+else
 begin
 update Users set role = @role where userId = @userId
 set @responseMessage = 'User role updated'

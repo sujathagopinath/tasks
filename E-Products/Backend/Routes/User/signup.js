@@ -36,10 +36,9 @@ async function getpool() {
 }
 
 const signup = async (req, h) => {
-  const userName = req.payload.userName;
-  const userEmail = req.payload.userEmail;
-  const userPassword = req.payload.userPassword;
-  const isAdmin = req.payload.isAdmin;
+  var userName = req.payload.userName;
+  var userEmail = req.payload.userEmail;
+  var userPassword = req.payload.userPassword;
   var verified = false;
   var emailToken = crypto.randomBytes(54).toString("hex");
   var currenturl = "localhost:4000";
@@ -57,7 +56,6 @@ const signup = async (req, h) => {
         .input("userName", sql.VarChar(50), userName)
         .input("userEmail", sql.NVarChar(50), userEmail)
         .input("userPassword", sql.NVarChar(sql.MAX), hashPassword)
-        .input("isAdmin", sql.Int, isAdmin)
         .input("verified", sql.Int, verified)
         .input("emailToken", sql.NVarChar(sql.MAX), emailToken)
         .output("responseMessage", sql.VarChar(50))

@@ -14,7 +14,7 @@ async function getpool() {
 const init = async () => {
   const server = Hapi.server({
     host: "localhost",
-    port: 4000,
+    port: 5000,
     routes: {
       files: {
         relativeTo: Path.join(__dirname, "uploads"),
@@ -95,7 +95,7 @@ const init = async () => {
 
   poolPromise;
   await server.start();
-  console.log("Server started at 4000");
+  console.log("Server started at 5000");
   server.route(Routes);
 };;
 init();

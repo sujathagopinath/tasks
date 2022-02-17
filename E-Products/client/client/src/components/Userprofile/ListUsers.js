@@ -14,8 +14,12 @@ const Users = () => {
     dispatch(fetchUsers());
   }, [dispatch, history]);
 
+  function promote(user) {
+    sessionStorage.setItem("user", JSON.stringify(user));
+    history("/promote");
+  }
+
   const usersList = useSelector((state) => state.usersList);
-  console.log("userlist:", usersList);
   const { loading, users } = usersList;
 
   const renderTable = () => {
@@ -38,7 +42,10 @@ const Users = () => {
                   <th scope="row">{user.userEmail}</th>
                   <th scope="row">{user.role}</th>
                   <th scope="row">
-                    <Button style={{ backgroundColor: "# 69foae" }}>
+                    <Button
+                      style={{ backgroundColor: "# 69foae" }}
+                      onClick={() => promote(user)}
+                    >
                       Promote
                     </Button>
                   </th>
@@ -58,7 +65,16 @@ const Users = () => {
           {loading ? (
             <Loading />
           ) : (
-            <div className="card m-auto " style={{ height: "40px" }}>
+            <div
+              className="card m-auto "
+              style={{ height: "70px", alignItems: "center" }}
+            >
+              <div>
+                <small>
+                  Hello!! Admin can't change their type. Admins can promote
+                  other users
+                </small>
+              </div>
               <h3 className="card-title">List of Users </h3>
             </div>
           )}
