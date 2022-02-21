@@ -1,0 +1,8 @@
+Request Lifecycle in Hapi js
+
+OnRequest: Called when request comes to server. OnPreAuth: called when request comes to auth part of route. 
+OnPostAuth: called when request goes out from auth part of route. 
+OnPreHandler: called when request comes to handler part of route.
+OnPostHandler: called when request goes out from Handler part of route. 
+OnPreResponse: called when returning response back. 
+onCredentials: is new to Hapi v17.
