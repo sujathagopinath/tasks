@@ -1,5 +1,6 @@
 create database Token
 USE Token
+drop table Customers
 -----------------------------------------
 select * from Customers
 -----------------------------------------
@@ -9,13 +10,15 @@ name nvarchar(50),
 email nvarchar(50),
 password nvarchar(MAX),
 age int,
+refreshtoken nvarchar(MAX)
 )
 --------------------------------------------
-Create proc spSignupUser
+Create proc spSignupUsers
 @name nvarchar(50),
 @email nvarchar(50),
 @password nvarchar(max),
 @age int,
+@refreshtoken nvarchar(max),
 @responseMessage varchar(50) output
 
 as
@@ -31,8 +34,8 @@ END
 ELSE
 BEGIN
 Insert into Customers
-Output Inserted.userId,@name as Name , @email as Email,@password as Password,@age as age
-values(@name, @email,@password,@age);
+Output Inserted.userId,@name as Name , @email as Email,@password as Password,@age as age,@refreshtoken as refreshtoken
+values(@name, @email,@password,@age,@refreshtoken);
 
 set @responseMessage = 'Success';
 END
@@ -44,9 +47,10 @@ end catch
 end
 -------------------------------------------------------
 
-Create proc spSignInUser
+Create proc spSignInUsers
 @email nvarchar(50),
 @password nvarchar(max),
+@refreshtoken nvarchar(max),
 @responseMessage varchar(50) output
 
 as
@@ -56,6 +60,7 @@ begin try
 IF EXISTS (Select email,password from Customers where email = @email and password = @password)
 begin
 Select email,password from Customers where email = @email and password = @password
+update Customers set refreshtoken = @refreshtoken where email = @email
 set @responseMessage = 'Success';
 end
 else
