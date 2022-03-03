@@ -48,7 +48,6 @@ const signin = async (req, h) => {
   const email = req.payload.email;
   const password = req.payload.password;
   var refreshtoken = crypto.randomBytes(54).toString("hex");
-  console.log(refreshtoken);
   try {
     const result = await getpool();
     const somevar = new Promise(async (resolve, reject) => {
@@ -63,6 +62,10 @@ const signin = async (req, h) => {
           } else {
             result
               .query(
+                "Select * from Customers where email=" +
+                  "'" +
+                  req.payload.email +
+                  "'",
                 "update Customers set refreshtoken= '" +
                   refreshtoken +
                   "' where email=" +
@@ -71,23 +74,19 @@ const signin = async (req, h) => {
                   "'"
               )
               .then(function (datas) {
-                console.log(datas);
-                //     // console.log(datas["recordset"][0]["email"] + "RESULTS");
                 bcrypt.compare(
                   req.payload.password,
                   datas["recordset"][0]["password"]
                 );
-                //     // req.cookies.name = "hello";
-                //     // console.log("refresh", req.state.sid);
-                // let refreshtoken = req.state.refreshtokens;
-                //     // let refreshtoken = req.state.;
                 const response = h
                   .response({
                     datas,
                     accesstoken: createToken(datas),
-                    refreshtoken: refreshtokens(datas),
                   })
-                  .state("refreshtokened", refreshtoken);
+                  .state(
+                    "refreshtokened",
+                    datas["recordset"][0]["refreshtoken"]
+                  );
                 resolve(response);
               })
               .catch((err) => {

@@ -25,15 +25,8 @@ const init = async () => {
     },
   ]);
 
-  server.auth.strategy("jwt", "cookie", {
-    cookie: {
-      password: "!wsYhFA*C2U6nz=Bu^%A@^F#SF3&kSR6",
-      isSecure: false,
-    },
-  });
-
   poolPromise;
   await server.start();
   console.log("Server started at 8000");
-};
+};;
 init();

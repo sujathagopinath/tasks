@@ -21,17 +21,17 @@ exports.plugin = {
         },
       },
     ]);
-    server.ext("onRequest", function (request, h) {
-      request.setUrl("/signup");
-      return h.continue;
-    });
-    server.ext("onPreHandler", function (request, h) {
-      console.log("inside onPreHandler");
-      return h.continue;
-    });
-    server.ext("onPostHandler", function (request, h) {
-      console.log("inside onPostHandler");
-      return h.continue;
-    });
+    // server.ext("onRequest", function (request, h) {
+    //   request.setUrl("/signup");
+    //   return h.continue;
+    // });
+    // server.ext("onPreHandler", function (request, h) {
+    //   console.log("inside onPreHandler");
+    //   return h.continue;
+    // });
+    // server.ext("onPostHandler", function (request, h) {
+    //   console.log("inside onPostHandler");
+    //   return h.continue;
+    // });
   },
 };

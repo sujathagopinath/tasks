@@ -1,6 +1,5 @@
 create database Token
 USE Token
-drop table Customers
 -----------------------------------------
 select * from Customers
 -----------------------------------------

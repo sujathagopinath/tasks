@@ -10,7 +10,7 @@ function createToken(datas) {
     },
     process.env.JWT_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "10s",
     }
   );
 }
