@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -15,7 +15,9 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
-import socialMedia from "./socialMedia";
+import Badge from "@mui/material/Badge";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import SocialMedia from "./socialMedia";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -31,6 +33,9 @@ const ExpandMore = styled((props) => {
 export default function RecipeReviewCard() {
   const [expanded, setExpanded] = useState(false);
   const [Components, setComponents] = useState([]);
+  const [isShare, setShare] = useState(false);
+  const [count, setCount] = useState(1);
+  const [info, setInfo] = useState([{ comment: "" }]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -39,9 +44,23 @@ export default function RecipeReviewCard() {
   const addComponent = () => {
     setComponents([...Components, []]);
   };
+
   const shareComponent = () => {
-    return <socialMedia />;
+    setShare(true);
   };
+
+  const Addfavourite = () => {
+    setCount(count + 1);
+  };
+
+  let exitref = useRef();
+  useEffect(() => {
+    document.addEventListener("mousedown", (event) => {
+      if (!exitref.current.contains(event.target)) {
+        setShare(false);
+      }
+    });
+  });
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -74,12 +93,15 @@ export default function RecipeReviewCard() {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={Addfavourite}>
+          <Badge badgeContent={count} color="primary">
+            <FavoriteIcon />
+          </Badge>
         </IconButton>
-        <IconButton aria-label="share" onClick={shareComponent}>
+        <IconButton aria-label="share" ref={exitref} onClick={shareComponent}>
           <ShareIcon />
         </IconButton>
+        {isShare && <SocialMedia />}
 
         <IconButton onClick={addComponent}>
           {" "}
@@ -115,6 +137,15 @@ export default function RecipeReviewCard() {
           </Typography>
         </CardContent>
       </Collapse>
+      <input
+        type="text"
+        name="comment"
+        placeholder="comment"
+        onChange={(e) => handleInputChange(e, i)}
+        style={{ border: "none", width: "70%" }}
+      />
+      <ArrowBackIosIcon style={{ marginLeft: "20px", cursor: "pointer" }} />
+      <pre>{(info, undefined, 2)}</pre>
     </Card>
   );
 }
