@@ -35,7 +35,8 @@ export default function RecipeReviewCard() {
   const [Components, setComponents] = useState([]);
   const [isShare, setShare] = useState(false);
   const [count, setCount] = useState(1);
-  const [info, setInfo] = useState([{ comment: "" }]);
+  const [data, setData] = useState("");
+  const [print, setPrint] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -53,6 +54,10 @@ export default function RecipeReviewCard() {
     setCount(count + 1);
   };
 
+  const handleInputChange = (event) => {
+    setData(event.target.value);
+    setPrint(false);
+  };
   let exitref = useRef();
   useEffect(() => {
     document.addEventListener("mousedown", (event) => {
@@ -137,15 +142,22 @@ export default function RecipeReviewCard() {
           </Typography>
         </CardContent>
       </Collapse>
-      <input
-        type="text"
-        name="comment"
-        placeholder="comment"
-        onChange={(e) => handleInputChange(e, i)}
-        style={{ border: "none", width: "70%" }}
-      />
-      <ArrowBackIosIcon style={{ marginLeft: "20px", cursor: "pointer" }} />
-      <pre>{(info, undefined, 2)}</pre>
+      <div>
+        <input
+          type="text"
+          name="comment"
+          placeholder="comment"
+          onChange={handleInputChange}
+          style={{ border: "none", width: "70%" }}
+        />
+        <ArrowBackIosIcon
+          onClick={() => setPrint(true)}
+          style={{ marginLeft: "20px", cursor: "pointer" }}
+        />
+        <Card>
+          <Typography>{print ? <p>{data}</p> : null}</Typography>
+        </Card>
+      </div>
     </Card>
   );
 }
