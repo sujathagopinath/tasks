@@ -69,9 +69,8 @@ END
 else
 set @responseMessage = 'Invalid Email';
 END
-
-
 -----------------------------------------------
+
 create procedure spverified
 @userEmail nvarchar(50),
 @verified BIT,
@@ -91,8 +90,8 @@ FROM Users
 END
 set @responseMessage = ERROR_MESSAGE();
 END
-
 ----------------------------------------------
+
 Create proc spSignupUsers
 @userName varchar(50),
 @userEmail nvarchar(50),
