@@ -15,6 +15,7 @@ import RefsDemo from './Components/refss';
 import ErrorBoundary from './Components/ErrorBoundary';
 import HigherOrder from './Components/Higherorder';
 import HigherOrderhover from './Components/Highrorderhover';
+import ContextA from './Components/contextA';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
       <ErrorBoundary />
       <HigherOrder />
       <HigherOrderhover />
+      <ContextA />
     </div>
   );
 }
