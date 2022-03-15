@@ -20,6 +20,8 @@ import UseStateObject from "./Components/usestateObject";
 import UseStateArray from "./Components/usestatearray";
 import UseEfectAfterRender from "./Components/UseEffectrender";
 import UseEffectrenderFunc from "./Components/useEffectafterrender";
+import UseEffectCondFunc from "./Components/useEffectconditional";
+import UseEffectSetinterval from "./Components/UseEffectsetinterval";
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
       <UseStateArray />
       <UseEfectAfterRender />
       <UseEffectrenderFunc />
+      <UseEffectCondFunc />
+      <UseEffectSetinterval />
     </div>
   );
 }
