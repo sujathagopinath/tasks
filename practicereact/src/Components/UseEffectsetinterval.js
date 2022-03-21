@@ -10,7 +10,7 @@ function UseEffectSetinterval() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [count]);
 
   return (
     <div>
