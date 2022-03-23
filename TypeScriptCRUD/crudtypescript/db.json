@@ -1,0 +1,17 @@
+{
+    "user":[
+        {
+            "id":101,
+            "name":"mariya",
+            "profession":"sales",
+            "age":20
+        },
+         {
+            "id":102,
+            "name":"kala",
+            "profession":"Associate",
+            "age":35
+        }
+
+    ]
+}
