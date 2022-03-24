@@ -1,0 +1,58 @@
+{
+  "user": [
+    {
+      "id": 101,
+      "name": "mariya",
+      "profession": "sales",
+      "age": 20
+    },
+    {
+      "id": 102,
+      "name": "kala",
+      "profession": "Associate",
+      "age": 35
+    },
+    {
+      "name": "Heelo",
+      "profession": "Heelo",
+      "age": "12",
+      "id": 103
+    },
+    {
+      "name": "Test",
+      "profession": "testing",
+      "age": "21",
+      "id": 104
+    },
+    {
+      "name": "sujatha",
+      "profession": "abc",
+      "age": "34",
+      "id": 105
+    },
+    {
+      "name": "test",
+      "profession": "development",
+      "age": "23",
+      "id": 106
+    },
+    {
+      "name": "test",
+      "profession": "development",
+      "age": "23",
+      "id": 107
+    },
+    {
+      "name": "kiran",
+      "profession": "test",
+      "age": "23",
+      "id": 108
+    },
+    {
+      "name": "kirank",
+      "profession": "test",
+      "age": "23",
+      "id": 109
+    }
+  ]
+}

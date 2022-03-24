@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IBaseUser, IUser } from "./shared/interface/Adduser";
-import Greet from "./components/Addusers";
+import { Greet } from "./components/Addusers";
 import UserTable from "./components/Viewuser";
 import EditUserForm from "./components/Edituser";
 function App() {
@@ -15,7 +15,6 @@ function App() {
     age: "",
     id: 1,
   };
-
   const [users, setUsers] = useState(defaultUsers);
   const [editUser, setEditUser] = useState(initCurrentUser);
   const [edit, setEdit] = useState(false);

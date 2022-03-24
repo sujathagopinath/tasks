@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { IBaseUser } from "../shared/interface/Adduser";
-import "../Assets/style.css";
+import "../assets/style.css";
+import axios from "axios";
+import { connect } from "react-redux";
+import users from "../store/reducers/userReducer";
 
 interface AddProps {
   Adduser: (user: IBaseUser) => any;
 }
 const initUser = { name: "", profession: "", age: "" };
-const Greet = (props: AddProps) => {
+export const Greet = (props: AddProps) => {
   const [formValue, setFormValue] = useState(initUser);
   const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.Adduser(formValue);
+    axios
+      .post(`http://localhost:5000/user`, formValue)
+      .then((data) => [console.log(data)]);
   };
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -58,4 +64,8 @@ const Greet = (props: AddProps) => {
   );
 };
 
-export default Greet;
+const mapStateToProps = (state: any, props: any) => ({
+  users: state.users,
+});
+
+export default connect(mapStateToProps)(Greet);
