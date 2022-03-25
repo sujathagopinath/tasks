@@ -3,7 +3,7 @@ import { IBaseUser } from "../shared/interface/Adduser";
 import "../assets/style.css";
 import axios from "axios";
 import { connect } from "react-redux";
-import users from "../store/reducers/userReducer";
+import userReducer from "../store/reducers/userReducer";
 
 interface AddProps {
   Adduser: (user: IBaseUser) => any;
@@ -65,7 +65,7 @@ export const Greet = (props: AddProps) => {
 };
 
 const mapStateToProps = (state: any, props: any) => ({
-  users: state.users,
+  userData: state.formValue,
 });
 
-export default connect(mapStateToProps)(Greet);
+export default connect(mapStateToProps, userReducer)(Greet);

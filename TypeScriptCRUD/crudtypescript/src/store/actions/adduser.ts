@@ -24,7 +24,7 @@ export const registerUser = (IBaseUser:any) => {
         },
         config
       );
-      console.log(data);
+      console.log("Adding users");
       dispatch({
         type: ADD_USER_SUCCESS,
         payload:data
