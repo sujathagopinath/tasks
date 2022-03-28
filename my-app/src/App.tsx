@@ -8,6 +8,7 @@ import { InputHandler } from './Components/input';
 import { LoggedIn } from './Components/hook'
 import { User } from './Components/dynamicuser';
 import { Counter } from './Components/counterl';
+import { Todos } from './Components/todos';
 
 function App() {
   const people = {
@@ -39,6 +40,7 @@ function App() {
       <LoggedIn />
       <User />
       <Counter />
+      <Todos />
     </div>
   );
 }

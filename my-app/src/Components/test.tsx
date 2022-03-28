@@ -71,14 +71,14 @@ store.subscribe(() => {
 
 function formatStateForHTML(state) {
     return `<div>
-     <div>State at: ${Date.now()}</div>
-     <div>fetchStatus: ${state.fetchStatus}</div>
-     <ul>
-       ${state.list.map(x => "<li>" + JSON.stringify(x) + "</li>")}
-     </ul>
-     <div>&nbsp;</div>
-   </div>
-   `;
+<div>State at: ${Date.now()}</div>
+<div>fetchStatus: ${state.fetchStatus}</div>
+<ul>
+${state.list.map(x => "<li>" + JSON.stringify(x) + "</li>")}
+</ul>
+<div>&nbsp;</div>
+</div>
+`;
 }
 
 // let's trigger some actions
@@ -121,3 +121,5 @@ function reducer(state = initialState, action) {
             return state;
     }
 }
+
+

@@ -8,9 +8,9 @@ const INCREMENT = "INCREMENT";
 const DECREMENT = "DECREMENT";
 const RESET = "RESET";
 
-type CounterState = {
-    count: number
-}
+// type CounterState = {
+//     count: number
+// }
 
 type UpdateAction = {
     type: 'INCREMENT' | 'DECREMENT'
@@ -25,7 +25,7 @@ type CounterAction = UpdateAction | ResetAction
 
 const initialState = { count: 0 }
 
-function reducer(state: CounterState, action: CounterAction) {
+function reducer(state = initialState, action: CounterAction) {
     switch (action.type) {
         case 'INCREMENT':
             return { count: state.count + action.payload }
@@ -53,6 +53,7 @@ const userCountLogic = createLogic({
                     error: true
                 })
             });
+
         done();
 
 
@@ -67,18 +68,25 @@ const store = createStore(
     applyMiddleware(logicMiddleware)
 );
 
+store.subscribe(() => {
+    const state = store.getState();
+    console.log("state count", state.count);
+});
+
 export const Counter = () => {
     const [state, dispatch] = useReducer(reducer, initialState)
     return (
         <>
             Count: {state.count}
             <button onClick={() => dispatch({ type: 'INCREMENT', payload: 10 })}>
-                Increment 10
+                Increment
             </button>
             <button onClick={() => dispatch({ type: 'DECREMENT', payload: 10 })}>
-                Decrement 10
+                Decrement
             </button>
             <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
         </>
     )
 }
+
+
