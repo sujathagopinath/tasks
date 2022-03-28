@@ -1,12 +1,23 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import { createStore, combineReducers, applyMiddleware,compose } from "redux";
+import { createLogicMiddleware } from "redux-logic";
+import AddUserLogic from "./logic";
 import userReducer from "./reducers/userReducer";
 
 export const rootReducer = combineReducers({
   users: userReducer
 });
 
-const Auth = sessionStorage.getItem('userData')
-console.log(Auth)
+const initialState = {
+  users:[]
+};
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+
+const logicMiddleware = createLogicMiddleware([AddUserLogic])
+const composedMiddleware = compose(applyMiddleware(logicMiddleware))
+
+export const store = createStore
+    (
+        rootReducer,
+        initialState,
+        composedMiddleware
+    );

@@ -10,3 +10,11 @@ const add = (a: number, b: number, c:number|string) : void=> {
 
 add(5, 9,'7')
 
+function customerData(custdata: string[]): void {
+    custdata.forEach(cust => {
+      console.log(cust)
+    })
+}
+
+let custInfo:string[] =["heelo","kitty"]
+customerData(custInfo)

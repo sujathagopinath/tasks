@@ -3,8 +3,7 @@ import axios from 'axios'
 import { ADD_USER_FAIL, ADD_USER_REQUEST, ADD_USER_SUCCESS } from './actions/actiontypes';
 
 
-
-const AddUserLogic = createLogic({
+ const AddUserLogic = createLogic({
   type: ADD_USER_REQUEST, 
   cancelType: ADD_USER_FAIL, 
   latest: true, 
@@ -17,14 +16,18 @@ const AddUserLogic = createLogic({
 
   
   process({ getState, action }) {
-      return axios.get('http://localhost:5000/user')
-          .then((resp) => resp.data.user);
+   console.log('add users', +action.type)
+       axios.get('http://localhost:5000/user')
+        .then((resp) => resp.data.user
+       ).catch((err) => {
+      console.log(err)
+    })
+     
+  
   }
-});
+ });
 
-
-
-
+ export default  AddUserLogic
 
 
 
