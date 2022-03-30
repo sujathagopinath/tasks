@@ -1,18 +1,18 @@
 import { Format } from '../interfaces/format.js'
 
-export class Invoices implements Format {
+export class Payments implements Format {
     // client: string;
     // details: string;
     // account: number|string;
 
     constructor(
-        readonly client: string,      //access modifiers
+        readonly recipent: string,      //access modifiers
         private details: string,
         public account: number | string
     ) { }
 
     //method 
     format() {
-        return `Hi ${this.client} has ${this.account} for ${this.details}`
+        return `Hi ${this.recipent} has owes ${this.account} for ${this.details}`
     }
 }

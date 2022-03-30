@@ -1,19 +1,66 @@
-"use strict";
-exports.__esModule = true;
-var invoices_js_1 = require("../src/classes/invoices.js");
-var invOne = new invoices_js_1.Invoices("mary", "savings", 2000);
-var invoice = [];
+import { Invoices } from './classes/invoices.js';
+import { Payments } from './classes/payments.js';
+import { ListTemplate } from './templates/listtemplate.js';
+let docOne;
+let docTwo;
+docOne = new Invoices('kala', 'current', 3000);
+docTwo = new Payments('karan', 'save', 3500);
+let docs = [];
+docs.push(docOne);
+docs.push(docTwo);
+console.log(docs);
+const data = {
+    name: 'sujatha',
+    speak(text) {
+        console.log(text);
+    },
+    spend(amount) {
+        console.log(amount);
+        return amount;
+    }
+};
+console.log(data);
+const greetPerson = (person) => {
+    console.log(person.name);
+};
+greetPerson(data);
+const invOne = new Invoices('mary', 'savings', 2000);
+let invoice = [];
 invoice.push(invOne);
 console.log(invoice);
-invoice.forEach(function (inv) {
-  console.log(inv.format());
+invoice.forEach((inv) => {
+    console.log(inv.format());
 });
-var form = document.querySelector(".new-item-form");
-var type = document.querySelector("#type");
-var toform = document.querySelector("#tofrom");
-var details = document.querySelector("#details");
-var amount = document.querySelector("#amount");
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  console.log(type.value, toform.value, details.value, amount.value);
+const form = document.querySelector('.new-item-form');
+const type = document.querySelector("#type");
+const toform = document.querySelector("#tofrom");
+const details = document.querySelector("#details");
+const amount = document.querySelector("#amount");
+const ul = document.querySelector('ul');
+const allitem = new ListTemplate(ul);
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let doc;
+    if (type.value == 'invoice') {
+        doc = new Invoices(toform.value, details.value, amount.value);
+    }
+    else {
+        doc = new Payments(toform.value, details.value, amount.value);
+    }
+    console.log(doc);
+    console.log(type.value, toform.value, details.value, amount.value);
+    allitem.render(doc, type.value, 'end');
 });
+//generics
+const adduuid = (obj) => {
+    const uuid = Math.floor(Math.random() * 100);
+    return Object.assign(Object.assign({}, obj), { uuid });
+};
+const docone = adduuid({ name: 'you', age: 26 });
+console.log(docone);
+const doctwo = {
+    name: 'tina',
+    uid: 2,
+    data: 'sha'
+};
+console.log(doctwo);

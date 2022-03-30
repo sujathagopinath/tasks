@@ -1,15 +1,15 @@
-export class Invoices {
+export class Payments {
     // client: string;
     // details: string;
     // account: number|string;
-    constructor(client, //access modifiers
+    constructor(recipent, //access modifiers
     details, account) {
-        this.client = client;
+        this.recipent = recipent;
         this.details = details;
         this.account = account;
     }
     //method 
     format() {
-        return `Hi ${this.client} has ${this.account} for ${this.details}`;
+        return `Hi ${this.recipent} has owes ${this.account} for ${this.details}`;
     }
 }
