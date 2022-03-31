@@ -99,3 +99,19 @@ const doctwo: uuuid<string> = {
 
 console.log(doctwo)
 
+//enums
+enum ResourceType { 'BOOK', 'AUTHOR', 'PERSON' }
+
+interface Resource<T> {
+    uid: number,
+    resourcetype: ResourceType,
+    data: T
+}
+
+const docThree: Resource<object> = {
+    uid: 4,
+    resourcetype: ResourceType.AUTHOR,
+    data: { name: "value" }
+}
+
+console.log(docThree)

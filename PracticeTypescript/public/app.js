@@ -64,3 +64,16 @@ const doctwo = {
     data: 'sha'
 };
 console.log(doctwo);
+//enums
+var ResourceType;
+(function (ResourceType) {
+    ResourceType[ResourceType["BOOK"] = 0] = "BOOK";
+    ResourceType[ResourceType["AUTHOR"] = 1] = "AUTHOR";
+    ResourceType[ResourceType["PERSON"] = 2] = "PERSON";
+})(ResourceType || (ResourceType = {}));
+const docThree = {
+    uid: 4,
+    resourcetype: ResourceType.AUTHOR,
+    data: { name: "value" }
+};
+console.log(docThree);

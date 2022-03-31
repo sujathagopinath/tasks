@@ -57,7 +57,7 @@ export const Greet = (props: AddProps) => {
           />
         </div>
         <div className="form-row">
-          <button>Add new user</button>
+          <button id="clickme">Add new user</button>
         </div>
       </form>
     </div>
