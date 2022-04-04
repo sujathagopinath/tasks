@@ -53,7 +53,7 @@ export class Login extends React.Component<{}, CredentialsState> {
     }
 
     return (
-      <div id="forms">
+      <div>
         <form data-testid="login-form" onSubmit={(e) => this.onSubmit(e)}>
           <label id="username-label">Name</label>
           <input

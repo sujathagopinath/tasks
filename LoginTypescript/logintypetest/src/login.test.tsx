@@ -1,11 +1,8 @@
 import { Login } from "./login";
 import { render, fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { text } from "stream/consumers";
 
 describe("Login component tests", () => {
-  let container: HTMLDivElement;
-
   const onSubmit = jest.fn();
   const setup = () => render(<Login />);
   it("renders a components", () => {
@@ -45,37 +42,22 @@ describe("Login component tests", () => {
     fireEvent.change(input, { target: { value: "matti" } });
   });
 
-  test("should show placeholder input field", () => {
+  //   test("should show placeholder input field", () => {
+  //     render(<Login />);
+  //     const userNameField = screen.getByPlaceholderText("Username");
+  //     const passwordField = screen.getByPlaceholderText("Password");
+  //     expect(userNameField).toBe("sujatha");
+  //     expect(passwordField).toBe("hello");
+  //   });
+
+  test("Check if the functions works", () => {
+    const btnFunction = jest.fn();
     render(<Login />);
-    const userNameField = screen.getByPlaceholderText("Username");
-    const passwordField = screen.getByPlaceholderText("Password");
-    expect(userNameField).toBe("sujatha");
-    expect(passwordField).toBe("hello");
-  });
+    const form = screen.getByTestId("login-form");
 
-  const inputsetup = () => {
-    const utils = render(<Login />);
-    const input = screen.getByLabelText("Name");
-    return {
-      input,
-      ...utils,
-    };
-  };
+    fireEvent.click(screen.getByTestId("login-form"));
 
-  it("should submit form", async () => {
-    render(<Login />);
-    const change = jest.fn();
-    const onSubmit = jest.fn();
-    const name = screen.getByLabelText("Name");
-    const password = screen.getByLabelText("Password");
-    const submit = screen.getByLabelText("Submit");
-
-    expect(name.ariaValueText).toBe("riya");
-    expect(password.ariaValueText).toBe("");
-    expect(change).toHaveBeenCalled();
-
-    console.log(password);
-    await userEvent.click(submit);
-    expect(onSubmit).toHaveBeenCalled();
+    expect(form).toBeInTheDocument();
+    expect(btnFunction).toHaveBeenCalledTimes(0);
   });
 });
