@@ -1,4 +1,5 @@
 import * as React from "react";
+import "../assests/login.css";
 
 interface CredentialsState {
   userName: string;
@@ -53,9 +54,16 @@ export class Login extends React.Component<{}, CredentialsState> {
     }
 
     return (
-      <div>
-        <form data-testid="login-form" onSubmit={(e) => this.onSubmit(e)}>
-          <label id="username-label">Name</label>
+      <div className="container">
+        <form
+          data-testid="login-form"
+          className="input-form"
+          onSubmit={(e) => this.onSubmit(e)}
+        >
+          <h1>Sign In</h1>
+          <label id="username-label" className="floating__label">
+            Name
+          </label>
           <input
             data-testid="username-input"
             name="login"
@@ -66,8 +74,9 @@ export class Login extends React.Component<{}, CredentialsState> {
             type="text"
             aria-labelledby="username-label"
           />
-          <br />
-          <label id="password-label">Password</label>
+          <label id="password-label" className="floating__label">
+            Password
+          </label>
           <input
             data-testid="password-input"
             name="password"
@@ -77,7 +86,9 @@ export class Login extends React.Component<{}, CredentialsState> {
             type="password"
             aria-labelledby="password-label"
           />
-          <label htmlFor="checkbox">Check</label>
+          <label htmlFor="checkbox" className="floating__label">
+            Check
+          </label>
           <input
             data-testid="check-input"
             name="checkbox"
@@ -85,15 +96,15 @@ export class Login extends React.Component<{}, CredentialsState> {
             onChange={(e) => this.setCheck(e)}
             type="checkbox"
           />
-          <br />
-          <label id="submit-label">Submit</label>
+          <label id="submit-label" className="floating__label">
+            Submit
+          </label>
           <input
             data-test="submit-button"
+            className="button"
             type="submit"
             value="Login"
-            aria-labelledby="submit-label"
           />
-          <br />
         </form>
         {loginLabel}
       </div>

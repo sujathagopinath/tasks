@@ -6,7 +6,7 @@ type User = {
   name: string;
 };
 
-const Users = () => {
+export const Users = () => {
   const [users, setUsers] = useState<User[] | undefined>(undefined);
   const getData = () => {
     axios
@@ -37,5 +37,3 @@ const Users = () => {
     </div>
   );
 };
-
-export default Users;

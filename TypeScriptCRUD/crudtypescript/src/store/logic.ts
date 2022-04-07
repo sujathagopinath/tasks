@@ -15,8 +15,8 @@ import { ADD_USER_FAIL, ADD_USER_REQUEST, ADD_USER_SUCCESS } from './actions/act
   },
 
   
-  process({ getState, action }) {
-   console.log('add users', +action.type)
+   process({ getState, action }) {
+     console.log('add users', +action.type)
        axios.get('http://localhost:5000/user')
         .then((resp) => resp.data.user
        ).catch((err) => {

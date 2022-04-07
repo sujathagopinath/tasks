@@ -1,13 +1,14 @@
 import React from "react";
 import "./App.css";
-import { Login } from "./login";
-import Users from "./users";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes";
 
 function App() {
   return (
     <div className="App">
-      <Login />
-      <Users />
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </div>
   );
 }

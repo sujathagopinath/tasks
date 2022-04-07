@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
-import Users from "./users";
+import { Users } from "../components/users";
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;

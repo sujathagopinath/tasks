@@ -1,5 +1,5 @@
 import React from "react";
-import Users from "./users";
+import { Users } from "../components/users";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 
 describe("renders user lists", () => {
