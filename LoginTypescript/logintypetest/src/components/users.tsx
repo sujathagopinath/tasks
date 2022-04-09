@@ -27,6 +27,7 @@ export const Users = () => {
   return (
     <div>
       <header>
+        <p>Users Data</p>
         <button onClick={() => getData()}>Get Data</button>
         <ul>
           {users?.map((user: User) => {

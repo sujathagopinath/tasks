@@ -22,7 +22,7 @@ export class Login extends React.Component<{}, CredentialsState> {
     checkbox: false,
   };
 
-  private async onSubmit(event: React.SyntheticEvent) {
+  async onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     console.log("Click!!!!");
     console.log(`checked: ${this.state.checkbox}`);
@@ -56,7 +56,7 @@ export class Login extends React.Component<{}, CredentialsState> {
     return (
       <div className="container">
         <form
-          data-testid="login-form"
+          data-testid="loginForm"
           className="input-form"
           onSubmit={(e) => this.onSubmit(e)}
         >

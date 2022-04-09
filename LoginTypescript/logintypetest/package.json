@@ -22,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false"
   },
   "eslintConfig": {
     "extends": [
@@ -45,13 +46,16 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",
     "@testing-library/user-event": "^13.5.0",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/enzyme": "3.10.11",
+    "@types/enzyme-adapter-react-16": "1.0.6",
     "@types/jest": "^27.4.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "enzyme-to-json": "^3.6.2",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.6",
+    "enzyme-to-json": "3.6.2",
     "jest": "^27.5.1",
+    "jest-fetch-mock": "3.0.3",
     "jest-watch-typeahead": "^0.6.5",
-    "react-test-renderer": "^18.0.0"
+    "react-test-renderer": "^18.0.0",
+    "ts-jest": "27.1.4"
   }
 }

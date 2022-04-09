@@ -1,6 +1,7 @@
 import * as React from "react";
 import { shallow, mount } from "enzyme";
 import { Login } from "../components/login";
+import { Users } from "../components/users";
 
 it("renders the heading", () => {
   const wrapper = shallow(<Login />); //shallow to allows to test the component in isolation.
@@ -21,33 +22,61 @@ it("renders the heading", () => {
 //   expect(onSubmit).toHaveBeenCalledWith("suja");
 // });
 
-// describe("ProductDetails component", () => {
-//   var component, user:any;
+// let wrapper:any,
 
-//   beforeEach(() => {
-//     user = {
-//       name: "Darek",
-//       password: "dariuszwojtowicz",
-//     };
-//   });
-//   beforeEach(() => {
-//     component = mount(<Login user={user} foo={10} />);
-//   });
+// beforeEach(() => {
+//     wrapper = mount(<Login />);
+// });
+// ``
+// it('should render one <Form>', () => {
+//         expect(wrapper.find(Form)).toHaveLength(1);
+//     });
 
-  
+// test("contains all users", () => {
+//   const User = {
+//     id: 1,
+//     name: "Leanne Graham",
+//   };
+//   const wrapper = mount(<Users User={User} />);
+
+//   // users.forEach((user) => {
+//   expect(wrapper.text()).toMatch(User);
+//   // });
 // });
 
-let wrapper:any,
-
-beforeEach(() => {
-    wrapper = mount(<Login />);
-});
-``
-it('should render one <Form>', () => {
-        expect(wrapper.find(Form)).toHaveLength(1);
-    });
+// test("text matches", () => {
+//   const wrapper = mount(<p>Users Data</p>);
+//   expect(wrapper.text()).toMatch("Users Data");
+// });
 
 it("renders whole component", () => {
-  const tree = shallow(<Login />);
-  expect(toJson(tree)).toMatchSnapshot();
+  const component = shallow(<Login />);
+  expect(component).toMatchSnapshot();
+});
+
+test("submits username and password", () => {
+  const username = "hello";
+  const password = "world";
+  // const onSubmit = jest.fn();
+  const onSubmit = jest.spyOn(Login, "onSubmit");
+  const wrapper = mount(<Login onSubmit={onSubmit} />);
+
+  wrapper
+    .find({ "data-testid": "username-input" })
+    .simulate("change", { target: { value: username } });
+
+  wrapper
+    .find({ "data-testid": "password-input" })
+    .simulate("change", { target: { value: password } });
+
+  wrapper.update();
+  wrapper.find({ "data-testid": "loginForm" }).simulate("submit", {
+    preventDefault: () => {},
+  });
+
+  expect(onSubmit).toHaveBeenCalledTimes(1);
+  expect(onSubmit).toHaveBeenCalledWith({
+    username,
+    password,
+  });
 });
