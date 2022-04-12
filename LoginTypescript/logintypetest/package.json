@@ -21,10 +21,19 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject",
     "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false"
   },
+
+  "jest": {
+  "setupFilesAfterEnv": [
+    "./setup-tests.js"
+
+  ],
+  "snapshotSerializers": ["enzyme-to-json/serializer"]
+},
+
   "eslintConfig": {
     "extends": [
       "react-app",

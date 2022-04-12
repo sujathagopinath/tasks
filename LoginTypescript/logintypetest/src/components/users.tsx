@@ -8,6 +8,7 @@ type User = {
 
 export const Users = () => {
   const [users, setUsers] = useState<User[] | undefined>(undefined);
+  const [search, setSearch]: [string, (search: string) => any] = useState("");
   const getData = () => {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
@@ -24,17 +25,28 @@ export const Users = () => {
         console.log(error);
       });
   };
+
+  if (users) {
+    return (
+      <ul>
+        {users?.map((user: User) => {
+          return <li key={user.id}>{user.name}</li>;
+        })}
+      </ul>
+    );
+  }
+
   return (
     <div>
-      <header>
-        <p>Users Data</p>
-        <button onClick={() => getData()}>Get Data</button>
-        <ul>
-          {users?.map((user: User) => {
-            return <li key={user.id}>{user.name}</li>;
-          })}
-        </ul>
-      </header>
+      <p>Users Data</p>
+      <button onClick={() => getData()}>Get Data</button>
+
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      ></input>
     </div>
   );
+ 
 };

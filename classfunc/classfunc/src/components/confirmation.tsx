@@ -14,18 +14,27 @@ import Step1 from "./userPersonal";
 import Step2 from "./otherdetails";
 import Step3 from "./success";
 
-import styled from "styled-components";
-import MultiStepProgressBar from "./MultiStepProgressBar";
+// import styled from "styled-components";
+// import MultiStepProgressBar from "./MultiStepProgressBar";
+
+type UserProps = {
+  email: string;
+  username: string;
+  password: string;
+};
 
 class MasterForm extends Component {
-  constructor(props: any) {
-    super(props);
-
+    
+    constructor(public email: string, public username: string, private password: string,
+        readonly currentStep:any
+    )
+    {
+        super()
     this.state = {
-      currentStep: 1,
-      email: "",
-      username: "",
-      password: "",
+       currentStep: 1,
+        email: "",
+        username: "",
+        password: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,7 +52,10 @@ class MasterForm extends Component {
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    const { email, username, password } = this.state;
+      const email = this.props
+      const username = this.props;
+       const password = this.props;
+      
     alert(`Your registration detail: \n 
       Email: ${email} \n 
       Username: ${username} \n
