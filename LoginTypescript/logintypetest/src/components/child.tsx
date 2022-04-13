@@ -3,7 +3,7 @@ import React, { FormEvent, ChangeEvent } from "react";
 type SubmitEvent = FormEvent<HTMLFormElement>;
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-type UserProps = {
+export interface UserProps {
   state: string;
   setState: (val: string) => void;
   handleOnSubmit: (e: SubmitEvent) => void;

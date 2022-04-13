@@ -21,23 +21,19 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false"
   },
-
-  "jest": {
-  "setupFilesAfterEnv": [
-    "./setup-tests.js"
-
-  ],
-  "snapshotSerializers": ["enzyme-to-json/serializer"]
-},
-
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ]
   },
   "browserslist": {
@@ -65,6 +61,6 @@
     "jest-fetch-mock": "3.0.3",
     "jest-watch-typeahead": "^0.6.5",
     "react-test-renderer": "^18.0.0",
-    "ts-jest": "27.1.4"
+    "ts-jest": "^27.1.4"
   }
 }

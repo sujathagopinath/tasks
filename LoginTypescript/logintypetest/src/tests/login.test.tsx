@@ -42,14 +42,6 @@ describe("Login component tests", () => {
     fireEvent.change(input, { target: { value: "matti" } });
   });
 
-  //   test("should show placeholder input field", () => {
-  //     render(<Login />);
-  //     const userNameField = screen.getByPlaceholderText("Username");
-  //     const passwordField = screen.getByPlaceholderText("Password");
-  //     expect(userNameField).toBe("sujatha");
-  //     expect(passwordField).toBe("hello");
-  //   });
-
   test("Check if the functions works", () => {
     const btnFunction = jest.fn();
     render(<Login />);

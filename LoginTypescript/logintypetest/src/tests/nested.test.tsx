@@ -3,34 +3,29 @@ import { shallow, mount } from "enzyme";
 import App from "../App";
 import toJson from "enzyme-to-json";
 import Parentform from "../components/parent";
-import Childform from "../components/child";
+import Childform, { UserProps } from "../components/child";
 
 describe("render parent", () => {
   const wrapper = shallow(<Parentform />);
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 describe("Parent Component", () => {
+  let props: UserProps;
   it("renders Child component", () => {
     const wrapper = shallow(<Parentform />);
-    wrapper.setProps({
-      state: "test",
-      placeholder: "some letters",
-    });
-    expect(wrapper.containsMatchingElement(<Childform />)).toEqual(true);
+    expect(wrapper.containsMatchingElement(<Childform {...props} />)).toEqual(
+      true
+    );
   });
 });
 
+jest.mock("../components/child", () => "Childform");
+
 describe("Parent render", () => {
-  jest.mock("../components/child", () => "Childform");
+  let props: UserProps;
   it("should render the parent", () => {
-    //       const props = {
-    //           state: "hello",
-    //   setState: (val: string)=>"world",
-    //   handleOnSubmit: (e: SubmitEvent) =>void,
-    //   placeholder: "tyoe some letters"
-    //       };
     const tree = mount(
-      <Childform>
+      <Childform {...props}>
         <Parentform />
       </Childform>
     );

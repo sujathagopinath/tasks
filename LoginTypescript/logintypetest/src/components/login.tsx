@@ -1,7 +1,7 @@
 import * as React from "react";
 import "../assests/login.css";
 
-interface CredentialsState {
+export interface CredentialsState {
   userName: string;
   password: string;
   isLoggedIn: boolean;
@@ -56,7 +56,7 @@ export class Login extends React.Component<{}, CredentialsState> {
     return (
       <div className="container">
         <form
-          data-testid="loginForm"
+          data-testid="login-form"
           className="input-form"
           onSubmit={(e) => this.onSubmit(e)}
         >

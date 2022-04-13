@@ -9,46 +9,6 @@ it("renders the heading", () => {
   expect(wrapper.find("h1").text()).toBe("Sign In");
 });
 
-// const user = {
-//   name: "Darek",
-//   password: "dariuszwojtowicz",
-// };
-
-// it("check the onClick callback", () => {
-//   const onSubmit = jest.fn();
-//   const DataInputComponent = mount(<Login user={user} />).find("input");
-//   DataInputComponent.simulate("change", {
-//     target: { value: "suja" },
-//   });
-//   expect(onSubmit).toHaveBeenCalledWith("suja");
-// });
-
-// let wrapper:any,
-
-// beforeEach(() => {
-//     wrapper = mount(<Login />);
-// });
-// ``
-// it('should render one <Form>', () => {
-//         expect(wrapper.find(Form)).toHaveLength(1);
-//     });
-
-// test("contains all users", () => {
-//   const User = {
-//     id: 1,
-//     name: "Leanne Graham",
-//   };
-//   const wrapper = mount(<Users User={User} />);
-
-//   // users.forEach((user) => {
-//   expect(wrapper.text()).toMatch(User);
-//   // });
-// });
-
-// test("text matches", () => {
-//   const wrapper = mount(<p>Users Data</p>);
-//   expect(wrapper.text()).toMatch("Users Data");
-// });
 
 it("renders whole component", () => {
   const component = shallow(<Login />);
@@ -59,8 +19,8 @@ it("renders whole component", () => {
 //   const username = "hello";
 //   const password = "world";
 //   let onSubmit = jest.fn();
+//   let props: CredentialsState;
 
-//   // const onSubmit = jest.spyOn(Login, "onSubmit");
 //   const wrapper = mount(<Login onSubmit={onSubmit} />);
 
 //   wrapper
