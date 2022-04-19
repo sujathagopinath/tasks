@@ -32,3 +32,15 @@ describe("Parent render", () => {
     expect(toJson(tree)).toMatchSnapshot();
   });
 });
+
+describe("user text is called", () => {
+  let wrapper = shallow(<Parentform />);
+  let prevented = false;
+  wrapper.find("form").simulate("submit", {
+    preventDefault: () => {
+      prevented = true;
+    },
+  });
+  expect(prevented).toBe(true);
+});
+
