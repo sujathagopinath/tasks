@@ -25,6 +25,22 @@ const init = function () {
             console.log("Processing request", request);
             return "Hello!.";
         }
+        const plugin = {
+            name: 'example',
+            register: (server, options) => __awaiter(this, void 0, void 0, function* () {
+                const bind = {
+                    message: 'hello'
+                };
+                server.bind(bind);
+                server.route({
+                    method: 'GET',
+                    path: '/plugin',
+                    handler: (_, h) => {
+                        return h.response({ up: true }).code(200);
+                    },
+                });
+            })
+        };
         exports.server.route([
             {
                 method: "GET",
@@ -56,8 +72,16 @@ const init = function () {
                         return ("will show user collection");
                     }
                 }
-            }
+            },
+            // {
+            //     method: 'GET',
+            //     path: '/',
+            //     handler: (_, h: Hapi.ResponseToolkit) => {
+            //         return h.response({ up: true }).code(200)
+            //     },
+            // }
         ]);
+        exports.server.register(plugin);
         return exports.server;
     });
 };
