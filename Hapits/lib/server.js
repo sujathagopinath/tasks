@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.start = exports.init = exports.server = void 0;
 const hapi_1 = __importDefault(require("@hapi/hapi"));
+const joi_1 = __importDefault(require("@hapi/joi"));
 const init = function () {
     return __awaiter(this, void 0, void 0, function* () {
         exports.server = hapi_1.default.server({
@@ -80,6 +81,26 @@ const init = function () {
             //         return h.response({ up: true }).code(200)
             //     },
             // }
+            {
+                method: 'POST',
+                path: '/validate',
+                options: {
+                    validate: {
+                        payload: joi_1.default.object({
+                            username: joi_1.default.string().required(),
+                            password: joi_1.default.string().required(),
+                        }),
+                    }
+                },
+                handler: (request, h) => __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        console.log("request", request.payload);
+                    }
+                    catch (error) {
+                        return h.response('error').code(500);
+                    }
+                }),
+            }
         ]);
         exports.server.register(plugin);
         return exports.server;

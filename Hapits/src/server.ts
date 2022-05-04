@@ -2,7 +2,6 @@
 
 import Hapi from "@hapi/hapi";
 import { Server } from "@hapi/hapi";
-import Joi from '@hapi/joi'
 
 export let server: Server;
 
@@ -89,7 +88,7 @@ export const init = async function (): Promise<Server> {
                 try {
                     console.log("request", request.payload)
                 } catch (error) {
-                    return h.response(error).code(500)
+                    return h.response('error').code(500)
                 }
             },
         }
