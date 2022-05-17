@@ -10,11 +10,19 @@ module.exports = [
     {
         method: "POST",
         path: '/addemp',
+        handler: addEmp,
         options: {
             description: 'Add Employee',
             notes: 'Returns an Added Emp',
             tags: ['api'],
-            handler: addEmp,
-        }
+        },
+    },
+    {
+        method: 'GET',
+        path: '/',
+        handler: (request, _h) => {
+            request.session.views = request.session.views + 1 || 1;
+            return 'Views: ' + request.session.views;
+        },
     }
 ];

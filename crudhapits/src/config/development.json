@@ -1,0 +1,7 @@
+{
+    "user" : "sa",
+    "pass" : "Aspire@123" ,
+    "name" : "newtest",
+    "host" : "ASPIREVM12-24",
+    "DRIVER":"tedious"
+}

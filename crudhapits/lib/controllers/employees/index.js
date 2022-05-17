@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sql = require("mssql");
-const db = require("../../Config/db");
+const db = require("../../database");
 const Boom = require("@hapi/boom");
 function getpool() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -50,4 +50,17 @@ const addEmp = (request, h) => __awaiter(void 0, void 0, void 0, function* () {
         throw Boom.serverUnavailable(error);
     }
 });
+// const adduser = async (request: AddRequest, h: ResponseToolkit) => {
+//     var name = request.payload.name;
+//     var email = request.payload.email
+//     try {
+//         await request.redis.set({
+//             account: { email, name }
+//         });
+//         return 'success'
+//     }
+//     catch (error) {
+//         throw Boom.serverUnavailable(error)
+//     }
+// }
 module.exports = { sample, addEmp };

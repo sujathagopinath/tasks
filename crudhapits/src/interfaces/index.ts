@@ -7,3 +7,15 @@ export interface ILoginRequest extends Hapi.Request {
         age: Number,
     }
 }
+export interface AddRequest extends Hapi.Request {
+    payload: {
+        name: String,
+        email: String,
+        redis: any
+    }
+}
+
+export interface Config {
+    port: Number,
+    host: any
+}
