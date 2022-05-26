@@ -1,6 +1,5 @@
 const { sample, addEmp } = require('../controllers/employees/index')
 const Joi = require('joi')
-
 module.exports = [
     {
         method: "GET",

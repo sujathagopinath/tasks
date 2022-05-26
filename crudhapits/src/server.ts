@@ -56,46 +56,7 @@ const init = async () => {
         }
     ])
 
-    const validate = async (decoded: any, req: Request, h: ResponseToolkit) => {
-        const result = await getpool();
-        const userdata = await result.query(
-            `select * from employees where empid = ${decoded.empid}`
-        );
-        console.log("data", userdata);
-        if (!userdata) {
-            return { valid: false };
-        }
 
-        return { valid: true, credentials: userdata };
-    }
-
-    server.auth.strategy('jwt', 'jwt',
-        {
-            key: 'SECRET',
-            validate,
-            verifyOptions: { algorithms: ['HS256'] }
-        }
-    );
-
-    server.auth.default('jwt')
-
-    // server.auth.strategy("session", "cookie", {
-    //     cookie: {
-    //         password: "!wsYhFA*C2U6nz=Bu^%A@^F#SF3&kSR6",
-    //         isSecure: false,
-    //     },
-    // });
-    // server.auth.default("session");
-
-    // const redis = new Redis({
-    //     host: 'ASPIREVM12-24',
-    //     port: 6379,
-    // });
-    // redis.set('foo', 'bar');
-    // redis.get('foo', (err: any, reply: any) => {
-    //     if (err) throw err;
-    //     console.log('foo', reply);
-    // });
 
 
     // const startupNodes = [
@@ -136,30 +97,24 @@ const init = async () => {
 
     //     }
     // ])
-    // console.log('clusters', cluster.nodes())
-
-
-    // Redis client
-    function connectRedis() {
-        const redis = new Redis({
-            host: 'ASPIREVM12-24',
-            port: 6379,
-        });
-        // Notifications for redis connection
-        redis.on('connect', () => console.info('Successfully connected to Redis'));
-        redis.on('error', (err: any) => console.log(err));
-
-        return redis;
-    }
-    connectRedis();
+    // console.log('clusters', cluster)
 
     poolPromise
     await server.start();
     console.log('Server running on %s', server.info.uri);
     server.route(Routes)
 };
+
 process.on('unhandledRejection', (err) => {
     console.log(err);
     process.exit(1);
 });
 init();
+
+export const redis = new Redis({
+
+    port: 6379,
+});
+// // Notifications for redis connection
+redis.on('connect', () => console.info('Successfully connected to Redis'));
+redis.on('error', (err: any) => console.log(err));

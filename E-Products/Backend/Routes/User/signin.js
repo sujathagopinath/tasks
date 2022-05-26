@@ -45,6 +45,7 @@ const signin = async (req, h) => {
                   req.payload.userPassword,
                   datas["recordset"][0]["userPassword"]
                 );
+                console.log(datas);
                 req.cookieAuth.set({ userId: datas["recordset"][0]["userId"] });
                 const response = h.response({
                   datas,

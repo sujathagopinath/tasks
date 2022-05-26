@@ -4,6 +4,7 @@ const db = require("../../database");
 import { AddRequest, ILoginRequest } from '../../interfaces/index'
 const Boom = require("@hapi/boom");
 const jwt = require('jsonwebtoken')
+// import { redis } from '../../server'
 
 
 async function getpool() {
@@ -32,10 +33,15 @@ const addEmp = async (request: ILoginRequest, h: ResponseToolkit) => {
                         reject(err);
                     } else {
                         const response = h.response(data);
+                        // redis.set('employeedata', data)
+                        // redis.get('employeedata')
+
+                        // redis.get('employeedata', (err: any, value: any) => {
+                        //     console.log("getemp", value)
+                        // })
                         resolve(response);
                     }
                 });
-            jwt.sign()
         });
         return somevar;
     } catch (error) {

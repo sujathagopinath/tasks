@@ -87,28 +87,7 @@ const init = () => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
     ]);
-    const validate = (empid, req, h) => __awaiter(void 0, void 0, void 0, function* () {
-        const result = yield getpool();
-        const userdata = yield result.query(`select * from employees where empid = ${empid}`);
-        console.log("data", userdata);
-        if (!userdata) {
-            return { valid: false };
-        }
-        return { valid: true, credentials: userdata };
-    });
-    server.auth.strategy('jwt', 'jwt', {
-        key: 'SECRET',
-        validate,
-        verifyOptions: { algorithms: ['HS256'] }
-    });
-    server.auth.default('jwt');
-    // server.auth.strategy("session", "cookie", {
-    //     cookie: {
-    //         password: "!wsYhFA*C2U6nz=Bu^%A@^F#SF3&kSR6",
-    //         isSecure: false,
-    //     },
-    // });
-    // server.auth.default("session");
+    // 
     // const redis = new Redis({
     //     host: 'ASPIREVM12-24',
     //     port: 6379,
@@ -138,33 +117,33 @@ const init = () => __awaiter(void 0, void 0, void 0, function* () {
     // };
     // const cluster = new Redis.Cluster(startupNodes, options);
     // console.log(cluster);
-    // const cluster = new Redis.Cluster([
-    //     {
-    //         host: '127.0.0.1',
-    //         port: 7000,
-    //     },
-    //     {
-    //         host: '127.0.0.1',
-    //         port: 7001,
-    //     },
-    //     {
-    //         host: '127.0.0.1',
-    //         port: 7002,
-    //     }
-    // ])
-    // console.log('clusters', cluster.nodes())
+    const cluster = new Redis.Cluster([
+        {
+            host: '127.0.0.1',
+            port: 7000,
+        },
+        {
+            host: '127.0.0.1',
+            port: 7001,
+        },
+        {
+            host: '127.0.0.1',
+            port: 7002,
+        }
+    ]);
+    console.log('clusters', cluster);
     // Redis client
-    function connectRedis() {
-        const redis = new Redis({
-            host: 'ASPIREVM12-24',
-            port: 6379,
-        });
-        // Notifications for redis connection
-        redis.on('connect', () => console.info('Successfully connected to Redis'));
-        redis.on('error', (err) => console.log(err));
-        return redis;
-    }
-    connectRedis();
+    // function connectRedis() {
+    // const redis = new Redis({
+    //         host: 'ASPIREVM12-24',
+    //         port: 6379,
+    //     });
+    //     // Notifications for redis connection
+    //     redis.on('connect', () => console.info('Successfully connected to Redis'));
+    //     redis.on('error', (err: any) => console.log(err));
+    //     return redis;
+    // }
+    // connectRedis();
     poolPromise;
     yield server.start();
     console.log('Server running on %s', server.info.uri);
@@ -175,3 +154,10 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 init();
+// export const redis = new Redis({
+//     host: 'ASPIREVM12-24',
+//     port: 6379,
+// });
+// // Notifications for redis connection
+// redis.on('connect', () => console.info('Successfully connected to Redis'));
+// redis.on('error', (err: any) => console.log(err));

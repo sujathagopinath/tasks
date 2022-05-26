@@ -1,0 +1,27 @@
+{
+  "name": "BackendHRM",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:tsc": "tsc --watch -p .",
+    "dev:serve": "nodemon -e js -w lib lib/server.js",
+    "dev": "run-p dev:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/boom": "^10.0.0",
+    "@hapi/hapi": "^20.2.2",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "convict": "^6.2.3",
+    "dotenv": "^16.0.1",
+    "hapi-auth-jwt2": "^10.2.0",
+    "ioredis": "^5.0.5",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mssql": "^8.1.1"
+  }
+}

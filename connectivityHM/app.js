@@ -16,16 +16,16 @@
 console.log("Hello world, This is an app to connect to sql server.");
 var sql = require('mssql')
 var config = {
-    "user": "sa", //default is sa
-    "password": "Aspire@123",
-    "server": "ASPIREVM12-24", // for local machine
-    "database": "newtest", // name of database
-    "driver": "tedious",
-    "options": {
-        "encrypt": true,
-        "trustServerCertificate": true
-    }
-}
+  user: "sa", //default is sa
+  password: "Aspire@123",
+  server: "ASPIREVM12-24", // for local machine
+  database: "newtest1", // name of database
+  driver: "tedious",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
 
 sql.connect(config, err => {
     if (err) {
