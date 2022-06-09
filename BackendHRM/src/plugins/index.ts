@@ -5,7 +5,7 @@ const { tokenMiddleware } = require('../controllers/middleware')
 
 exports.plugin = {
     name: 'custPlugin',
-    register: async (server: any, option: any) => {
+    register: async (server: any, options: any) => {
         server.route([
             {
                 method: "POST",

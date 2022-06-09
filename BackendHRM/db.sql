@@ -17,7 +17,7 @@ create procedure spsignupcustomers
 @custEmail nvarchar(50),
 @custPassword nvarchar(max),
 @collections nvarchar(50),
-@responseMessage varchar(50) output
+-- @responseMessage varchar(50) output
 
 as
 begin
@@ -35,7 +35,7 @@ Insert into Customers
 Output Inserted.custId,@custName as Name , @custEmail as Email,@custPassword as Password,@collections as Collections
 values(@custName, @custEmail,@custPassword,@collections);
 
-set @responseMessage = 'Success';
+-- set @responseMessage = 'Success';
 END
 end try
 begin catch
@@ -79,11 +79,11 @@ create procedure spgetcustdatas
 AS
 BEGIN
 SET nocount on;
-begin try
-SELECT * FROM Customers 
+-- begin try check for try and catch block when to use
+-- SELECT * FROM Customers specify  value
 where Customers.custId = @custId
 
-set @responseMessage = 'Failed';
+-- set @responseMessage = 'Failed'; don't set response message
 end try
 begin catch
 set @responseMessage = ERROR_MESSAGE();
