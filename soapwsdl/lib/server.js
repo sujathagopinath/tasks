@@ -5,6 +5,7 @@ const xml = require('fs').readFileSync('./src/weather.wsdl', 'utf8');
 const http = require('http');
 const soap = require('soap');
 let port = '8000';
+var args = { sector: 'conus' };
 let weather = {
     Weather: {
         ndfdXMLPortType: {

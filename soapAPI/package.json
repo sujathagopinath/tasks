@@ -1,0 +1,24 @@
+{
+  "name": "soapapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.2",
+    "axios": "^0.27.2",
+    "convict": "^6.2.3",
+    "soap": "^0.44.0"
+  },
+  "devDependencies": {
+    "@types/convict": "^6.1.1"
+  },
+  "scripts": {
+    "dev:tsc": "tsc --watch -p .",
+    "dev:serve": "nodemon -e js -w lib out/server.js",
+    "dev": "run-p dev:*",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "",
+  "license": "ISC"
+}
