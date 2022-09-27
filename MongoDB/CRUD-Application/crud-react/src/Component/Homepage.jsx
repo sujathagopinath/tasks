@@ -17,7 +17,7 @@ const Homepage = () => {
     const classes = useStyles();
     return (
         <Box className={classes.component}>
-            <Typography variant="h4">Home Page</Typography>
+             <img src="https://i.morioh.com/2019/12/11/3d7de331fd04.jpg"></img>
         </Box>
     )
 }

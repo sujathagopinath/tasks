@@ -1,7 +1,7 @@
 import react, { useState, useEffect } from 'react';
 import { Table, TableHead, TableCell, TableRow, TableBody, Button, makeStyles } from '@material-ui/core'
 import { getUsers, deleteUser } from '../Service/api';
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     table: {
@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 const AllUsers = () => {
     const [users, setUsers] = useState([]);
     const classes = useStyles();
+    const history = useHistory();
 
     useEffect(() => {
         getAllUsers();
@@ -33,7 +34,7 @@ const AllUsers = () => {
 
     const deleteUserData = async (id) => {
         await deleteUser(id);
-        getAllUsers();
+        history.push('/');   
     }
 
     const getAllUsers = async () => {
@@ -45,7 +46,6 @@ const AllUsers = () => {
         <Table className={classes.table}>
             <TableHead>
                 <TableRow className={classes.thead}>
-                    <TableCell>Id</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell>Username</TableCell>
                     <TableCell>Email</TableCell>
@@ -56,7 +56,6 @@ const AllUsers = () => {
             <TableBody>
                 {users.map((user) => (
                     <TableRow className={classes.row} key={user.id}>
-                        <TableCell>{user._id}</TableCell> {/* change it to user.id to use JSON Server */}
                         <TableCell>{user.name}</TableCell>
                         <TableCell>{user.username}</TableCell>
                         <TableCell>{user.email}</TableCell>

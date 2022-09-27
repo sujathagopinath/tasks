@@ -9,6 +9,11 @@
     "start": "nodemon index.js",
     "type": "module"
   },
+  "husky":{
+    "hooks":{
+      "pre-commit":"eslint src/ --fix"
+    }
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -19,6 +24,7 @@
     "ejs": "^3.1.6",
     "experss": "0.0.1-security",
     "express": "^4.17.1",
+    "husky": "^8.0.1",
     "mongoose": "^5.12.7",
     "mongoose-auto-increment": "^5.0.1",
     "morgan": "^1.10.0",

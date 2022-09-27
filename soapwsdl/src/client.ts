@@ -6,28 +6,28 @@ var args = { sector: 'conus' };
 var fs = require('fs')
 var path = require('path')
 
-// const datas = fs.readFileSync(path.join(__dirname, 'weather.wsdl')).toString('utf8')
-// console.log(datas)
+const datas = fs.readFileSync(path.join(__dirname, 'weather.wsdl')).toString('utf8')
+console.log(datas)
 // // const data = fs.readFileSync(path.join(path.join(__dirname, './src/wsdl'), 'weather.wsdl'), 'utf8');
 // // // const data = fs.writeFileSync((path.resolve(__dirname, 'weather.wsdl')), datas, 'utf8');
 // // console.log(data)
-// soap.createClient(writeUTFBytes(datas.toXMLString()), {}, function (err: any, client: any) {
-//     // client.CornerPoints(args, (err: any, result: any) => {
-//     //     console.log(result)
-//     // })
-//     console.log(client)
-// })
+soap.createClient(datas, {}, function (err: any, client: any) {
+    // client.CornerPoints(args, (err: any, result: any) => {
+    //     console.log(result)
+    // })
+    console.log(client)
+})
 
 
 // function writeUTFBytes(arg0: any): any {
 //     throw new Error('Function not implemented.');
 // }
-soap.createClient(url, {}, function (err: any, client: any) {
-    client.CornerPoints(args, (err: any, result: any) => {
-        console.log('res', result)
-    })
+// soap.createClient(url, {}, function (err: any, client: any) {
+//     client.CornerPoints(args, (err: any, result: any) => {
+//         console.log('res', result)
+//     })
 
-})
+// })
 
 
 
